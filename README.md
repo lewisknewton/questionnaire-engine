@@ -8,3 +8,15 @@ git clone https://github.com/lewisknewton/webp-coursework
 ```
 
 For development and testing, the application was run on the University of Portsmouth's [Virtual Machine Service](https://uop-1-server-per-student-prod.appspot.com/instance/get).
+
+## Set-up
+
+Navigate to the installation folder and run:
+```bash
+npm run setup
+npm start
+```
+
+`npm run setup` will create the database and its tables. `npm start` will launch the application.
+
+For testing purposes, the `example.json` file has been included in public/questionnaires to provide an example questionnaire.
