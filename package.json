@@ -1,0 +1,19 @@
+{
+  "name": "questionnaire-engine",
+  "version": "1.0.0",
+  "description": "Coursework project for the Web Programming module.",
+  "main": "index.html",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lewisknewton/webp-work.git"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "pg": "^7.18.2"
+  },
+  "scripts": {
+    "start": "node server",
+    "setup": "psql -f database.sql"
+  }
+}
