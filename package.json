@@ -15,5 +15,8 @@
   "scripts": {
     "start": "node server",
     "setup": "psql -f database.sql"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
   }
 }
