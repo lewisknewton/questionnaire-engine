@@ -1,6 +1,6 @@
 'use strict';
 
-const q = require('./questionnaires');
+const qs = require('./questionnaires');
 const path = require('path');
 const express = require('express');
 
@@ -8,7 +8,7 @@ const app = express();
 const port = 8080;
 
 async function getQuestionnaires(req, res) {
-  res.json(await q.selectQuestionnaires());
+  res.json(await qs.selectQuestionnaires());
 }
 
 // Serve client files
