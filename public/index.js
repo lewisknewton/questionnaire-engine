@@ -26,6 +26,8 @@ async function loadQuestionnaires() {
 
       questionnaireList.append(summary);
     }
+  } else {
+    questionnaireList.append('Sorry, there was unexpected error when loading questionnaires.');
   }
 }
 
