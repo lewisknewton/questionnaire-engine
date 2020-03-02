@@ -50,7 +50,7 @@ async function selectQuestionnaires() {
   const result = await dbClient.query(query);
 
     // if (result.rows.length > 0) 
-    questionnaires.test = 'None in database';
+    // questionnaires.test = 'None in database';
 
     return questionnaires;
   } catch (e) {
