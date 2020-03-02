@@ -29,6 +29,12 @@ async function getStats(dirPath) {
   return itemStats;
 }
 
+async function selectQuestionnaire(name) {
+  const file = await fs.promises.readFile(`${localDir}/${name}.json`);
+
+  return JSON.parse(file);
+}
+
 async function selectQuestionnaires() {
   const questionnaires = {};
 
@@ -62,5 +68,6 @@ async function selectQuestionnaires() {
 }
 
 module.exports = {
+  selectQuestionnaire,
   selectQuestionnaires
 };
