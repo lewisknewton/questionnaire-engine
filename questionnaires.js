@@ -41,7 +41,7 @@ async function selectQuestionnaires() {
         const file = await fs.promises.readFile(itemStats[name].path);
 
         questionnaires[name] = JSON.parse(file);
-        questionnaires[name].local = true;
+        questionnaires[name].file = true;
       }
     }
 
