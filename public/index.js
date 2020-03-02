@@ -20,9 +20,9 @@ async function loadQuestionnaires() {
 
       name.textContent = questionnaires[q].name ? questionnaires[q].name : 'Untitled';
       count.textContent = `Questions: ${questionnaires[q].questions ? questionnaires[q].questions.length : 0}`;
-      takeBtn.setAttribute('href', `questionnaires/take/${questionnaires[q].hyperlink}`);
-      editBtn.setAttribute('href', `questionnaires/edit/${questionnaires[q].hyperlink}`);
-      deleteBtn.setAttribute('href', `questionnaires/delete/${questionnaires[q].hyperlink}`);
+      takeBtn.setAttribute('href', `take?name=${questionnaires[q].hyperlink}`);
+      editBtn.setAttribute('href', `edit?name=${questionnaires[q].hyperlink}`);
+      deleteBtn.setAttribute('href', `delete?name=${questionnaires[q].hyperlink}`);
 
       questionnaireList.append(summary);
     }
