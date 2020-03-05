@@ -32,9 +32,13 @@ async function getStats(dirPath) {
 }
 
 async function selectQuestionnaire(name) {
+  try {
   const file = await fs.promises.readFile(`${localDir}/${name}.json`);
 
   return JSON.parse(file);
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 async function selectQuestionnaires(dir = localDir) {
