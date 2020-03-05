@@ -5,6 +5,7 @@ const path = require('path');
 const { Client } = require('pg');
 const config = require('./config');
 
+const localDir = './questionnaires';
 const questionnaires = {};
 
 const dbClient = new Client(config);
@@ -36,7 +37,7 @@ async function selectQuestionnaire(name) {
   return JSON.parse(file);
 }
 
-async function selectQuestionnaires(dir) {
+async function selectQuestionnaires(dir = localDir) {
   try {
     const itemStats = await getStats(dir);
 

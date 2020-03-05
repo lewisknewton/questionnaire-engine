@@ -4,13 +4,11 @@ const qh = require('./questionnaire-handler');
 const path = require('path');
 const express = require('express');
 
-const localDir = './questionnaires';
-
 const app = express();
 const port = 8080;
 
 async function getQuestionnaires(req, res) {
-  const result = await qh.selectQuestionnaires(localDir);
+  const result = await qh.selectQuestionnaires();
 
   if (!result) {
     res.status(404).send('Sorry, no questionnaires were found.');
