@@ -49,7 +49,7 @@ async function selectQuestionnaires(dir) {
         questionnaires[name].file = true;
       } else {
         // If the item is a directory, look for questionnaires inside it
-        selectQuestionnaires(`${dir}/${name}`);
+        await selectQuestionnaires(`${dir}/${name}`);
       }
     }
 
