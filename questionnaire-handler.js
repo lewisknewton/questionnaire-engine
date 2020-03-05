@@ -33,11 +33,11 @@ async function getStats(dirPath) {
 
 async function selectQuestionnaire(name) {
   try {
-  const file = await fs.promises.readFile(`${localDir}/${name}.json`);
+    const file = await fs.promises.readFile(`${localDir}/${name}.json`);
 
-  return JSON.parse(file);
-  } catch (e) {
-    console.error(e);
+    return JSON.parse(file);
+  } catch (err) {
+    console.error(err);
   }
 }
 
@@ -66,8 +66,8 @@ async function selectQuestionnaires(dir = localDir) {
     // questionnaires.test = 'None in database';
 
     return questionnaires;
-  } catch (e) {
-    console.error(e);
+  } catch (err) {
+    console.error(err);
   }
 }
 
