@@ -10,7 +10,14 @@ const app = express();
 const port = 8080;
 
 async function getQuestionnaires(req, res) {
-  res.json(await qs.selectQuestionnaires(localDir));
+  const result = await qs.selectQuestionnaires(localDir);
+
+  if (!result) {
+    res.status(404).send('Sorry, no questionnaires were found.');
+    return;
+  }
+
+  res.json(result);
 }
 
 async function getQuestionnaire(req, res) {
