@@ -20,3 +20,9 @@ npm start
 `npm run setup` will create the database and its tables. `npm start` will launch the application.
 
 For testing purposes, the `example.json` file has been included in the questionnaires directory to provide an example questionnaire. A similar file, `another-example.json`, has been included within a sub-folder for the same reason.
+
+## Loading Questionnaires
+
+The questionnaire engine uses JSON files to structure and read the details of questionnaires. 
+
+To load a questionnaire, place its JSON file into the questionnaires directory. Any sub-folders within this directory will be searched recursively to load questionnaires included within them.
