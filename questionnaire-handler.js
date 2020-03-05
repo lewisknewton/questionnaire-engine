@@ -54,8 +54,8 @@ async function selectQuestionnaires(dir) {
     }
 
     // Add questionnaires stored in database
-  const query = 'SELECT * FROM questionnaire';
-  const result = await dbClient.query(query);
+    const query = 'SELECT * FROM questionnaire';
+    const result = await dbClient.query(query);
 
     // if (result.rows.length > 0) 
     // questionnaires.test = 'None in database';
@@ -66,7 +66,10 @@ async function selectQuestionnaires(dir) {
   }
 }
 
-  return 'Sorry, no questionnaires were found.';
+async function insertQuestionnaire() {
+  const query = 'INSERT INTO questionnaire () VALUES ();';
+
+  // return added questionnaire or all questionnaires
 }
 
 module.exports = {

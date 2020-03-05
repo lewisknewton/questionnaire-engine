@@ -1,10 +1,10 @@
 'use strict';
 
-const qs = require('./questionnaires');
+const qs = require('./questionnaire-handler');
 const path = require('path');
 const express = require('express');
 
-const localDir = './public/questionnaires';
+const localDir = './questionnaires';
 
 const app = express();
 const port = 8080;

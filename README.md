@@ -19,4 +19,4 @@ npm start
 
 `npm run setup` will create the database and its tables. `npm start` will launch the application.
 
-For testing purposes, the `example.json` file has been included in public/questionnaires to provide an example questionnaire.
+For testing purposes, the `example.json` file has been included in the questionnaires directory to provide an example questionnaire. A similar file, `another-example.json`, has been included within a sub-folder for the same reason.
