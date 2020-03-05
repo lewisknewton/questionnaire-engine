@@ -5,7 +5,8 @@ const path = require('path');
 const { Client } = require('pg');
 const config = require('./config');
 
-const localDir = './public/questionnaires';
+const questionnaires = {};
+
 const dbClient = new Client(config);
 
 dbClient.connect();
@@ -35,11 +36,9 @@ async function selectQuestionnaire(name) {
   return JSON.parse(file);
 }
 
-async function selectQuestionnaires() {
-  const questionnaires = {};
-
+async function selectQuestionnaires(dir) {
   try {
-    const itemStats = await getStats(localDir);
+    const itemStats = await getStats(dir);
 
     // Add questionnaires stored in local directory
     for (const name in itemStats) {
@@ -48,6 +47,9 @@ async function selectQuestionnaires() {
 
         questionnaires[name] = JSON.parse(file);
         questionnaires[name].file = true;
+      } else {
+        // If the item is a directory, look for questionnaires inside it
+        selectQuestionnaires(`${dir}/${name}`);
       }
     }
 

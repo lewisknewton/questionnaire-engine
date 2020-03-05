@@ -4,11 +4,13 @@ const qs = require('./questionnaires');
 const path = require('path');
 const express = require('express');
 
+const localDir = './public/questionnaires';
+
 const app = express();
 const port = 8080;
 
 async function getQuestionnaires(req, res) {
-  res.json(await qs.selectQuestionnaires());
+  res.json(await qs.selectQuestionnaires(localDir));
 }
 
 async function getQuestionnaire(req, res) {
