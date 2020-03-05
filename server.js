@@ -1,6 +1,6 @@
 'use strict';
 
-const qs = require('./questionnaire-handler');
+const qh = require('./questionnaire-handler');
 const path = require('path');
 const express = require('express');
 
@@ -10,7 +10,7 @@ const app = express();
 const port = 8080;
 
 async function getQuestionnaires(req, res) {
-  const result = await qs.selectQuestionnaires(localDir);
+  const result = await qh.selectQuestionnaires(localDir);
 
   if (!result) {
     res.status(404).send('Sorry, no questionnaires were found.');
@@ -22,7 +22,7 @@ async function getQuestionnaires(req, res) {
 
 async function getQuestionnaire(req, res) {
   const name = req.params.name;
-  const result = await qs.selectQuestionnaire(name);
+  const result = await qh.selectQuestionnaire(name);
 
   if (!result) {
     res.status(404).send(`Sorry, no questionnaire named '${name}' could be found.`);
