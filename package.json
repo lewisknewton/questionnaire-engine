@@ -14,9 +14,11 @@
   },
   "scripts": {
     "start": "node server",
-    "setup": "psql -f database.sql"
+    "setup": "psql -f database.sql",
+    "lint": "eslint *.js"
   },
   "devDependencies": {
+    "eslint": "^6.8.0",
     "nodemon": "^2.0.2"
   }
 }
