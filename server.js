@@ -47,3 +47,5 @@ app.get('/questionnaires', getQuestionnaires);
 app.get('/questionnaires/:name', getQuestionnaire);
 
 app.listen(port);
+
+module.exports = app;
