@@ -15,6 +15,7 @@
   "scripts": {
     "start": "node server",
     "setup": "psql -f database.sql",
+    "test": "jest",
     "lint-js": "eslint **/*.js",
     "lint-css": "stylelint **/*.css",
     "lint": "npm run lint-js && npm run lint-css"
@@ -22,8 +23,13 @@
   "devDependencies": {
     "eslint": "^6.8.0",
     "eslint-config-portsoc": "^0.3.0",
+    "jest": "^25.1.0",
     "nodemon": "^2.0.2",
     "stylelint": "^13.2.1",
-    "stylelint-config-standard": "^20.0.0"
+    "stylelint-config-standard": "^20.0.0",
+    "supertest": "^4.0.2"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
