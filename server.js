@@ -30,10 +30,20 @@ async function getQuestionnaire(req, res) {
   res.json(result);
 }
 
+/* eslint-disable */
+async function postQuestionnaire(req, res) {
+  // const questionnaires = await qh.insertQuestionnaire(req.body.questionnaire);
+  // res.json(questionnaires);
+
+  console.log(req);
+}
+/* eslint-enable */
+
 // Serve client files
 app.use('/', express.static(path.join(__dirname, 'public'), { extensions: ['html'] }));
 
 // Define API routes
 app.get('/questionnaires', getQuestionnaires);
 app.get('/questionnaires/:name', getQuestionnaire);
+
 app.listen(port);

@@ -1,7 +1,7 @@
 'use strict';
 
 const questionnaireSection = document.querySelector('#questionnaire');
-const textQuestion = document.querySelector('#text-question');
+// const textQuestion = document.querySelector('#text-question');
 
 function displayError(msg) {
   questionnaireSection.append(msg);
