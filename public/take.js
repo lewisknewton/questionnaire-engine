@@ -25,7 +25,7 @@ async function loadQuestionnaire() {
     const questionnaire = await res.json();
     displayQuestionnaire(questionnaire);
   } else {
-    displayError(`Sorry, the questionnaire named '${name}' could not be loaded.`);
+    displayError(`Sorry, no questionnaire named '${name}' could be found.`);
   }
 }
 
