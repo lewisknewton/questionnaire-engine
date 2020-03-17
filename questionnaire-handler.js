@@ -32,7 +32,8 @@ async function getStats(dirPath) {
 }
 
 async function selectQuestionnaire(name, dir = localDir) {
-  const filename = `${name}.json`;
+  // Include extension if necessary
+  const filename = !name.includes('.json') ? `${name}.json` : name;
 
   try {
     const itemStats = await getStats(dir);
