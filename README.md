@@ -26,3 +26,12 @@ For testing purposes, the `example.json` file has been included in the questionn
 The questionnaire engine uses JSON files to structure and read the details of questionnaires. 
 
 To load a questionnaire, place its JSON file into the questionnaires directory. Any sub-folders within this directory will be searched recursively to load questionnaires included within them.
+
+## Linting
+
+During development, the following linters were used:
+
+* [ESLint](https://eslint.org/) (extending [eslint-config-portsoc](https://github.com/portsoc/eslint-config-portsoc)) for JavaScript
+* [stylelint](https://stylelint.io/) for CSS
+
+Two scripts, `lint-js` and `lint-css`, were defined to lint all files of the respective types. Another script, `lint`, was created to run both and is used by running `npm run lint`.
