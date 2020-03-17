@@ -48,6 +48,3 @@ Two scripts, `lint-js` and `lint-css`, were defined to lint all files of the res
 ## Testing
 
 During development, [Jest](https://jestjs.io/) was used as the testing framework for the JavaScript files, along with the [SuperTest](https://www.npmjs.com/package/supertest) library. All test cases are in the tests directory and can be run using the `npm test` command.
-
-## API
-
