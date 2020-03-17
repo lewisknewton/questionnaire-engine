@@ -11,7 +11,7 @@ async function getQuestionnaires(req, res) {
   const result = await qh.selectQuestionnaires();
 
   if (!result) {
-    res.status(404).send('Sorry, no questionnaires were found.');
+    res.status(404).json({ error: 'Sorry, no questionnaires were found.' });
     return;
   }
 
@@ -23,7 +23,7 @@ async function getQuestionnaire(req, res) {
   const result = await qh.selectQuestionnaire(name);
 
   if (!result) {
-    res.status(404).send(`Sorry, no questionnaire named '${name}' could be found.`);
+    res.status(404).json({ error: `Sorry, no questionnaire named '${name}' could be found.` });
     return;
   }
 
