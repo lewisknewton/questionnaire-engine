@@ -28,7 +28,7 @@ function displayQuestionnaires(questionnaires) {
 }
 
 async function loadQuestionnaires() {
-  const res = await fetch('questionnaires');
+  const res = await fetch('api/questionnaires');
 
   if (res.ok) {
     const questionnaires = await res.json();

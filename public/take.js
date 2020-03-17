@@ -19,7 +19,7 @@ async function displayQuestionnaire(q) {
 
 async function loadQuestionnaire() {
   const name = getQuestionnaireName();
-  const res = await fetch(`questionnaires/${name}`);
+  const res = await fetch(`api/questionnaires/${name}`);
 
   if (res.ok) {
     const questionnaire = await res.json();

@@ -9,7 +9,7 @@ const testQuestionnaires = require('./data/questionnaires.json');
 
 describe('GET Endpoints', () => {
   it('should retrieve all questionnaires', async done => {
-    const res = await request.get('/questionnaires');
+    const res = await request.get('/api/questionnaires');
 
     expect(res.statusCode).toStrictEqual(200);
     expect(res.body).toMatchObject(testQuestionnaires);
@@ -19,7 +19,7 @@ describe('GET Endpoints', () => {
 
   it('should retrieve existent questionnaires by name', async done => {
     for (const q in testQuestionnaires) {
-      const res = await request.get(`/questionnaires/${q}`);
+      const res = await request.get(`/api/questionnaires/${q}`);
 
       expect(res.statusCode).toStrictEqual(200);
       expect(res.body).toMatchObject(testQuestionnaires[q]);
@@ -32,7 +32,7 @@ describe('GET Endpoints', () => {
     const nonExistent = 'does-not-exist-123';
     const expected = { error: `Sorry, no questionnaire named '${nonExistent}' could be found.` };
 
-    const res = await request.get(`/questionnaires/${nonExistent}`);
+    const res = await request.get(`/api/questionnaires/${nonExistent}`);
 
     expect(res.statusCode).toStrictEqual(404);
     expect(res.body).toMatchObject(expected);

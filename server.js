@@ -3,6 +3,7 @@
 const qh = require('./questionnaire-handler');
 const path = require('path');
 const express = require('express');
+const router = express.Router();
 
 const app = express();
 const port = 8080;
@@ -43,8 +44,10 @@ async function postQuestionnaire(req, res) {
 app.use('/', express.static(path.join(__dirname, 'public'), { extensions: ['html'] }));
 
 // Define API routes
-app.get('/questionnaires', getQuestionnaires);
-app.get('/questionnaires/:name', getQuestionnaire);
+router.get('/questionnaires', getQuestionnaires);
+router.get('/questionnaires/:name', getQuestionnaire);
+
+app.use('/api', router);
 
 app.listen(port);
 
