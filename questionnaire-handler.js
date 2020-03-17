@@ -31,11 +31,25 @@ async function getStats(dirPath) {
   return itemStats;
 }
 
-async function selectQuestionnaire(name) {
-  try {
-    const file = await fs.promises.readFile(`${localDir}/${name}.json`);
+async function selectQuestionnaire(name, dir = localDir) {
+  const filename = `${name}.json`;
 
-    return JSON.parse(file);
+  try {
+    const itemStats = await getStats(dir);
+
+    // Read questionnaire using the given directory if found
+    if (itemStats[filename] && itemStats[filename].isFile) {
+      const file = await fs.promises.readFile(`${dir}/${filename}`);
+
+      return JSON.parse(file);
+    }
+
+    // Otherwise, walk through sub-directories
+    for (const item in itemStats) {
+      if (!itemStats[item].isFile) {
+        return await selectQuestionnaire(name, itemStats[item].path);
+      }
+    }
   } catch (err) {
     console.error(err);
   }
