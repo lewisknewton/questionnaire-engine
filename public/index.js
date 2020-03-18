@@ -17,11 +17,11 @@ function displayQuestionnaires(questionnaires) {
     const editBtn = summary.querySelector('a.edit');
     const deleteBtn = summary.querySelector('a.delete');
 
-    name.textContent = questionnaires[q].name ? questionnaires[q].name : 'Untitled';
+    name.textContent = questionnaires[q].name ? questionnaires[q].name : `Untitled (${q})`;
     count.textContent = `Questions: ${questionnaires[q].questions ? questionnaires[q].questions.length : 0}`;
-    takeBtn.setAttribute('href', `take?name=${questionnaires[q].hyperlink}`);
-    editBtn.setAttribute('href', `edit?name=${questionnaires[q].hyperlink}`);
-    deleteBtn.setAttribute('href', `delete?name=${questionnaires[q].hyperlink}`);
+    takeBtn.setAttribute('href', `take?name=${q}`);
+    editBtn.setAttribute('href', `edit?name=${q}`);
+    deleteBtn.setAttribute('href', `delete?name=${q}`);
 
     questionnaireList.append(summary);
   }
