@@ -73,28 +73,11 @@ async function selectQuestionnaires(dir = localDir) {
       }
     }
 
-    /* eslint-disable */
-    // Add questionnaires stored in database
-    const query = 'SELECT * FROM questionnaire';
-    const result = await dbClient.query(query);
-    /* eslint-enable */
-
-    // if (result.rows.length > 0)
-    // questionnaires.test = 'None in database';
-
     return questionnaires;
   } catch (err) {
     console.error(err);
   }
 }
-
-/* eslint-disable */
-async function insertQuestionnaire() {
-  const query = 'INSERT INTO questionnaire () VALUES ();';
-
-  // return added questionnaire or all questionnaires
-}
-/* eslint-enable */
 
 module.exports = {
   selectQuestionnaire,
