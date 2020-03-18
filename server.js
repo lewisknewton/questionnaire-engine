@@ -23,7 +23,9 @@ async function getQuestionnaire(req, res) {
   const name = req.params.name;
   const result = await qh.selectQuestionnaire(name);
 
-  if (!result) {
+  if (name === 'null' || name == null) {
+    res.status(400).json({ error: 'Sorry, no questionnaire was selected. Please try again.' });
+  } else if (!result) {
     res.status(404).json({ error: `Sorry, no questionnaire named '${name}' could be found.` });
     return;
   }

@@ -24,8 +24,10 @@ async function loadQuestionnaire() {
   if (res.ok) {
     const questionnaire = await res.json();
     displayQuestionnaire(questionnaire);
-  } else {
+  } else if (name) {
     displayError(`Sorry, no questionnaire named '${name}' could be found.`);
+  } else {
+    displayError('Sorry, no questionnaire was selected. Please try again.');
   }
 }
 
