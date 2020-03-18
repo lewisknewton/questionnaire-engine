@@ -5,16 +5,33 @@
 <link href="https://fonts.googleapis.com/css?family=Karla&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
 
-<main>
-  <p>Take</p>
+<main id="questionnaire">
+  <h1>Questionnaire name</h1>
 
-  <section id="questionnaire">
-    <h2>Questionnaire Name</h2>
+  <!-- Reproducible templates for questions -->
+  <template id="question-base">
+    <section>
+      <h2 id="question-title">Question title</h2>
+    </section>
+  </template>
 
-    <template id="text-question">
-      
-    </template>
-  </section>
+  <template id="text-question">
+    <textarea rows="10" placeholder="Please enter your answer."></textarea>
+  </template>
+
+  <template id="number-question">
+    <input type="number">
+  </template>
+
+  <template id="multi-select-question">
+    <input id="multi-select-id" type="checkbox">
+    <label for="multi-select-id">Multi select label</label>
+  </template>
+
+  <template id="single-select-question">
+    <input id="single-select-id" type="radio">
+    <label for="single-select-id">Single select label</label>
+  </template>
 </main>
 
 <script src="take.js"></script>
