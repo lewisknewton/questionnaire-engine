@@ -1,3 +1,5 @@
+DROP DATABASE IF EXISTS questionnaire_engine;
+
 CREATE DATABASE questionnaire_engine;
 \c questionnaire_engine;
 
