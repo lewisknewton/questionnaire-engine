@@ -39,4 +39,16 @@ describe('GET Endpoints', () => {
 
     done();
   });
+
+  it('should not retrieve empty questionnaire names', async done => {
+    const nonExistent = null;
+    const expected = { error: 'Sorry, no questionnaire was selected. Please try again.' };
+
+    const res = await request.get(`/api/questionnaires/${nonExistent}`);
+
+    expect(res.statusCode).toStrictEqual(400);
+    expect(res.body).toMatchObject(expected);
+
+    done();
+  });
 });
