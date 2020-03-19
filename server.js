@@ -8,6 +8,9 @@ const router = express.Router();
 const app = express();
 const port = 8080;
 
+/**
+ * Retrieves all stored questionnaires.
+ */
 async function getQuestionnaires(req, res) {
   const result = await qh.selectQuestionnaires();
 
@@ -19,6 +22,9 @@ async function getQuestionnaires(req, res) {
   res.json(result);
 }
 
+/**
+ * Retrieves a single questionnaire using its unique name passed via the request.
+ */
 async function getQuestionnaire(req, res) {
   const name = req.params.name;
   const result = await qh.selectQuestionnaire(name);

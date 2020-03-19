@@ -17,6 +17,9 @@ dbClient.on('error', (err) => {
   dbClient.end();
 });
 
+/**
+ * Retrieves information about directories and files.
+ */
 async function getStats(dirPath) {
   const itemStats = {};
   const items = await fs.promises.readdir(dirPath);
@@ -31,6 +34,9 @@ async function getStats(dirPath) {
   return itemStats;
 }
 
+/**
+ * Retrieves a single questionnaire using its unique name and parent directory.
+ */
 async function selectQuestionnaire(name, dir = localDir) {
   // Include extension if necessary
   const filename = !name.includes('.json') ? `${name}.json` : name;
@@ -56,6 +62,9 @@ async function selectQuestionnaire(name, dir = localDir) {
   }
 }
 
+/**
+ * Retrieves all stored questionnaires, referencing their parent directory.
+ */
 async function selectQuestionnaires(dir = localDir) {
   try {
     const itemStats = await getStats(dir);
