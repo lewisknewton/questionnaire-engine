@@ -1,0 +1,81 @@
+* {
+  box-sizing: border-box;
+  font-family: "Karla", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: white;
+  --fg: black;
+  --main-w: 95%;
+  --space-xs: 0.5rem;
+  --space-s: 1rem;
+  --space-m: 1.25rem;
+  --space-l: 1.5rem;
+}
+
+body {
+  font-size: 100%;
+  line-height: 1.5;
+  color: var(--fg);
+  background: var(--bg);
+}
+
+h1,
+h2,
+h3 {
+  margin-bottom: var(--space-m);
+}
+
+p {
+  margin-bottom: var(--space-s);
+}
+
+section {
+  margin-bottom: var(--space-l);
+}
+
+input[type="number"],
+textarea {
+  padding: var(--space-xs);
+  font-size: inherit;
+}
+
+textarea {
+  width: 100%;
+  max-width: 100%;
+}
+
+main {
+  max-width: var(--main-w);
+  margin: 0 auto;
+}
+
+.multi-select-question,
+.single-select-question {
+  display: grid;
+  grid-template-areas: "title title";
+  grid-template-columns: auto 1fr;
+  gap: var(--space-xs) var(--space-s);
+  justify-content: start;
+  align-items: center;
+}
+
+.multi-select-question > h2,
+.single-select-question > h2 {
+  grid-area: title;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #333;
+    --fg: white;
+  }
+}
+
+@media only screen and (min-width: 700px) {
+  :root {
+    --main-w: 44em;
+  }
+}

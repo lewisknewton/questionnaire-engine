@@ -63,8 +63,11 @@ function copyTemplates(question) {
   title.textContent = question.text || '';
   title.setAttribute('id', question.id);
 
+  const questionSection = baseCopy.querySelector('section');
+
   // Include question details
-  baseCopy.querySelector('section').append(questionCopy);
+  questionSection.append(questionCopy);
+  questionSection.classList.add(`${question.type}-question`);
 
   return baseCopy;
 }
