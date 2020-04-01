@@ -6,7 +6,11 @@ const main = document.querySelector('main');
 const loading = document.querySelector('#loading');
 
 function displayError(msg) {
-  main.append(msg);
+  const errorTemplate = document.querySelector('#error-message');
+  const error = errorTemplate.content.cloneNode(true);
+
+  error.querySelector('p').textContent = msg;
+  main.querySelector('h1').after(error);
 }
 
 function getQuestionnaireName() {

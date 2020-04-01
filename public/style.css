@@ -8,6 +8,7 @@
 :root {
   --bg: white;
   --fg: black;
+  --danger: #f44336;
   --main-w: 95%;
   --space-xs: 0.5rem;
   --space-s: 1rem;
@@ -50,6 +51,12 @@ textarea {
 main {
   max-width: var(--main-w);
   margin: 0 auto;
+}
+
+.error {
+  background: var(--danger);
+  color: var(--fg);
+  padding: var(--space-s);
 }
 
 .hidden {

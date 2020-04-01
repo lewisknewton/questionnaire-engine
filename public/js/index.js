@@ -5,7 +5,11 @@ const questionnaireList = document.querySelector('#questionnaire-list');
 const questionnaireSummary = document.querySelector('#questionnaire-summary');
 
 function displayError(msg) {
-  questionnaireList.append(msg);
+  const errorTemplate = document.querySelector('#error-message');
+  const error = errorTemplate.content.cloneNode(true);
+
+  error.querySelector('p').textContent = msg;
+  questionnaireList.after(error);
 }
 
 function displayQuestionnaires(questionnaires) {
@@ -30,19 +34,16 @@ function displayQuestionnaires(questionnaires) {
 
 async function loadQuestionnaires() {
   const res = await fetch('api/questionnaires');
+  const data = await res.json();
+
+  loading.classList.add('hidden');
 
   if (res.ok) {
-    const questionnaires = await res.json();
-
-    loading.classList.add('hidden');
-
-    if (Object.keys(questionnaires).length) {
-      displayQuestionnaires(questionnaires);
-    } else {
-      displayError('Sorry, no questionnaires were found.');
+    if (Object.keys(data).length) {
+      displayQuestionnaires(data);
     }
   } else {
-    displayError('Sorry, there was unexpected error when loading questionnaires.');
+    displayError(data.error);
   }
 }
 
