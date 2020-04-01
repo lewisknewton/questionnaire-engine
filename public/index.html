@@ -6,25 +6,29 @@
 <link rel="stylesheet" href="style.css">
 
 <main>
+  <header>
+    <h1>Questionnaire Engine</h1>
+  </header>
+
   <section id="questionnaire-list">
     <h2>Questionnaires</h2>
 
-    <template id="questionnaire-summary">
-      <article>
-        <h3>Questionnaire Name</h3>
-
-        <p>
-          <span>Questions Count</span>
-
-          <a href="#" class="take">Take</a>
-          <a href="#" class="edit">Edit</a>
-          <a href="#" class="delete">Delete</a>
-        </p>
-      </article>
-    </template>
+    <p id="loading">Loading questionnaires &hellip;</p>
   </section>
 
-  <p id="loading">Loading questionnaires &hellip;</p>
+  <template id="questionnaire-summary">
+    <article>
+      <h3>Questionnaire Name</h3>
+
+      <p>
+        <span>Questions Count</span>
+
+        <a href="#" class="take">Take</a>
+        <a href="#" class="edit">Edit</a>
+        <a href="#" class="delete">Delete</a>
+      </p>
+    </article>
+  </template>
 
   <template id="error-message">
     <p class="error">Error message</p>
