@@ -3,6 +3,7 @@
 const SUPPORTED_TYPES = ['text', 'number', 'single-select', 'multi-select'];
 
 const main = document.querySelector('main');
+const loading = document.querySelector('#loading');
 
 function displayError(msg) {
   main.append(msg);
@@ -89,6 +90,8 @@ async function loadQuestionnaire() {
   const name = getQuestionnaireName();
   const res = await fetch(`api/questionnaires/${name}`);
   const data = await res.json();
+
+  loading.classList.add('hidden');
 
   if (res.ok) {
     displayQuestionnaire(data);

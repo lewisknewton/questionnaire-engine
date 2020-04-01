@@ -1,5 +1,6 @@
 'use strict';
 
+const loading = document.querySelector('#loading');
 const questionnaireList = document.querySelector('#questionnaire-list');
 const questionnaireSummary = document.querySelector('#questionnaire-summary');
 
@@ -32,6 +33,8 @@ async function loadQuestionnaires() {
 
   if (res.ok) {
     const questionnaires = await res.json();
+
+    loading.classList.add('hidden');
 
     if (Object.keys(questionnaires).length) {
       displayQuestionnaires(questionnaires);
