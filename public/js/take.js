@@ -88,14 +88,12 @@ async function displayQuestionnaire(questionnaire) {
 async function loadQuestionnaire() {
   const name = getQuestionnaireName();
   const res = await fetch(`api/questionnaires/${name}`);
+  const data = await res.json();
 
   if (res.ok) {
-    const questionnaire = await res.json();
-    displayQuestionnaire(questionnaire);
-  } else if (name) {
-    displayError(`Sorry, no questionnaire named '${name}' could be found.`);
+    displayQuestionnaire(data);
   } else {
-    displayError('Sorry, no questionnaire was selected. Please try again.');
+    displayError(data.error);
   }
 }
 
