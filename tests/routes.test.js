@@ -1,6 +1,7 @@
 /* global describe, it, expect */
 
 const supertest = require('supertest');
+const { codes } = require('../status');
 const app = require('../server');
 const request = supertest(app);
 
@@ -11,7 +12,7 @@ describe('GET Endpoints', () => {
   it('should retrieve all questionnaires', async done => {
     const res = await request.get('/api/questionnaires');
 
-    expect(res.statusCode).toStrictEqual(200);
+    expect(res.statusCode).toStrictEqual(codes.ok);
     expect(res.body).toMatchObject(testQuestionnaires);
 
     done();
@@ -21,7 +22,7 @@ describe('GET Endpoints', () => {
     for (const q in testQuestionnaires) {
       const res = await request.get(`/api/questionnaires/${q}`);
 
-      expect(res.statusCode).toStrictEqual(200);
+      expect(res.statusCode).toStrictEqual(codes.ok);
       expect(res.body).toMatchObject(testQuestionnaires[q]);
     }
 
@@ -34,7 +35,7 @@ describe('GET Endpoints', () => {
 
     const res = await request.get(`/api/questionnaires/${nonExistent}`);
 
-    expect(res.statusCode).toStrictEqual(404);
+    expect(res.statusCode).toStrictEqual(codes.notFound);
     expect(res.body).toMatchObject(expected);
 
     done();
@@ -46,7 +47,7 @@ describe('GET Endpoints', () => {
 
     const res = await request.get(`/api/questionnaires/${nonExistent}`);
 
-    expect(res.statusCode).toStrictEqual(400);
+    expect(res.statusCode).toStrictEqual(codes.badRequest);
     expect(res.body).toMatchObject(expected);
 
     done();

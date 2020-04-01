@@ -1,10 +1,11 @@
 'use strict';
 
 const qh = require('./questionnaire-handler');
-const path = require('path');
+const { codes } = require('./status');
 const express = require('express');
-const router = express.Router();
+const path = require('path');
 
+const router = express.Router();
 const app = express();
 const port = 8080;
 
@@ -15,7 +16,7 @@ async function getQuestionnaires(req, res) {
   const result = await qh.selectQuestionnaires();
 
   if (!result) {
-    res.status(404).json({ error: 'Sorry, no questionnaires were found.' });
+    res.status(codes.notFound).json({ error: 'Sorry, no questionnaires were found.' });
     return;
   }
 
@@ -30,9 +31,9 @@ async function getQuestionnaire(req, res) {
   const result = await qh.selectQuestionnaire(name);
 
   if (name === 'null' || name == null) {
-    res.status(400).json({ error: 'Sorry, no questionnaire was selected. Please try again.' });
+    res.status(codes.badRequest).json({ error: 'Sorry, no questionnaire was selected. Please try again.' });
   } else if (!result) {
-    res.status(404).json({ error: `Sorry, no questionnaire named '${name}' could be found.` });
+    res.status(codes.notFound).json({ error: `Sorry, no questionnaire named '${name}' could be found.` });
     return;
   }
 
