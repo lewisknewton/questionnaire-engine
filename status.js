@@ -1,3 +1,5 @@
+'use strict';
+
 const codes = {
   ok: 200,
   badRequest: 400,
