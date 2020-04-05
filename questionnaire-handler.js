@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const { Client } = require('pg');
-const config = require('./config');
+const config = require('./database/config');
 
 const localDir = './questionnaires';
 const questionnaires = {};
