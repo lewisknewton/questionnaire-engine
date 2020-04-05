@@ -4,6 +4,9 @@ const loading = document.querySelector('#loading');
 const questionnaireList = document.querySelector('#questionnaire-list');
 const questionnaireSummary = document.querySelector('#questionnaire-summary');
 
+/**
+ * Displays an error message.
+ */
 function displayError(msg) {
   const errorTemplate = document.querySelector('#error-message');
   const error = errorTemplate.content.cloneNode(true);
@@ -12,6 +15,9 @@ function displayError(msg) {
   questionnaireList.after(error);
 }
 
+/**
+ * Displays details about stored questionnaires.
+ */
 function displayQuestionnaires(questionnaires) {
   // Add content to questionnaire summary template
   for (const q in questionnaires) {
@@ -32,6 +38,9 @@ function displayQuestionnaires(questionnaires) {
   }
 }
 
+/**
+ * Retrieves all stored questionnaires.
+ */
 async function loadQuestionnaires() {
   const res = await fetch('api/questionnaires');
   const data = await res.json();

@@ -18,6 +18,9 @@ const questionTypes = {
   },
 };
 
+/**
+ * Displays an error message.
+ */
 function displayError(msg) {
   const errorTemplate = document.querySelector('#error-message');
   const error = errorTemplate.content.cloneNode(true);
@@ -26,12 +29,18 @@ function displayError(msg) {
   main.querySelector('h1').after(error);
 }
 
+/**
+ * Retrieves the name of the selected questionnaire.
+ */
 function getQuestionnaireName() {
   const params = (new URL(window.location)).searchParams;
 
   return params.get('name');
 }
 
+/**
+ * Duplicates and populates the template shared by all questions.
+ */
 function copyBaseTemplate(question) {
   const baseTemplate = document.querySelector('#question-base');
   const baseCopy = baseTemplate.content.cloneNode(true);
@@ -44,6 +53,9 @@ function copyBaseTemplate(question) {
   return baseCopy;
 }
 
+/**
+ * Duplicates and populates the template for a specific question.
+ */
 function copyQuestionTemplate(question) {
   const type = question.type;
   const questionTemplate = document.querySelector(`#${type}-question`);
@@ -78,11 +90,13 @@ function copyQuestionTemplate(question) {
   return questionCopy;
 }
 
+/**
+ * Duplicates and populates the templates for each question.
+ */
 function copyTemplates(question) {
   const baseCopy = copyBaseTemplate(question);
-  const type = question.type;
 
-  if (type in questionTypes) {
+  if (question.type in questionTypes) {
     const questionCopy = copyQuestionTemplate(question);
     const questionSection = baseCopy.querySelector('section');
 
@@ -98,6 +112,9 @@ function copyTemplates(question) {
   return baseCopy;
 }
 
+/**
+ * Displays a given questionnaire's details and questions.
+ */
 async function displayQuestionnaire(questionnaire) {
   main.querySelector('h1').textContent = questionnaire.name;
 
@@ -109,8 +126,10 @@ async function displayQuestionnaire(questionnaire) {
   }
 }
 
-async function loadQuestionnaire() {
-  const name = getQuestionnaireName();
+/**
+ * Retrieves the questionnaire with the given name.
+ */
+async function loadQuestionnaire(name) {
   const res = await fetch(`api/questionnaires/${name}`);
   const data = await res.json();
 
@@ -124,7 +143,8 @@ async function loadQuestionnaire() {
 }
 
 function init() {
-  loadQuestionnaire();
+  const name = getQuestionnaireName();
+  loadQuestionnaire(name);
 }
 
 window.addEventListener('load', init);
