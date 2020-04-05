@@ -32,55 +32,58 @@ function getQuestionnaireName() {
   return params.get('name');
 }
 
-function copyTemplates(question) {
+function copyBaseTemplate(question) {
   const baseTemplate = document.querySelector('#question-base');
   const baseCopy = baseTemplate.content.cloneNode(true);
-
-  const type = question.type;
   const title = baseCopy.querySelector('h2');
 
-  // Fill copies with relevant details
+  // Fill copied question with relevant details
   title.textContent = question.text || '';
   title.setAttribute('id', question.id);
 
-  if (type in questionTypes) {
-    const questionTemplate = document.querySelector(`#${type}-question`);
-    const questionCopy = questionTemplate.content.cloneNode(true);
+  return baseCopy;
+}
 
+function copyQuestionTemplate(question) {
+  const type = question.type;
+  const questionTemplate = document.querySelector(`#${type}-question`);
+  const questionCopy = questionTemplate.content.cloneNode(true);
+
+  // Add inputs for multi-select questions
+  if (question.options) {
     const input = questionCopy.querySelector(questionTypes[type].input);
     const label = questionCopy.querySelector('label');
 
-    console.log(label);
+    // Remove placeholder input and label
+    questionCopy.textContent = '';
 
-    // Add inputs for select-based questions
-    if (question.options) {
-      const inputs = [input];
-      const labels = [label];
+    for (let i = 0; i <= question.options.length - 1; i += 1) {
+      // Create ID without whitespace for referencing in code
+      const opaqueId = question.options[i].replace(/\s/g, '-');
 
-      for (let i = 0; i <= question.options.length - 1; i += 1) {
-        // Create string without whitespace for referencing in code
-        const opaqueId = question.options[i].replace(/\s/g, '-');
+      const inputCopy = input.cloneNode(false);
+      inputCopy.setAttribute('id', opaqueId);
+      inputCopy.setAttribute('value', opaqueId);
+      inputCopy.setAttribute('name', question.id);
 
-        const inputCopy = input.cloneNode(false);
-        const labelCopy = label.cloneNode(false);
+      const labelCopy = label.cloneNode(false);
+      labelCopy.setAttribute('for', opaqueId);
+      labelCopy.textContent = question.options[i];
 
-        inputs.push(inputCopy);
-        labels.push(labelCopy);
-
-        if (i < question.options.length) {
-          inputs[i].setAttribute('id', opaqueId);
-          inputs[i].setAttribute('value', opaqueId);
-          inputs[i].setAttribute('name', question.id);
-
-          labels[i].setAttribute('for', opaqueId);
-          labels[i].textContent = question.options[i];
-        }
-
-        // Append labels and inputs not already present
-        if (i < question.options.length - 1) questionCopy.append(inputCopy, labelCopy);
-      }
+      // Append labels and inputs not already present
+      questionCopy.append(inputCopy, labelCopy);
     }
+  }
 
+  return questionCopy;
+}
+
+function copyTemplates(question) {
+  const baseCopy = copyBaseTemplate(question);
+  const type = question.type;
+
+  if (type in questionTypes) {
+    const questionCopy = copyQuestionTemplate(question);
     const questionSection = baseCopy.querySelector('section');
 
     // Include question details
