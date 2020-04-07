@@ -1,5 +1,6 @@
 'use strict';
 
+const answers = {};
 const main = document.querySelector('main');
 const loading = document.querySelector('#loading');
 const questionsSection = document.querySelector('#questions');
@@ -7,15 +8,19 @@ const questionsSection = document.querySelector('#questions');
 const questionTypes = {
   'text': {
     input: 'textarea',
+    events: ['keyup'],
   },
   'number': {
     input: 'input[type="number"]',
+    events: ['click', 'keyup'],
   },
   'single-select': {
     input: 'input[type="radio"]',
+    events: ['click'],
   },
   'multi-select': {
     input: 'input[type="checkbox"]',
+    events: ['click'],
   },
 };
 
@@ -37,6 +42,24 @@ function getQuestionnaireName() {
   const params = (new URL(window.location)).searchParams;
 
   return params.get('name');
+}
+
+/**
+ * Stores the value given to a question.
+ */
+function storeAnswer(evt) {
+  answers[evt.target.name] = evt.target.value.replace(/_/g, ' ');
+
+  console.log(answers);
+}
+
+/**
+ * Adds an event listener for any number of events to a given input.
+ */
+function addInputEventListeners(input, ...events) {
+  for (const evt of events) {
+    input.addEventListener(evt, storeAnswer);
+  }
 }
 
 /**
@@ -62,22 +85,24 @@ function copyQuestionTemplate(question) {
   const questionTemplate = document.querySelector(`#${type}-question`);
   const questionCopy = questionTemplate.content.cloneNode(true);
 
+  const input = questionCopy.querySelector(questionTypes[type].input);
+  const label = questionCopy.querySelector('label');
+
   // Add inputs for multi-select questions
   if (question.options) {
-    const input = questionCopy.querySelector(questionTypes[type].input);
-    const label = questionCopy.querySelector('label');
-
     // Remove placeholder input and label
     questionCopy.textContent = '';
 
     for (let i = 0; i <= question.options.length - 1; i += 1) {
       // Create ID without whitespace for referencing in code
-      const opaqueId = question.options[i].replace(/\s/g, '-');
+      const opaqueId = question.options[i].replace(/\s/g, '_');
 
       const inputCopy = input.cloneNode(false);
       inputCopy.setAttribute('id', opaqueId);
       inputCopy.setAttribute('value', opaqueId);
       inputCopy.setAttribute('name', question.id);
+
+      addInputEventListeners(inputCopy, ...questionTypes[type].events);
 
       const labelCopy = label.cloneNode(false);
       labelCopy.setAttribute('for', opaqueId);
@@ -89,6 +114,8 @@ function copyQuestionTemplate(question) {
   } else {
     input.setAttribute('name', question.id);
     input.setAttribute('aria-labelledby', question.id);
+
+    addInputEventListeners(input, ...questionTypes[type].events);
   }
 
   return questionCopy;
