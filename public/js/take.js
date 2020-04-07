@@ -167,7 +167,7 @@ function copyTemplates(question) {
 /**
  * Displays a given questionnaire's details and questions.
  */
-async function displayQuestionnaire(questionnaire) {
+function displayQuestionnaire(questionnaire) {
   main.querySelector('h1').textContent = questionnaire.name;
 
   // Display question blocks
