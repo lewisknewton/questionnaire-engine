@@ -27,7 +27,18 @@ The questionnaire engine uses JSON files to structure and read the details of qu
 
 To load a questionnaire, place its JSON file into the questionnaires directory. Any sub-folders within this directory will be searched recursively to load questionnaires included within them.
 
-## API
+## Design
+
+### Terms
+
+To avoid ambiguity, the following terms used throughout the application have been defined here.
+
+| Term     | Definition                                                 |
+|----------|------------------------------------------------------------|
+| Answer   | The value a user gives to a question.                      |
+| Response | The collection of answers a user gives to a questionnaire. |
+
+### API
 
 The following routes may be accessed after prepending `api`.
 
