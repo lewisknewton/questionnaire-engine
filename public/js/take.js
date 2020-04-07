@@ -2,6 +2,7 @@
 
 const main = document.querySelector('main');
 const loading = document.querySelector('#loading');
+const questionsSection = document.querySelector('#questions');
 
 const questionTypes = {
   'text': {
@@ -44,7 +45,7 @@ function getQuestionnaireName() {
 function copyBaseTemplate(question) {
   const baseTemplate = document.querySelector('#question-base');
   const baseCopy = baseTemplate.content.cloneNode(true);
-  const title = baseCopy.querySelector('h2');
+  const title = baseCopy.querySelector('h3');
 
   // Fill copied question with relevant details
   title.textContent = question.text || '';
@@ -101,11 +102,11 @@ function copyTemplates(question) {
 
   if (question.type in questionTypes) {
     const questionCopy = copyQuestionTemplate(question);
-    const questionSection = baseCopy.querySelector('section');
+    const questionBlock = baseCopy.querySelector('article');
 
     // Include question details
-    questionSection.append(questionCopy);
-    questionSection.classList.add(`${question.type}-question`);
+    questionBlock.append(questionCopy);
+    questionBlock.classList.add(`${question.type}-question`);
   } else {
     baseCopy.textContent = '';
 
@@ -123,9 +124,9 @@ async function displayQuestionnaire(questionnaire) {
 
   // Display question blocks
   for (const question of questionnaire.questions) {
-    const questionSection = copyTemplates(question);
+    const questionBlock = copyTemplates(question);
 
-    main.append(questionSection);
+    questionsSection.append(questionBlock);
   }
 }
 

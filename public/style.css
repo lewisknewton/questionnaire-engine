@@ -33,7 +33,7 @@ p {
   margin-bottom: var(--space-s);
 }
 
-section {
+article {
   margin-bottom: var(--space-l);
 }
 
@@ -73,8 +73,8 @@ main {
   align-items: center;
 }
 
-.multi-select-question > h2,
-.single-select-question > h2 {
+.multi-select-question > h3,
+.single-select-question > h3 {
   grid-area: title;
 }
 
