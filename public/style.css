@@ -1,13 +1,16 @@
 * {
   box-sizing: border-box;
-  font-family: "Karla", sans-serif;
+  font-family: "Open Sans", sans-serif;
   margin: 0;
   padding: 0;
 }
 
 :root {
-  --bg: white;
+  --bg: #f5f5f5;
   --fg: black;
+  --card: white;
+  --border: #acacac;
+  --shadow: 0 1rem 1rem #ebebeb;
   --danger: #f44336;
   --main-w: 95%;
   --space-xs: 0.5rem;
@@ -34,10 +37,25 @@ p {
 }
 
 article {
+  padding: var(--space-s) var(--space-s) var(--space-s);
+  border-radius: var(--space-xs);
   margin-bottom: var(--space-l);
+  background: var(--card);
+  box-shadow: var(--shadow);
+}
+
+article h3 {
+  padding-bottom: var(--space-xs);
+  border-bottom: thin solid var(--border);
 }
 
 input[type="number"],
+textarea {
+  border: thin solid var(--border);
+}
+
+input[type="number"],
+input[type="submit"],
 textarea {
   padding: var(--space-xs);
   font-size: inherit;
@@ -68,9 +86,16 @@ main {
   display: grid;
   grid-template-areas: "title title";
   grid-template-columns: auto 1fr;
-  gap: var(--space-xs) var(--space-s);
+  column-gap: var(--space-s);
   justify-content: start;
   align-items: center;
+}
+
+.multi-select-question label,
+.multi-select-question input,
+.single-select-question label,
+.single-select-question input {
+  margin-bottom: var(--space-xs);
 }
 
 .multi-select-question > h3,
@@ -82,6 +107,9 @@ main {
   :root {
     --bg: #333;
     --fg: white;
+    --card: #444;
+    --border: #333;
+    --shadow: 0 1rem 1rem #2e2e2e;
   }
 }
 
