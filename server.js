@@ -40,14 +40,14 @@ async function getQuestionnaire(req, res) {
   res.json(result);
 }
 
-/* eslint-disable */
-async function postQuestionnaire(req, res) {
-  // const questionnaires = await qh.insertQuestionnaire(req.body.questionnaire);
-  // res.json(questionnaires);
+/**
+ * Stores the user's response for a given questionnaire.
+ */
+async function postResponse(req, res) {
+  const result = await qh.addResponse(req.params.name, req.body);
 
-  console.log(req);
+  res.json(result);
 }
-/* eslint-enable */
 
 // Serve client files
 app.use('/', express.static(path.join(__dirname, 'public'), { extensions: ['html'] }));
@@ -55,6 +55,7 @@ app.use('/', express.static(path.join(__dirname, 'public'), { extensions: ['html
 // Define API routes
 router.get('/questionnaires', getQuestionnaires);
 router.get('/questionnaires/:name', getQuestionnaire);
+router.post('/questionnaires/:name', express.json(), postResponse);
 
 app.use('/api', router);
 

@@ -45,12 +45,33 @@ function getQuestionnaireName() {
 }
 
 /**
+ * Stores all answers given in a questionnaire.
+ */
+async function saveResponse() {
+  // Generate base-36 ID for the response
+  const id = Number(new Date()).toString(36);
+
+  const name = getQuestionnaireName();
+  const payload = { id, answers };
+
+  const res = await fetch(`api/questionnaires/${name}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (res.ok) {
+    console.log(payload);
+  }
+}
+
+/**
  * Stores the value given to a question.
  */
 function storeAnswer(evt) {
   answers[evt.target.name] = evt.target.value.replace(/_/g, ' ');
-
-  console.log(answers);
 }
 
 /**
@@ -176,6 +197,9 @@ async function loadQuestionnaire(name) {
 function init() {
   const name = getQuestionnaireName();
   loadQuestionnaire(name);
+
+  const submit = document.querySelector('#submit');
+  submit.addEventListener('click', saveResponse);
 }
 
 window.addEventListener('load', init);

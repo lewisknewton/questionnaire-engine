@@ -88,7 +88,19 @@ async function selectQuestionnaires(dir = localDir) {
   }
 }
 
+/**
+ * Stores the user's response for a given questionnaire.
+ */
+async function addResponse(name, response) {
+  try {
+    return { name, ...response };
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 module.exports = {
   selectQuestionnaire,
   selectQuestionnaires,
+  addResponse,
 };
