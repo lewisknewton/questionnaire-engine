@@ -85,6 +85,9 @@ function copyQuestionTemplate(question) {
       // Append labels and inputs not already present
       questionCopy.append(inputCopy, labelCopy);
     }
+  } else {
+    input.setAttribute('name', question.id);
+    input.setAttribute('aria-labelledby', question.id);
   }
 
   return questionCopy;
