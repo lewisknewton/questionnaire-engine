@@ -42,10 +42,10 @@ To avoid ambiguity, the following terms used throughout the application have bee
 
 The following routes may be accessed after prepending `api`.
 
-| Resource              | GET                      |
-|-----------------------|--------------------------|
-| /questionnaires       | Retrieve questionnaires  |
-| /questionnaires/:name | Retrieve a questionnaire |
+| Resource              | GET                       | POST               |
+|-----------------------|---------------------------|--------------------|
+| /questionnaires       | Retrieve questionnaires.  |                    |
+| /questionnaires/:name | Retrieve a questionnaire. | Record a response. |
 
 ## Linting
 
