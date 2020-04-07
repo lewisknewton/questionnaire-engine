@@ -9,7 +9,8 @@
   --bg: #f5f5f5;
   --fg: black;
   --card: white;
-  --border: #acacac;
+  --input: var(--card);
+  --accent: #acacac;
   --shadow: 0 1rem 1rem #ebebeb;
   --danger: #f44336;
   --main-w: 95%;
@@ -46,12 +47,19 @@ article {
 
 article h3 {
   padding-bottom: var(--space-xs);
-  border-bottom: thin solid var(--border);
+  border-bottom: thin solid var(--accent);
 }
 
 input[type="number"],
 textarea {
-  border: thin solid var(--border);
+  color: inherit;
+  border: thin solid var(--accent);
+  background: var(--input);
+}
+
+input[type="number"]::placeholder,
+textarea::placeholder {
+  color: var(--accent);
 }
 
 input[type="number"],
@@ -59,6 +67,7 @@ input[type="submit"],
 textarea {
   padding: var(--space-xs);
   font-size: inherit;
+  border-radius: var(--space-xs);
 }
 
 textarea {
@@ -108,7 +117,8 @@ main {
     --bg: #333;
     --fg: white;
     --card: #444;
-    --border: #333;
+    --input: #525252;
+    --accent: #777;
     --shadow: 0 1rem 1rem #2e2e2e;
   }
 }
