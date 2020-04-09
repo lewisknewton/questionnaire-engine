@@ -11,6 +11,8 @@
   --card: white;
   --input: var(--card);
   --accent: #acacac;
+  --primary: #00a6ff;
+  --light: #fff;
   --shadow: 0 1rem 1rem #ebebeb;
   --danger: #f44336;
   --safe: #44a280;
@@ -19,6 +21,7 @@
   --space-s: 1rem;
   --space-m: 1.25rem;
   --space-l: 1.5rem;
+  --border: thin solid var(--accent);
 }
 
 body {
@@ -48,13 +51,13 @@ article {
 
 article h3 {
   padding-bottom: var(--space-xs);
-  border-bottom: thin solid var(--accent);
+  border-bottom: var(--border);
 }
 
 input[type="number"],
 textarea {
   color: inherit;
-  border: thin solid var(--accent);
+  border: var(--border);
   background: var(--input);
 }
 
@@ -71,6 +74,13 @@ textarea {
   border-radius: var(--space-xs);
 }
 
+input[type="submit"] {
+  background: var(--primary);
+  color: var(--light);
+  border: none;
+  padding: var(--space-s);
+}
+
 textarea {
   width: 100%;
   max-width: 100%;
@@ -78,7 +88,7 @@ textarea {
 
 main {
   max-width: var(--main-w);
-  margin: 0 auto;
+  margin: 0 auto var(--space-l);
 }
 
 .error {
@@ -91,7 +101,7 @@ main {
 
 .error,
 .success {
-  color: var(--fg);
+  color: var(--light);
   padding: var(--space-s);
 }
 
