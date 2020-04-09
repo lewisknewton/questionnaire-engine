@@ -6,7 +6,7 @@
 }
 
 :root {
-  --bg: #f5f5f5;
+  --bg: #f0f0f0;
   --fg: black;
   --card: white;
   --input: var(--card);
