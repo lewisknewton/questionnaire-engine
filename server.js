@@ -16,7 +16,8 @@ async function getQuestionnaires(req, res) {
   const result = await qh.selectQuestionnaires();
 
   if (!result) {
-    res.status(codes.notFound).json({ error: 'Sorry, no questionnaires were found.' });
+    res.status(codes.notFound)
+      .json({ error: 'Sorry, no questionnaires were found.' });
     return;
   }
 
@@ -31,9 +32,12 @@ async function getQuestionnaire(req, res) {
   const result = await qh.selectQuestionnaire(name);
 
   if (name === 'null' || name == null) {
-    res.status(codes.badRequest).json({ error: 'Sorry, no questionnaire was selected. Please try again.' });
+    res.status(codes.badRequest)
+      .json({ error: 'Sorry, no questionnaire was selected. Please try again.' });
+    return;
   } else if (!result) {
-    res.status(codes.notFound).json({ error: `Sorry, no questionnaire named '${name}' could be found.` });
+    res.status(codes.notFound)
+      .json({ error: `Sorry, no questionnaire named '${name}' could be found.` });
     return;
   }
 

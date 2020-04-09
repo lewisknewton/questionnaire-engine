@@ -1,10 +1,12 @@
 'use strict';
 
-const answers = {};
 const main = document.querySelector('main');
 const loading = document.querySelector('#loading');
 const questionsSection = document.querySelector('#questions');
+const errorTemplate = document.querySelector('#error-message');
 const successTemplate = document.querySelector('#success-message');
+
+const answers = {};
 
 const questionTypes = {
   'text': {
@@ -29,7 +31,6 @@ const questionTypes = {
  * Displays an error message.
  */
 function displayError(msg) {
-  const errorTemplate = document.querySelector('#error-message');
   const error = errorTemplate.content.cloneNode(true);
 
   error.querySelector('p').textContent = msg;
@@ -73,8 +74,12 @@ async function saveResponse() {
     body: JSON.stringify(payload),
   });
 
+  const data = await res.json();
+
   if (res.ok) {
-    console.log(payload);
+    displaySuccess(data.success);
+  } else {
+    displayError(data.error);
   }
 }
 

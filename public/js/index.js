@@ -3,12 +3,12 @@
 const loading = document.querySelector('#loading');
 const questionnaireList = document.querySelector('#questionnaire-list');
 const questionnaireSummary = document.querySelector('#questionnaire-summary');
+const errorTemplate = document.querySelector('#error-message');
 
 /**
  * Displays an error message.
  */
 function displayError(msg) {
-  const errorTemplate = document.querySelector('#error-message');
   const error = errorTemplate.content.cloneNode(true);
 
   error.querySelector('p').textContent = msg;
