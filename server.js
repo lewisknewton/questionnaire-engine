@@ -35,6 +35,9 @@ async function getQuestionnaire(req, res) {
     res.status(codes.badRequest)
       .json({ error: 'Sorry, no questionnaire was selected. Please try again.' });
     return;
+  } else if (result && (result.questions == null || result.questions.length === 0)) {
+    res.status(codes.notFound)
+      .json({ error: 'Sorry, this questionnaire does not have any questions yet.' });
   } else if (!result) {
     res.status(codes.notFound)
       .json({ error: `Sorry, no questionnaire named '${name}' could be found.` });
