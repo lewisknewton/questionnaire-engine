@@ -83,7 +83,7 @@ app.use('/', express.static(path.join(__dirname, 'public'), { extensions: ['html
 // Define API routes
 router.get('/questionnaires', getQuestionnaires);
 router.get('/questionnaires/:name', getQuestionnaire);
-router.post('/questionnaires/:name', express.json(), postResponse);
+router.post('/questionnaires/:name/responses', express.json(), postResponse);
 
 app.use('/api', router);
 

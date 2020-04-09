@@ -70,7 +70,7 @@ async function saveResponse() {
   const name = getQuestionnaireName();
   const payload = { id, answers };
 
-  const res = await fetch(`api/questionnaires/${name}`, {
+  const res = await fetch(`api/questionnaires/${name}/responses`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
