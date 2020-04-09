@@ -16,7 +16,7 @@
     "start": "node server",
     "start-dev": "nodemon server",
     "setup": "psql -f database/database.sql",
-    "test": "jest",
+    "test": "jest --forceExit",
     "lint-js": "eslint **/*.js",
     "lint-css": "stylelint **/*.css",
     "lint": "npm run lint-js && npm run lint-css"

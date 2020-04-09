@@ -1,9 +1,18 @@
-/* global describe, it, expect */
+/* global afterAll, beforeEach, describe, it, expect */
 
 const supertest = require('supertest');
 const { codes } = require('../status');
-const app = require('../server');
-const request = supertest(app);
+const dbClient = require('../db-client');
+let server, request;
+
+beforeEach(() => {
+  server = require('../server', { bustCache: true });
+  request = supertest(server);
+});
+
+afterAll(async done => {
+  await server.close(done);
+});
 
 // Define test data
 const testQuestionnaires = require('./data/questionnaires.json');
