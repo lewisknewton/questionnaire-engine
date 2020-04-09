@@ -56,6 +56,9 @@ async function loadQuestionnaires() {
   }
 }
 
+/**
+ * Initialises the web page.
+ */
 function init() {
   loadQuestionnaires();
 }

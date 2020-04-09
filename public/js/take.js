@@ -218,6 +218,9 @@ async function loadQuestionnaire(name) {
   }
 }
 
+/**
+ * Initialises the web page.
+ */
 function init() {
   const name = getQuestionnaireName();
   loadQuestionnaire(name);

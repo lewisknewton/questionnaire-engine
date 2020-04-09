@@ -3,6 +3,9 @@ const config = require('./database/config');
 
 const dbClient = new Client(config);
 
+/**
+ * Connects to the PostgreSQL database.
+ */
 async function connectToDB() {
   try {
     await dbClient.connect();
