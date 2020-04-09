@@ -3,11 +3,19 @@ const config = require('./database/config');
 
 const dbClient = new Client(config);
 
-dbClient.connect();
+async function connectToDB() {
+  try {
+    await dbClient.connect();
 
-dbClient.on('error', (err) => {
-  console.error(`Database error: ${err}`);
-  dbClient.end();
-});
+    dbClient.on('error', (err) => {
+      console.error(`Database error: ${err}`);
+      dbClient.end();
+    });
+  } catch (err) {
+    console.error(`There was a problem connecting to the database. Please check the configuration file.\n Details:\n ${err}`);
+  }
+}
+
+connectToDB();
 
 module.exports = dbClient;
