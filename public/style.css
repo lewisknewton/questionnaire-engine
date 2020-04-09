@@ -99,6 +99,11 @@ main {
   display: none;
 }
 
+#questionnaire > #questions,
+#questionnaire > #submit {
+  display: none;
+}
+
 .multi-select-question,
 .single-select-question {
   display: grid;

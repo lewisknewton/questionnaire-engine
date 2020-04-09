@@ -3,6 +3,7 @@
 const main = document.querySelector('main');
 const loading = document.querySelector('#loading');
 const questionsSection = document.querySelector('#questions');
+const submit = document.querySelector('#submit');
 const errorTemplate = document.querySelector('#error-message');
 const successTemplate = document.querySelector('#success-message');
 
@@ -187,10 +188,14 @@ function copyTemplates(question) {
  * Displays a given questionnaire's details and questions.
  */
 function displayQuestionnaire(questionnaire) {
+  const questions = questionnaire.questions;
+
   main.querySelector('h1').textContent = questionnaire.name;
+  main.querySelector('#questions').style.display = 'block';
+  main.querySelector('#submit').style.display = 'block';
 
   // Display question blocks
-  for (const question of questionnaire.questions) {
+  for (const question of questions) {
     const questionBlock = copyTemplates(question);
 
     questionsSection.append(questionBlock);
@@ -217,7 +222,6 @@ function init() {
   const name = getQuestionnaireName();
   loadQuestionnaire(name);
 
-  const submit = document.querySelector('#submit');
   submit.addEventListener('click', saveResponse);
 }
 
