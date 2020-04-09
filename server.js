@@ -29,18 +29,24 @@ async function getQuestionnaires(req, res) {
  */
 async function getQuestionnaire(req, res) {
   const name = req.params.name;
-  const result = await qh.selectQuestionnaire(name);
 
-  if (name === 'null' || name == null) {
+  if (name == null || name === 'null') {
     res.status(codes.badRequest)
       .json({ error: 'Sorry, no questionnaire was selected. Please try again.' });
     return;
-  } else if (result && (result.questions == null || result.questions.length === 0)) {
-    res.status(codes.notFound)
-      .json({ error: 'Sorry, this questionnaire does not have any questions yet.' });
-  } else if (!result) {
+  }
+
+  const result = await qh.selectQuestionnaire(name);
+
+  if (!result) {
     res.status(codes.notFound)
       .json({ error: `Sorry, no questionnaire named '${name}' could be found.` });
+    return;
+  }
+
+  if (result.questions == null || result.questions.length === 0) {
+    res.status(codes.notFound)
+      .json({ error: 'Sorry, this questionnaire does not have any questions yet.' });
     return;
   }
 
@@ -51,22 +57,24 @@ async function getQuestionnaire(req, res) {
  * Stores the user's response for a given questionnaire.
  */
 async function postResponse(req, res) {
-  const name = req.params.name;
   const body = req.body;
+  const name = req.params.name;
+  const answers = body.answers;
 
-  const result = await qh.addResponse(name, body);
-
-  if (name === 'null' || name == null) {
+  if (name == null || name === 'null') {
     res.status(codes.badRequest)
-      .json({ error: 'Sorry, no questionnaire to be associated this response was selected. Please try again.' });
+      .json({ error: 'Sorry, no questionnaire was associated with this response. Please try again.' });
     return;
-  } else if (Object.keys(body.answers).length === 0 || body.answers == null) {
+  } else if (answers == null || Object.keys(answers).length === 0) {
     res.status(codes.badRequest)
       .json({ error: 'Sorry, no answers have been provided. Please try again.' });
     return;
   }
 
-  res.json({ success: 'Thank you, your response has been saved.', result });
+  const result = await qh.addResponse(name, body);
+
+  res.status(codes.created)
+    .json({ success: 'Thank you, your response has been saved.', result });
 }
 
 // Serve client files
