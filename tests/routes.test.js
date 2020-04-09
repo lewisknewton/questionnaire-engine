@@ -81,6 +81,50 @@ describe('GET Endpoints', () => {
     done();
   });
 });
+
+describe('POST endpoints', () => {
+  it('should save responses', async done => {
+    const id = Number(new Date()).toString(36);
+    const answers = { test: 'test123' };
+
+    for (const q in testQuestionnaires) {
+      const expected = {
+        data: { id, answers },
+        success: 'Thank you, your response has been saved.',
+      };
+
+      const res = await request
+        .post(`/api/questionnaires/${q}/responses`)
+        .send({ id, answers })
+        .set('Content-Type', 'application/json');
+
+      expect(res.statusCode).toStrictEqual(codes.created);
+      expect(res.body).toMatchObject(expected);
+    }
+
+    // Delete test rows
+    const query = `DELETE FROM response WHERE data @> '{"id": "${id}"}'`;
+    await dbClient.query(query);
+
+    done();
+  });
+
+  it('should reject responses with no answers', async done => {
+    const id = Number(new Date()).toString(36);
+    const answers = null;
+
+    for (const q in testQuestionnaires) {
+      const expected = { error: 'Sorry, no answers have been provided. Please try again.' };
+
+      const res = await request
+        .post(`/api/questionnaires/${q}/responses`)
+        .send({ id, answers })
+        .set('Content-Type', 'application/json');
+
+      expect(res.statusCode).toStrictEqual(codes.badRequest);
+      expect(res.body).toMatchObject(expected);
+    }
+
     done();
   });
 });
