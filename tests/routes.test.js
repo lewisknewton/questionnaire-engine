@@ -30,9 +30,12 @@ describe('GET Endpoints', () => {
   it('should retrieve existent questionnaires by name', async done => {
     for (const q in testQuestionnaires) {
       const res = await request.get(`/api/questionnaires/${q}`);
+      const questions = res.body.questions;
 
-      expect(res.statusCode).toStrictEqual(codes.ok);
-      expect(res.body).toMatchObject(testQuestionnaires[q]);
+      if (res.body.questions && questions.length > 0) {
+        expect(res.statusCode).toStrictEqual(codes.ok);
+        expect(res.body).toMatchObject(testQuestionnaires[q]);
+      }
     }
 
     done();
@@ -59,6 +62,25 @@ describe('GET Endpoints', () => {
     expect(res.statusCode).toStrictEqual(codes.badRequest);
     expect(res.body).toMatchObject(expected);
 
+    done();
+  });
+
+  it('should not display questionnaires with no questions', async done => {
+    for (const q in testQuestionnaires) {
+      const expected = { error: 'Sorry, this questionnaire does not have any questions yet.' };
+
+      const res = await request.get(`/api/questionnaires/${q}`);
+      const questions = res.body.questions;
+
+      if (questions == null || (questions && questions.length === 0)) {
+        expect(res.statusCode).toStrictEqual(codes.ok);
+        expect(res.body).toMatchObject(expected);
+      }
+    }
+
+    done();
+  });
+});
     done();
   });
 });
