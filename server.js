@@ -45,8 +45,7 @@ async function getQuestionnaire(req, res) {
   }
 
   if (result.questions == null || result.questions.length === 0) {
-    res.status(codes.notFound)
-      .json({ error: 'Sorry, this questionnaire does not have any questions yet.' });
+    res.json({ error: 'Sorry, this questionnaire does not have any questions yet.' });
     return;
   }
 
