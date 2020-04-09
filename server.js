@@ -44,9 +44,22 @@ async function getQuestionnaire(req, res) {
  * Stores the user's response for a given questionnaire.
  */
 async function postResponse(req, res) {
-  const result = await qh.addResponse(req.params.name, req.body);
+  const name = req.params.name;
+  const body = req.body;
 
-  res.json(result);
+  const result = await qh.addResponse(name, body);
+
+  if (name === 'null' || name == null) {
+    res.status(codes.badRequest)
+      .json({ error: 'Sorry, no questionnaire to be associated this response was selected. Please try again.' });
+    return;
+  } else if (Object.keys(body.answers).length === 0 || body.answers == null) {
+    res.status(codes.badRequest)
+      .json({ error: 'Sorry, this response is empty. Please try again.' });
+    return;
+  }
+
+  res.json({ success: 'Thank you, your response has been saved.', result });
 }
 
 // Serve client files

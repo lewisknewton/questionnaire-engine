@@ -13,6 +13,8 @@ DROP TABLE IF EXISTS response;
 DROP TABLE IF EXISTS option_type;
 DROP TABLE IF EXISTS question_option;
 
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 CREATE TABLE IF NOT EXISTS user_account (
   id INT,
   PRIMARY KEY (id)
@@ -60,10 +62,11 @@ CREATE TABLE IF NOT EXISTS question (
 );
 
 CREATE TABLE IF NOT EXISTS response (
-  id INT,
-  question_id INT,
-  PRIMARY KEY (id),
-  FOREIGN KEY (question_id) REFERENCES question (id)
+  id uuid DEFAULT uuid_generate_v4(),
+  time_submitted TIMESTAMP DEFAULT NOW(),
+  questionnaire VARCHAR(255),
+  data JSONB,
+  PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS option_type (

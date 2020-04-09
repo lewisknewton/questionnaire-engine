@@ -93,7 +93,10 @@ async function selectQuestionnaires(dir = localDir) {
  */
 async function addResponse(name, response) {
   try {
-    return { name, ...response };
+    const query = 'INSERT INTO response (questionnaire, data) VALUES ($1, $2) RETURNING *';
+    const res = await dbClient.query(query, [name, response]);
+
+    return res.rows[0];
   } catch (err) {
     console.error(err);
   }
