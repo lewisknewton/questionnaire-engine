@@ -52,8 +52,11 @@ function displaySuccess(msg) {
  */
 function getQuestionnaireName() {
   const params = (new URL(window.location)).searchParams;
+  const name = params.get('name');
 
-  return params.get('name');
+  if (name != null && name.length > 0) return name;
+
+  return null;
 }
 
 /**
