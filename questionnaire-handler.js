@@ -92,13 +92,15 @@ async function selectQuestionnaires(dir = localDir) {
  * Stores the user's response for a given questionnaire.
  */
 async function addResponse(name, response) {
-  try {
-    const query = 'INSERT INTO response (questionnaire, data) VALUES ($1, $2) RETURNING *';
-    const res = await dbClient.query(query, [name, response]);
+  if (response.answers && response.answers.length > 0) {
+    try {
+      const query = 'INSERT INTO response (questionnaire, data) VALUES ($1, $2) RETURNING *';
+      const res = await dbClient.query(query, [name, response]);
 
-    return res.rows[0];
-  } catch (err) {
-    console.error(err);
+      return res.rows[0];
+    } catch (err) {
+      console.error(err);
+    }
   }
 }
 

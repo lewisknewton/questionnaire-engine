@@ -59,7 +59,7 @@ async function postResponse(req, res) {
     return;
   } else if (Object.keys(body.answers).length === 0 || body.answers == null) {
     res.status(codes.badRequest)
-      .json({ error: 'Sorry, this response is empty. Please try again.' });
+      .json({ error: 'Sorry, no answers have been provided. Please try again.' });
     return;
   }
 
