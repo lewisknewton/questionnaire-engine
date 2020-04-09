@@ -13,6 +13,7 @@
   --accent: #acacac;
   --shadow: 0 1rem 1rem #ebebeb;
   --danger: #f44336;
+  --safe: #44a280;
   --main-w: 95%;
   --space-xs: 0.5rem;
   --space-s: 1rem;
@@ -82,6 +83,14 @@ main {
 
 .error {
   background: var(--danger);
+}
+
+.success {
+  background: var(--safe);
+}
+
+.error,
+.success {
   color: var(--fg);
   padding: var(--space-s);
 }

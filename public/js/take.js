@@ -4,6 +4,7 @@ const answers = {};
 const main = document.querySelector('main');
 const loading = document.querySelector('#loading');
 const questionsSection = document.querySelector('#questions');
+const successTemplate = document.querySelector('#success-message');
 
 const questionTypes = {
   'text': {
@@ -33,6 +34,16 @@ function displayError(msg) {
 
   error.querySelector('p').textContent = msg;
   main.querySelector('h1').after(error);
+}
+
+/**
+ * Displays a success message.
+ */
+function displaySuccess(msg) {
+  const success = successTemplate.content.cloneNode(true);
+
+  success.querySelector('p').textContent = msg;
+  main.querySelector('h1').after(success);
 }
 
 /**
