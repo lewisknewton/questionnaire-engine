@@ -24,6 +24,7 @@
   --border: thin solid var(--accent);
 }
 
+/* Base element styles */
 body {
   font-size: 100%;
   line-height: 1.5;
@@ -41,6 +42,11 @@ p {
   margin-bottom: var(--space-s);
 }
 
+main {
+  width: var(--main-w);
+  margin: 0 auto var(--space-l);
+}
+
 article {
   padding: var(--space-s) var(--space-s) var(--space-s);
   border-radius: var(--space-xs);
@@ -54,6 +60,7 @@ article h3 {
   border-bottom: var(--border);
 }
 
+/* Input styles */
 input[type="number"],
 textarea {
   color: inherit;
@@ -86,11 +93,7 @@ textarea {
   max-width: 100%;
 }
 
-main {
-  max-width: var(--main-w);
-  margin: 0 auto var(--space-l);
-}
-
+/* Status message styles */
 .error {
   background: var(--danger);
 }
@@ -105,10 +108,12 @@ main {
   padding: var(--space-s);
 }
 
+/* Hiding/unhiding styles */
 .hidden {
   display: none;
 }
 
+/* Questionnaire styles */
 #questionnaire > #questions,
 #questionnaire > #submit {
   display: none;
@@ -136,6 +141,7 @@ main {
   grid-area: title;
 }
 
+/* Dark mode styles */
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #333;
@@ -147,6 +153,7 @@ main {
   }
 }
 
+/* Desktop and tablet styles */
 @media only screen and (min-width: 700px) {
   :root {
     --main-w: 44em;
