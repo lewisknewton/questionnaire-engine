@@ -2,20 +2,10 @@
 
 const fs = require('fs');
 const path = require('path');
-const { Client } = require('pg');
-const config = require('./database/config');
+const dbClient = require('./db-client');
 
 const localDir = './questionnaires';
 const questionnaires = {};
-
-const dbClient = new Client(config);
-
-dbClient.connect();
-
-dbClient.on('error', (err) => {
-  console.error(`Database error: ${err}`);
-  dbClient.end();
-});
 
 /**
  * Retrieves information about directories and files.
