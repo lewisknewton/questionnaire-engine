@@ -33,6 +33,14 @@ CREATE TABLE IF NOT EXISTS question (
   FOREIGN KEY (questionnaire_id) REFERENCES questionnaire (id)
 );
 
+CREATE TABLE IF NOT EXISTS question_option (
+  id uuid DEFAULT uuid_generate_v4(),
+  text TEXT,
+  question_id uuid,
+  PRIMARY KEY (id),
+  FOREIGN KEY (question_id) REFERENCES question (id)
+);
+
 CREATE TABLE IF NOT EXISTS response (
   id uuid DEFAULT uuid_generate_v4(),
   time_submitted TIMESTAMP DEFAULT NOW(),
