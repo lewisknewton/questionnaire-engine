@@ -21,10 +21,11 @@ CREATE TABLE IF NOT EXISTS user_account (
 );
 
 CREATE TABLE IF NOT EXISTS questionnaire (
-  id INT,
+  id uuid DEFAULT uuid_generate_v4(),
   title VARCHAR (70),
   code VARCHAR (20),
   scored BOOLEAN,
+  file_path TEXT,
   creator_id INT,
   PRIMARY KEY (id),
   FOREIGN KEY (creator_id) REFERENCES user_account (id)
@@ -83,5 +84,3 @@ CREATE TABLE IF NOT EXISTS question_option (
   FOREIGN KEY (question_id) REFERENCES question (id),
   FOREIGN KEY (type_id) REFERENCES option_type (id)
 );
-
-INSERT INTO user_account (id) VALUES (1);
