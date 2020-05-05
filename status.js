@@ -5,7 +5,7 @@ const codes = {
   created: 201,
   badRequest: 400,
   notFound: 404,
-  serverErr: 500,
+  internalServerErr: 500,
 };
 
 module.exports = {

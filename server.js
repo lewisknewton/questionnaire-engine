@@ -74,7 +74,7 @@ async function postResponse(req, res) {
   const data = result.data;
 
   if (data == null || data.length === 0) {
-    res.status(codes.serverErr)
+    res.status(codes.internalServerErr)
       .json({ error: 'Sorry, your response could not be saved at this time. Please try again.' });
   } else {
     res.status(codes.created)
