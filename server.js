@@ -73,8 +73,13 @@ async function postResponse(req, res) {
   const result = await qh.addResponse(name, body);
   const data = result.data;
 
-  res.status(codes.created)
-    .json({ success: 'Thank you, your response has been saved.', data });
+  if (data == null || data.length === 0) {
+    res.status(codes.serverErr)
+      .json({ error: 'Sorry, your response could not be saved at this time. Please try again.' });
+  } else {
+    res.status(codes.created)
+      .json({ success: 'Thank you, your response has been saved.', data });
+  }
 }
 
 // Serve client files
