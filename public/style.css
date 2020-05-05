@@ -16,6 +16,7 @@
   --shadow: 0 1rem 1rem #ebebeb;
   --danger: #f44336;
   --safe: #44a280;
+  --link: #bee1ff;
   --main-w: 95%;
   --space-xs: 0.5rem;
   --space-s: 1rem;
@@ -144,12 +145,16 @@ textarea {
 /* Dark mode styles */
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #333;
+    --bg: #323232;
     --fg: white;
-    --card: #444;
+    --card: #404040;
     --input: #525252;
     --accent: #777;
     --shadow: 0 1rem 1rem #2e2e2e;
+  }
+
+  a {
+    color: var(--link);
   }
 }
 
