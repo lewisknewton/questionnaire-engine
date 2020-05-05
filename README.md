@@ -17,7 +17,15 @@ npm run setup
 npm start
 ```
 
-`npm run setup` will create the database and its tables. `npm start` will launch the application.
+### Database
+`npm run setup` will create the database and its tables, using the parameters in the [database/config.json](database/config.json) file.
+
+The default database name is `questionnaire_engine`. If you would prefer a different name, replace this in [database/schema.sql](database/schema.sql).
+
+### Server
+`npm start` will launch the application using an HTTP server running on port 8080, located in [server.js](server.js).
+
+To access the application, enter the address of your running virtual machine after running `npm start`.
 
 For testing purposes, the `example.json` file has been included in the questionnaires directory to provide an example questionnaire. A similar file, `another-example.json`, has been included within a sub-folder for the same reason.
 
