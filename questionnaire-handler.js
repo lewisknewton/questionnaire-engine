@@ -43,6 +43,24 @@ async function selectDBCopy(path) {
 }
 
 /**
+ * Compares a questionnaire file and its copy in the database to check if they are the same.
+ */
+function checkUpToDate(original, copy) {
+  // Define properties to compare
+  const toCompare = ['name', 'scored', 'path', 'author_email', 'questions'];
+
+  try {
+    for (const prop of toCompare) {
+      if (original[prop] !== copy[prop]) return false;
+
+      return true;
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+/**
  * Retrieves a single questionnaire using its unique name and parent directory.
  */
 async function selectQuestionnaire(name, dir = localDir) {
@@ -170,15 +188,22 @@ async function addQuestion(questionnaireId, question) {
  * Stores a given questionnaire in the database.
  */
 async function addQuestionnaire(questionnaire) {
+  // Generate URL-friendly ID for the questionnaire
+  const id = Number(new Date()).toString(36);
+
   const { name, scored, path, questions } = questionnaire;
 
   try {
     const query = `
-      INSERT INTO questionnaire (name, scored, file_path) 
-      VALUES ($1, $2, $3) 
-      RETURNING unique_id AS "uniqueId", name, scored, file_path AS path
+      INSERT INTO questionnaire (id, name, scored, file_path) 
+      VALUES ($1, $2, $3, $4) 
+      RETURNING unique_id AS "uniqueId", 
+                id, 
+                name, 
+                scored, 
+                file_path AS path
       `;
-    const result = await dbClient.query(query, [name, scored || false, path]);
+    const result = await dbClient.query(query, [id, name, scored || false, path]);
     const inserted = result.rows[0];
 
     if (questions != null && questions.length > 0) {
@@ -192,7 +217,35 @@ async function addQuestionnaire(questionnaire) {
 
     return inserted;
   } catch (err) {
-    console.log(err);
+    console.error(err);
+  }
+}
+
+/**
+ * Updates a given questionnaire stored in the database.
+ */
+async function updateQuestionnaire(id, content) {
+  const { name, scored, path, questions } = content;
+
+  try {
+    const query = `
+      UPDATE    questionnaire 
+      SET       name = COALESCE($2, name), 
+                scored = COALESCE($3, scored), 
+                file_path = COALESCE($4, file_path) 
+      WHERE     unique_id = $1
+      RETURNING name,
+                scored,
+                file_path AS path,
+                unique_id AS "uniqueId"
+      `;
+
+    const result = await dbClient.query(query, [id, name, scored, path]);
+    const updated = result.rows[0];
+
+    return updated;
+  } catch (err) {
+    console.error(err);
   }
 }
 
