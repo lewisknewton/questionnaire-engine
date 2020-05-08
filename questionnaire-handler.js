@@ -5,7 +5,6 @@ const path = require('path');
 const dbClient = require('./db-client');
 
 const localDir = './questionnaires';
-const questionnaires = {};
 
 /**
  * Retrieves information about directories and files.
@@ -22,6 +21,25 @@ async function getStats(dirPath) {
   }
 
   return itemStats;
+}
+
+/**
+ * Checks whether a local questionnaire has already been copied into the database.
+ */
+async function selectDBCopy(path) {
+  try {
+    const query = `
+      SELECT unique_id AS uniqueId, name, scored, file_path
+      FROM questionnaire 
+      WHERE file_path = $1
+    `;
+    const result = await dbClient.query(query, [path]);
+
+    // Return the selected questionnaire
+    return result.rows[0];
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 /**
@@ -52,17 +70,33 @@ async function selectQuestionnaire(name, dir = localDir) {
   }
 }
 
-/**
- * Checks whether a local questionnaire has already been copied into the database.
- */
-async function isQuestionnaireInDB(path) {
+async function selectQuestionnaireFiles(dir, list) {
   try {
-    const query = 'SELECT id FROM questionnaire WHERE file_path = $1';
-    const result = await dbClient.query(query, [path]);
+    const itemStats = await getStats(dir);
 
-    if (result.rows.length === 0) return false;
+    for (const name in itemStats) {
+      if (itemStats[name].isFile) {
+        const path = itemStats[name].path;
+        const file = await fs.promises.readFile(path);
 
-    return true;
+        const questionnaire = JSON.parse(file);
+        const copyInDB = await selectDBCopy(path);
+
+        // Add to the database if not already stored there
+        if (copyInDB == null) {
+          // Copy additional fields not in the file
+          questionnaire.path = path;
+          Object.assign(questionnaire, await addQuestionnaire(questionnaire));
+        } else {
+          Object.assign(questionnaire, copyInDB);
+        }
+
+        list.push(questionnaire);
+      } else {
+        // If a directory is found, look for questionnaires inside it
+        await selectQuestionnaireFiles(`${dir}/${name}`, list);
+      }
+    }
   } catch (err) {
     console.error(err);
   }
@@ -71,36 +105,13 @@ async function isQuestionnaireInDB(path) {
 /**
  * Retrieves all stored questionnaires, referencing their parent directory.
  */
-async function selectQuestionnaires(dir = localDir) {
-  try {
-    const itemStats = await getStats(dir);
+async function selectQuestionnaires() {
+  const questionnaires = [];
 
-    // Add questionnaires stored in local directory
-    for (const name in itemStats) {
-      if (itemStats[name].isFile) {
-        const path = itemStats[name].path;
-        const file = await fs.promises.readFile(path);
-        const existsInDB = await isQuestionnaireInDB(path);
+  await selectQuestionnaireFiles(localDir, questionnaires);
+  // To do: select questionnaires only in database
 
-        let questionnaire = JSON.parse(file);
-        questionnaire.path = path;
-        questionnaire.file = true;
-
-        if (!existsInDB) {
-          questionnaire = await addQuestionnaire(questionnaire);
-        }
-
-        questionnaires[name] = questionnaire;
-      } else {
-        // If the item is a directory, look for questionnaires inside it
-        await selectQuestionnaires(`${dir}/${name}`);
-      }
-    }
-
-    return questionnaires;
-  } catch (err) {
-    console.error(err);
-  }
+  return questionnaires;
 }
 
 /**
@@ -111,7 +122,7 @@ async function addOption(questionId, option) {
     const query = `
       INSERT INTO question_option (text, question_id)
       VALUES ($1, $2)
-      RETURNING *;
+      RETURNING text;
     `;
     const result = await dbClient.query(query, [option, questionId]);
 
@@ -130,9 +141,9 @@ async function addQuestion(questionnaireId, question) {
 
   try {
     const query = `
-      INSERT INTO question (readable_id, text, questionnaire_id)
+      INSERT INTO question (id, text, questionnaire_id)
       VALUES ($1, $2, $3)
-      RETURNING *;
+      RETURNING unique_id AS uniqueId, id, text;
     `;
     const result = await dbClient.query(query, [id, text, questionnaireId]);
     const inserted = result.rows[0];
@@ -142,7 +153,7 @@ async function addQuestion(questionnaireId, question) {
       inserted.options = [];
 
       for (const option of options) {
-        const insertedOption = await addOption(inserted.id, option);
+        const insertedOption = await addOption(inserted.uniqueId, option);
         inserted.options.push(insertedOption);
       }
     }
@@ -163,16 +174,16 @@ async function addQuestionnaire(questionnaire) {
     const query = `
       INSERT INTO questionnaire (name, scored, file_path) 
       VALUES ($1, $2, $3) 
-      RETURNING *
+      RETURNING unique_id AS "uniqueId", name, scored, file_path AS path
       `;
-    const result = await dbClient.query(query, [name, scored, path]);
+    const result = await dbClient.query(query, [name, scored || false, path]);
     const inserted = result.rows[0];
 
     if (questions != null && questions.length > 0) {
       inserted.questions = [];
 
       for (const question of questions) {
-        const insertedQuestion = await addQuestion(inserted.id, question);
+        const insertedQuestion = await addQuestion(inserted.uniqueId, question);
         inserted.questions.push(insertedQuestion);
       }
     }
