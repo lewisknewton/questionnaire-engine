@@ -64,7 +64,7 @@ function getQuestionnaireName() {
  * Stores all answers given in a questionnaire.
  */
 async function saveResponse() {
-  // Generate base-36 ID for the response
+  // Generate URL-friendly ID for the response
   const id = Number(new Date()).toString(36);
 
   const name = getQuestionnaireName();
