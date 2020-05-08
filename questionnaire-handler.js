@@ -29,7 +29,7 @@ async function getStats(dirPath) {
 async function selectDBCopy(path) {
   try {
     const query = `
-      SELECT unique_id AS uniqueId, name, scored, file_path
+      SELECT unique_id AS "uniqueId", name, scored, file_path AS path
       FROM questionnaire 
       WHERE file_path = $1
     `;
@@ -145,7 +145,7 @@ async function addQuestion(questionnaireId, question) {
     const query = `
       INSERT INTO question (id, text, questionnaire_id)
       VALUES ($1, $2, $3)
-      RETURNING unique_id AS uniqueId, id, text;
+      RETURNING unique_id AS "uniqueId", id, text;
     `;
     const result = await dbClient.query(query, [id, text, questionnaireId]);
     const inserted = result.rows[0];
