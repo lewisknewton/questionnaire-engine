@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS question (
   unique_id uuid DEFAULT uuid_generate_v4(),
   id VARCHAR(30) NOT NULL,
   text TEXT,
-  questionnaire_id uuid,
+  questionnaire_id uuid NOT NULL,
   PRIMARY KEY (unique_id),
   FOREIGN KEY (questionnaire_id) REFERENCES questionnaire (unique_id)
 );
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS question_option (
   unique_id uuid DEFAULT uuid_generate_v4(),
   id VARCHAR(8),
   text TEXT,
-  question_id uuid,
+  question_id uuid NOT NULL,
   PRIMARY KEY (unique_id),
   FOREIGN KEY (question_id) REFERENCES question (unique_id)
 );
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS response (
   unique_id uuid DEFAULT uuid_generate_v4(),
   id VARCHAR(8),
   time_submitted TIMESTAMP DEFAULT NOW(),
-  questionnaire_id uuid,
+  questionnaire_id uuid NOT NULL,
   data JSONB,
   PRIMARY KEY (unique_id),
   FOREIGN KEY (questionnaire_id) REFERENCES questionnaire (unique_id)
