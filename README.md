@@ -56,6 +56,10 @@ The following routes may be accessed after prepending `api`.
 | /questionnaires/:name           | Retrieve a questionnaire. |                    |
 | /questionnaires/:name/responses |                           | Record a response. |
 
+### Security
+
+To avoid exposing their primary keys, 'URL-friendly' IDs are assigned to questionnaires and responses for the purpose of sharing and review.
+
 ## Linting
 
 During development, the following linters were used:
