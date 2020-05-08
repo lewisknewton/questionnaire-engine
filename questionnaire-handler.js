@@ -80,15 +80,17 @@ async function selectQuestionnaireFiles(dir, list) {
         const file = await fs.promises.readFile(path);
 
         const questionnaire = JSON.parse(file);
-        const copyInDB = await selectDBCopy(path);
+        const copy = await selectDBCopy(path);
 
         // Add to the database if not already stored there
-        if (copyInDB == null) {
+        if (copy == null) {
           // Copy additional fields not in the file
           questionnaire.path = path;
           Object.assign(questionnaire, await addQuestionnaire(questionnaire));
+        } else if (!checkUpToDate(questionnaire, copy)) {
+          Object.assign(questionnaire, await updateQuestionnaire(copy.uniqueId, questionnaire));
         } else {
-          Object.assign(questionnaire, copyInDB);
+          Object.assign(questionnaire, copy);
         }
 
         list.push(questionnaire);
