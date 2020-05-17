@@ -29,12 +29,6 @@ To access the application, enter the address of your running virtual machine aft
 
 For testing purposes, the `example.json` file has been included in the questionnaires directory to provide an example questionnaire. A similar file, `another-example.json`, has been included within a sub-folder for the same reason.
 
-## Loading Questionnaires
-
-The questionnaire engine uses JSON files to structure and read the details of questionnaires. 
-
-To load a questionnaire, place its JSON file into the questionnaires directory. Any sub-folders within this directory will be searched recursively to load questionnaires included within them.
-
 ## Design
 
 ### Terms
@@ -55,6 +49,21 @@ The following routes may be accessed after prepending `api`.
 | /questionnaires                 | Retrieve all questionnaires.                      |                                            |
 | /questionnaires/:name           | Retrieve a given questionnaire.                   |                                            |
 | /questionnaires/:name/responses | Retrieve all responses for a given questionnaire. | Save a response for a given questionnaire. |
+
+### Questionnaires
+
+The questionnaire engine uses a JSON structure to define and read the details of questionnaires. All questionnaires are stored in the database. However, file-based questionnaires can also be stored in the [questionnaires](questionnaires) directory as `.JSON` files.
+
+In general, questionnaires can be either:
+
+* *Public*, where they can be edited by any user; or
+* *Private*, where they can be edited only by their creator.
+
+By default, questionnaires are private but can be manually set to public by their creator. However, file-based questionnaires may only be public.
+
+#### Add Questionnaires
+
+To add a file-based questionnaire, place its JSON file into the questionnaires directory. Any sub-folders within this directory will be searched recursively to load questionnaires included within them.
 
 ### Security
 
