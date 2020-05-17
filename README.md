@@ -50,11 +50,11 @@ To avoid ambiguity, the following terms used throughout the application have bee
 
 The following routes may be accessed after prepending `api`.
 
-| Resource                        | GET                       | POST               |
-|---------------------------------|---------------------------|--------------------|
-| /questionnaires                 | Retrieve questionnaires.  |                    |
-| /questionnaires/:name           | Retrieve a questionnaire. |                    |
-| /questionnaires/:name/responses |                           | Record a response. |
+| Resource                        | GET                                               | POST                                       |
+|---------------------------------|---------------------------------------------------|--------------------------------------------|
+| /questionnaires                 | Retrieve all questionnaires.                      |                                            |
+| /questionnaires/:name           | Retrieve a given questionnaire.                   |                                            |
+| /questionnaires/:name/responses | Retrieve all responses for a given questionnaire. | Save a response for a given questionnaire. |
 
 ### Security
 
