@@ -92,7 +92,10 @@ async function selectQuestionnaire(name, dir = localDir) {
   }
 }
 
-async function selectQuestionnaireFiles(dir, list) {
+/**
+ * Synchronises all file-based questionnaires in a directory with their database records.
+ */
+async function syncQuestionnaires(dir) {
   try {
     const itemStats = await getStats(dir);
 
@@ -101,24 +104,18 @@ async function selectQuestionnaireFiles(dir, list) {
         const path = itemStats[name].path;
         const file = await fs.promises.readFile(path);
 
-        const questionnaire = JSON.parse(file);
+        const questionnaire = { ...JSON.parse(file), path };
         const copy = await selectDBCopy(path);
 
         // Add to the database if not already stored there
         if (copy == null) {
-          // Copy additional fields not in the file
-          questionnaire.path = path;
-          Object.assign(questionnaire, await addQuestionnaire(questionnaire));
+          await addQuestionnaire(questionnaire);
         } else if (!checkUpToDate(questionnaire, copy)) {
-          Object.assign(questionnaire, await updateQuestionnaire(copy.uniqueId, questionnaire));
-        } else {
-          Object.assign(questionnaire, copy);
+          await updateQuestionnaire(copy.uniqueId, questionnaire);
         }
-
-        list.push(questionnaire);
       } else {
         // If a directory is found, look for questionnaires inside it
-        await selectQuestionnaireFiles(`${dir}/${name}`, list);
+        await syncQuestionnaires(`${dir}/${name}`);
       }
     }
   } catch (err) {
@@ -127,15 +124,25 @@ async function selectQuestionnaireFiles(dir, list) {
 }
 
 /**
- * Retrieves all stored questionnaires, referencing their parent directory.
+ * Selects all questionnaires.
  */
 async function selectQuestionnaires() {
-  const questionnaires = [];
+  await syncQuestionnaires(localDir);
 
-  await selectQuestionnaireFiles(localDir, questionnaires);
-  // To do: select questionnaires only in database
+  try {
+    const query = `
+      SELECT id, 
+             name, 
+             scored
+      FROM   questionnaire
+    `;
+    const result = await dbClient.query(query);
 
-  return questionnaires;
+    // Return the selected questionnaires
+    return result.rows;
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 /**
