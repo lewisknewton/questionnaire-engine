@@ -3,22 +3,22 @@
   "questions": [
     {
       "id": "name",
-      "text": "What is your name?",
+      "text": "What is your friend's name?",
       "type": "text"
     },
     {
       "id": "quest",
-      "text": "What is your quest?",
+      "text": "What is your friend's quest?",
       "type": "text"
     },
     {
       "id": "col",
-      "text": "What is your favourite colour?",
+      "text": "What is your friend's favourite colour?",
       "type": "text"
     },
     {
       "id": "velo",
-      "text": "What is the air-speed velocity of an unladen swallow?",
+      "text": "What is the air-speed velocity of a quokka?",
       "type": "number"
     },
     {
@@ -26,17 +26,15 @@
       "text": "Which is the best lord?",
       "type": "single-select",
       "options": [
-        "Lord of the Rings",
-        "Lord of the Flies",
-        "Lord of the Dance",
-        "Lorde"
+        "Lorde",
+        "Lord Farquaad"
       ]
     },
     {
       "id": "langs",
-      "text": "Which computer languages have you used?",
+      "text": "Which human languages have you used?",
       "type": "multi-select",
-      "options": ["JavaScript", "Java", "C", "Python", "Ook", "LISP"]
+      "options": ["English", "Spanish", "Polish", "Japanese", "Korean", "Czech"]
     }
   ]
 }
