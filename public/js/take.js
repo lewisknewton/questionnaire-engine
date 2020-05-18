@@ -55,7 +55,7 @@ function getQuestionnaireName() {
   const params = (new URL(window.location)).searchParams;
   const name = params.get('name');
 
-  if (name && name.length > 0) return name;
+  if (name != null && name.length > 0) return name;
 
   return null;
 }

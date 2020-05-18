@@ -32,7 +32,7 @@ describe('GET Endpoints', () => {
       const res = await request.get(`/api/questionnaires/${q}`);
       const questions = res.body.questions;
 
-      if (res.body.questions && questions.length > 0) {
+      if (questions != null && questions.length > 0) {
         expect(res.statusCode).toStrictEqual(codes.ok);
         expect(res.body).toMatchObject(testQuestionnaires[q]);
       }
@@ -72,7 +72,7 @@ describe('GET Endpoints', () => {
       const res = await request.get(`/api/questionnaires/${q}`);
       const questions = res.body.questions;
 
-      if (questions == null || (questions && questions.length === 0)) {
+      if (questions == null || questions.length === 0) {
         expect(res.statusCode).toStrictEqual(codes.ok);
         expect(res.body).toMatchObject(expected);
       }
