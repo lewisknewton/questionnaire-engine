@@ -52,7 +52,7 @@ The following routes may be accessed after prepending `api`.
 
 ### Questionnaires
 
-The questionnaire engine uses a JSON structure to define and read the details of questionnaires. All questionnaires are stored in the database. However, file-based questionnaires can also be stored in the [questionnaires](questionnaires) directory as `.JSON` files.
+The questionnaire engine uses a JSON structure to define and read the details of questionnaires. All questionnaires are stored in the database for portability and simplified sharing. However, file-based questionnaires can also be stored in the [questionnaires](questionnaires) directory as `.JSON` files.
 
 In general, questionnaires can be either:
 
