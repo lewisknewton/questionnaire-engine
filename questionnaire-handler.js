@@ -29,9 +29,13 @@ async function getStats(dirPath) {
 async function selectDBCopy(path) {
   try {
     const query = `
-      SELECT unique_id AS "uniqueId", name, scored, file_path AS path
-      FROM questionnaire 
-      WHERE file_path = $1
+      SELECT id,
+             unique_id AS "uniqueId", 
+             name, 
+             scored, 
+             file_path AS path
+      FROM   questionnaire 
+      WHERE  file_path = $1
     `;
     const result = await dbClient.query(query, [path]);
 
@@ -197,11 +201,11 @@ async function addQuestionnaire(questionnaire) {
     const query = `
       INSERT INTO questionnaire (id, name, scored, file_path) 
       VALUES ($1, $2, $3, $4) 
-      RETURNING unique_id AS "uniqueId", 
-                id, 
+      RETURNING id, 
                 name, 
                 scored, 
-                file_path AS path
+                file_path AS path,
+                unique_id AS "uniqueId"
       `;
     const result = await dbClient.query(query, [id, name, scored || false, path]);
     const inserted = result.rows[0];
@@ -234,7 +238,8 @@ async function updateQuestionnaire(id, content) {
                 scored = COALESCE($3, scored), 
                 file_path = COALESCE($4, file_path) 
       WHERE     unique_id = $1
-      RETURNING name,
+      RETURNING id,
+                name,
                 scored,
                 file_path AS path,
                 unique_id AS "uniqueId"
