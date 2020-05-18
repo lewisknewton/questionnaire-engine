@@ -240,19 +240,31 @@ async function updateQuestionnaire(id, content) {
 
   try {
     const query = `
+      WITH updated AS (
+        UPDATE    questionnaire
       UPDATE    questionnaire 
-      SET       name = COALESCE($2, name), 
-                scored = COALESCE($3, scored), 
-                file_path = COALESCE($4, file_path) 
-      WHERE     unique_id = $1
-      RETURNING id,
-                name,
-                scored,
-                file_path AS path,
-                unique_id AS "uniqueId"
-      `;
+        UPDATE    questionnaire
+        SET       name = COALESCE($1, name),
+                  scored = COALESCE($2, scored), 
+                  file_path = COALESCE($3, file_path) 
+        WHERE     unique_id = $4
+        RETURNING name,
+                  scored,
+                  file_path AS path,
+                  unique_id
+      )
+      SELECT  updated.*,
+              JSON_AGG(JSON_BUILD_OBJECT('uniqueId', question.unique_id, 'id', question.id)) AS questions
+      FROM    updated
+      JOIN    question 
+        ON    question.questionnaire_id = updated.unique_id
+      GROUP BY  updated.unique_id,
+                updated.name,
+                updated.scored,
+                updated.path
+    `;
 
-    const result = await dbClient.query(query, [id, name, scored, path]);
+    const result = await dbClient.query(query, [name, scored, path, id]);
     const updated = result.rows[0];
 
     return updated;
