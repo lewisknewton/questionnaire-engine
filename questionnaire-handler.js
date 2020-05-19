@@ -6,6 +6,12 @@ const dbClient = require('./db-client');
 
 const localDir = './questionnaires';
 
+// Helper function to check if arrays are filled
+const filled = arr => arr != null && arr.length > 0;
+
+// Helper function to check if arrays are the same length
+const sameLength = (arr1, arr2) => arr1.length === arr2.length;
+
 /**
  * Retrieves information about directories and files.
  */
@@ -47,21 +53,92 @@ async function selectDBCopy(path) {
 }
 
 /**
- * Compares a questionnaire file and its copy in the database to check if they are the same.
+ * Compares options for single and multi-select questions in a questionnaire
+ * file and their database copies to check if they are the same.
+ */
+function checkOptionsUpToDate(originals, copies) {
+  let same = true;
+
+  // Helper function to sort options alphabetically
+  const alphabetise = (a, b) => (a > b) ? 1 : -1;
+
+  if ((!filled(originals) !== !filled(copies)) || !sameLength(originals, copies)) {
+    // If one set is filled, one set empty, or both have different lengths
+    same = false;
+  } else if (filled(originals) && filled(copies)) {
+    originals.sort(alphabetise);
+    copies.sort(alphabetise);
+
+    for (let i = 0; i < originals.length; i += 1) {
+      if (originals[i] !== copies[i]) same = false;
+    }
+  }
+
+  return same;
+}
+
+/**
+ * Compares questions in a questionnaire file and their database copies to
+ * check if they are the same.
+ */
+function checkQuestionsUpToDate(originals, copies) {
+  let same = true;
+
+  // Question-level properties to compare
+  const toCompare = ['id', 'text', 'type'];
+
+  // Helper function to sort questions by ID alphabetically
+  const alphabetise = (a, b) => (a.id > b.id) ? 1 : -1;
+
+  if ((!filled(originals) !== !filled(copies)) || sameLength(originals, copies)) {
+    // If one set is filled, one set empty, or both have different lengths
+    same = false;
+  } else if (filled(originals) && filled(copies)) {
+    originals.sort(alphabetise);
+    copies.sort(alphabetise);
+
+    for (let i = 0; i < originals.length; i += 1) {
+      for (const prop of toCompare) {
+        if (originals[i][prop] !== copies[i][prop]) same = false;
+      }
+
+      const originalOptions = originals[i].options;
+      const copyOptions = copies[i].options;
+
+      // Check options if there are any (single or multi-select questions)
+      if (filled(originalOptions) || filled(copyOptions)) {
+        same = same && checkOptionsUpToDate(originalOptions, copyOptions);
+      }
+    }
+  }
+
+  return same;
+}
+
+/**
+ * Compares a questionnaire file and its database copy to check if they are the same.
  */
 function checkUpToDate(original, copy) {
-  // Define properties to compare
-  const toCompare = ['name', 'scored', 'path', 'author_email', 'questions'];
+  let same = true;
 
-  try {
-    for (const prop of toCompare) {
-      if (original[prop] !== copy[prop]) return false;
+  // Top-level properties to compare
+  const toCompare = ['name', 'scored', 'path', 'author_email'];
 
-      return true;
-    }
-  } catch (err) {
-    console.error(err);
+  // Compare properties, ignoring optional booleans (e.g. scored)
+  for (const prop of toCompare) {
+    if (original[prop] == null && [null, false].includes(copy[prop])) continue;
+    if (original[prop] !== copy[prop]) same = false;
   }
+
+  const originalQuestions = original.questions;
+  const copyQuestions = copy.questions;
+
+  // Check questions if there are any
+  if (filled(originalQuestions) || filled(copyQuestions)) {
+    same = same && checkQuestionsUpToDate(originalQuestions, copyQuestions);
+  }
+
+  return same;
 }
 
 /**
