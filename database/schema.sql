@@ -3,9 +3,11 @@ DROP DATABASE IF EXISTS questionnaire_engine;
 CREATE DATABASE questionnaire_engine;
 \c questionnaire_engine;
 
-DROP TABLE IF EXISTS questionnaire;
-DROP TABLE IF EXISTS question;
 DROP TABLE IF EXISTS response;
+DROP TABLE IF EXISTS question;
+DROP TABLE IF EXISTS questionnaire;
+DROP TABLE IF EXISTS question_type;
+DROP TABLE IF EXISTS question_option;
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
@@ -29,14 +31,16 @@ CREATE TABLE IF NOT EXISTS question (
   unique_id uuid DEFAULT uuid_generate_v4(),
   id VARCHAR(30) NOT NULL,
   text TEXT,
+  type_id INT NOT NULL,
   questionnaire_id uuid NOT NULL,
   PRIMARY KEY (unique_id),
+  FOREIGN KEY (type_id) REFERENCES question_type (id),
   FOREIGN KEY (questionnaire_id) REFERENCES questionnaire (unique_id)
 );
 
 CREATE TABLE IF NOT EXISTS question_option (
   unique_id uuid DEFAULT uuid_generate_v4(),
-  id VARCHAR(8),
+  id VARCHAR(70),
   text TEXT,
   question_id uuid NOT NULL,
   PRIMARY KEY (unique_id),
