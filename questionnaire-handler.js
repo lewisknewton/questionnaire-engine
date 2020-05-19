@@ -257,7 +257,7 @@ async function addQuestion(questionnaireId, question) {
     const inserted = result.rows[0];
 
     // Insert options for single and multi-select questions
-    if (options != null && options.length > 0) {
+    if (filled(options)) {
       inserted.options = [];
 
       for (const option of options) {
@@ -294,7 +294,7 @@ async function addQuestionnaire(questionnaire) {
     const result = await dbClient.query(query, [id, name, scored || false, path]);
     const inserted = result.rows[0];
 
-    if (questions != null && questions.length > 0) {
+    if (filled(questions)) {
       inserted.questions = [];
 
       for (const question of questions) {
