@@ -25,9 +25,9 @@ The default database name is `questionnaire_engine`. If you would prefer a diffe
 ### Server
 `npm start` will launch the application using an HTTP server running on port 8080, located in [server.js](server.js).
 
-To access the application, enter the address of your running virtual machine after running `npm start`.
+To access the application, run `npm start` on your running virtual machine and enter the address shown into your browser.
 
-For testing purposes, the `example.json` file has been included in the questionnaires directory to provide an example questionnaire. A similar file, `another-example.json`, has been included within a sub-folder for the same reason.
+For testing purposes, the `example.json` file has been included in the questionnaires directory to provide an example questionnaire. Similar files, `another-example.json` and `without-questions.json` have been included within a sub-folder for the same reason.
 
 ## Design
 
@@ -52,18 +52,13 @@ The following routes may be accessed after prepending `api`.
 
 ### Questionnaires
 
-The questionnaire engine uses a JSON structure to define and read the details of questionnaires. All questionnaires are stored in the database for portability and simplified sharing. However, file-based questionnaires can also be stored in the [questionnaires](questionnaires) directory as `.JSON` files.
+The questionnaire engine uses a JSON structure to define and read the details of questionnaires. 
 
-In general, questionnaires can be either:
+All questionnaires must be stored in the [questionnaires](questionnaires) directory as `.JSON` files. Any sub-folders within this directory will be searched recursively to load questionnaires included within them.
 
-* *Public*, where they can be edited by any user; or
-* *Private*, where they can be edited only by their creator.
+#### Adding Questionnaires
 
-By default, questionnaires are private but can be manually set to public by their creator. However, file-based questionnaires may only be public.
-
-#### Add Questionnaires
-
-To add a file-based questionnaire, place its JSON file into the questionnaires directory. Any sub-folders within this directory will be searched recursively to load questionnaires included within them.
+To add a questionnaire, place its JSON file into the questionnaires directory. 
 
 ### Security
 
