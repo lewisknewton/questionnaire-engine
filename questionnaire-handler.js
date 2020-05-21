@@ -115,7 +115,7 @@ async function selectQuestionnaires(dir = localDir) {
           questionnaire = Object.assign(questionnaire, await selectQuestionnaireByPath(path));
         }
 
-        const inArray = await core.isInArray(questionnaires, 'id', questionnaire.id);
+        const inArray = await common.isInArray(questionnaires, 'path', questionnaire.path);
 
         if (!inArray) {
           questionnaires.push(questionnaire);
