@@ -22,19 +22,21 @@ function displayError(msg) {
  */
 function displayQuestionnaires(questionnaires) {
   // Add content to questionnaire summary template
-  for (const q in questionnaires) {
+  for (const q of questionnaires) {
     const summary = questionnaireSummary.content.cloneNode(true);
+
     const name = summary.querySelector('h3');
     const count = summary.querySelector('span');
     const takeBtn = summary.querySelector('a.take');
     const editBtn = summary.querySelector('a.edit');
     const deleteBtn = summary.querySelector('a.delete');
 
-    name.textContent = questionnaires[q].name ? questionnaires[q].name : `Untitled (${q})`;
-    count.textContent = `Questions: ${questionnaires[q].questions ? questionnaires[q].questions.length : 0}`;
-    takeBtn.setAttribute('href', `take?name=${q}`);
-    editBtn.setAttribute('href', `edit?name=${q}`);
-    deleteBtn.setAttribute('href', `delete?name=${q}`);
+    name.textContent = q.name ? q.name : 'Untitled';
+    count.textContent = `Questions: ${q.questions ? q.questions.length : 0}`;
+
+    takeBtn.setAttribute('href', `take?id=${q.id}`);
+    editBtn.setAttribute('href', `edit?id=${q.id}`);
+    deleteBtn.setAttribute('href', `delete?id=${q.id}`);
 
     questionnaireList.append(summary);
   }
@@ -49,10 +51,8 @@ async function loadQuestionnaires() {
 
   loading.classList.add('hidden');
 
-  if (res.ok) {
-    if (Object.keys(data).length) {
-      displayQuestionnaires(data);
-    }
+  if (res.ok && filled(data)) {
+    displayQuestionnaires(data);
   } else {
     displayError(data.error);
   }

@@ -9,6 +9,7 @@ const submit = document.querySelector('#submit');
 const errorTemplate = document.querySelector('#error-message');
 const successTemplate = document.querySelector('#success-message');
 
+let id = '';
 const answers = {};
 
 const questionTypes = {
@@ -51,13 +52,13 @@ function displaySuccess(msg) {
 }
 
 /**
- * Retrieves the name of the selected questionnaire.
+ * Retrieves the ID of the selected questionnaire.
  */
-function getQuestionnaireName() {
+function getQuestionnaireID() {
   const params = (new URL(window.location)).searchParams;
-  const name = params.get('name');
+  const id = params.get('id');
 
-  if (name != null && name.length > 0) return name;
+  if (filled(id)) return id;
 
   return null;
 }
@@ -66,13 +67,9 @@ function getQuestionnaireName() {
  * Stores all answers given in a questionnaire.
  */
 async function saveResponse() {
-  // Generate URL-friendly ID for the response
-  const id = Number(new Date()).toString(36);
-
-  const name = getQuestionnaireName();
   const payload = { id, answers };
 
-  const res = await fetch(`api/questionnaires/${name}/responses`, {
+  const res = await fetch(`api/questionnaires/${id}/responses`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -205,10 +202,10 @@ function displayQuestionnaire(questionnaire) {
 }
 
 /**
- * Retrieves the questionnaire with the given name.
+ * Retrieves the questionnaire with the given ID.
  */
-async function loadQuestionnaire(name) {
-  const res = await fetch(`api/questionnaires/${name}`);
+async function loadQuestionnaire(id) {
+  const res = await fetch(`api/questionnaires/${id}`);
   const data = await res.json();
 
   loading.classList.add('hidden');
@@ -224,8 +221,8 @@ async function loadQuestionnaire(name) {
  * Initialises the web page.
  */
 function init() {
-  const name = getQuestionnaireName();
-  loadQuestionnaire(name);
+  id = getQuestionnaireID();
+  loadQuestionnaire(id);
 
   submit.addEventListener('click', saveResponse);
 }
