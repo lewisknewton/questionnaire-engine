@@ -2,6 +2,8 @@
 
 const fs = require('fs');
 const path = require('path');
+
+const core = require('./common.js');
 const dbClient = require('./db-client');
 
 const localDir = './questionnaires';

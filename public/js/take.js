@@ -1,5 +1,7 @@
 'use strict';
 
+import { filled } from './modules/browser-common.js';
+
 const main = document.querySelector('main');
 const loading = document.querySelector('#loading');
 const questionsSection = document.querySelector('#questions');

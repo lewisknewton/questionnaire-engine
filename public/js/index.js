@@ -1,5 +1,7 @@
 'use strict';
 
+import { filled } from './modules/browser-common.js';
+
 const loading = document.querySelector('#loading');
 const questionnaireList = document.querySelector('#questionnaire-list');
 const questionnaireSummary = document.querySelector('#questionnaire-summary');
