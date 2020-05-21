@@ -3,7 +3,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const core = require('./common.js');
+const common = require('./common');
+const queries = require('./database/queries');
 const dbClient = require('./db-client');
 
 const questionnaires = [];
@@ -41,19 +42,7 @@ async function addQuestionnaire(questionnaire) {
   const { path } = questionnaire;
 
   try {
-    const query = `
-      INSERT INTO questionnaire (
-                  id,
-                  file_path
-      )
-      VALUES (
-                  $1,
-                  $2
-      )
-      RETURNING   id,
-                  file_path AS path
-    `;
-    const result = await dbClient.query(query, [id, path]);
+    const result = await dbClient.query(queries.addQuestionnaire, [id, path]);
 
     return result.rows[0];
   } catch (err) {
@@ -67,13 +56,7 @@ async function addQuestionnaire(questionnaire) {
  */
 async function selectQuestionnaireByID(id) {
   try {
-    const query = `
-      SELECT  id,
-              file_path AS path
-      FROM    questionnaire
-      WHERE   id = $1
-    `;
-    const result = await dbClient.query(query, [id]);
+    const result = await dbClient.query(queries.selectQuestionnaireByID, [id]);
 
     return result.rows[0];
   } catch (err) {
@@ -87,13 +70,7 @@ async function selectQuestionnaireByID(id) {
  */
 async function selectQuestionnaireByPath(path) {
   try {
-    const query = `
-      SELECT  id,
-              file_path AS path
-      FROM    questionnaire
-      WHERE   file_path = $1
-    `;
-    const result = await dbClient.query(query, [path]);
+    const result = await dbClient.query(queries.selectQuestionnaireByPath, [path]);
 
     return result.rows[0];
   } catch (err) {
