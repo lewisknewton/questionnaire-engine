@@ -28,19 +28,19 @@ async function getQuestionnaires(req, res) {
  * Retrieves a single questionnaire using its unique name passed via the request.
  */
 async function getQuestionnaire(req, res) {
-  const name = req.params.name;
+  const id = req.params.id;
 
-  if (name == null || name === 'null') {
+  if (id == null || id === 'null') {
     res.status(codes.badRequest)
       .json({ error: 'Sorry, no questionnaire was selected. Please try again.' });
     return;
   }
 
-  const result = await qh.selectQuestionnaire(name);
+  const result = await qh.selectQuestionnaire(id);
 
   if (!result) {
     res.status(codes.notFound)
-      .json({ error: `Sorry, no questionnaire named '${name}' could be found.` });
+      .json({ error: `Sorry, no questionnaire of ID '${id}' could be found.` });
     return;
   }
 
@@ -87,8 +87,8 @@ app.use('/', express.static(path.join(__dirname, 'public'), { extensions: ['html
 
 // Define API routes
 router.get('/questionnaires', getQuestionnaires);
-router.get('/questionnaires/:name', getQuestionnaire);
-router.post('/questionnaires/:name/responses', express.json(), postResponse);
+router.get('/questionnaires/:id', getQuestionnaire);
+router.post('/questionnaires/:id/responses', express.json(), postResponse);
 
 app.use('/api', router);
 

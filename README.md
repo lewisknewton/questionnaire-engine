@@ -47,8 +47,8 @@ The following routes may be accessed after prepending `api`.
 | Resource                        | GET                                               | POST                                       |
 |---------------------------------|---------------------------------------------------|--------------------------------------------|
 | /questionnaires                 | Retrieve all questionnaires.                      |                                            |
-| /questionnaires/:name           | Retrieve a given questionnaire.                   |                                            |
-| /questionnaires/:name/responses | Retrieve all responses for a given questionnaire. | Save a response for a given questionnaire. |
+| /questionnaires/:id             | Retrieve a given questionnaire.                   |                                            |
+| /questionnaires/:id/responses   | Retrieve all responses for a given questionnaire. | Save a response for a given questionnaire. |
 
 ### Questionnaires
 
