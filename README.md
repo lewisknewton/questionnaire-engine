@@ -53,7 +53,7 @@ All questionnaires must be stored in the [questionnaires](questionnaires) direct
 
 #### Adding Questionnaires
 
-To add a questionnaire, place its JSON file into the questionnaires directory. 
+To add a questionnaire, place its JSON file into the [questionnaires](questionnaires) directory. 
 
 ### Security
 
