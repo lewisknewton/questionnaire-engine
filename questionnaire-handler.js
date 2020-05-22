@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const common = require('./common');
+const { isInArray } = require('./common');
 const queries = require('./database/queries');
 const dbClient = require('./db-client');
 
@@ -115,7 +115,7 @@ async function selectQuestionnaires(dir = localDir) {
           questionnaire = Object.assign(questionnaire, await selectQuestionnaireByPath(path));
         }
 
-        const inArray = await common.isInArray(questionnaires, 'path', questionnaire.path);
+        const inArray = await isInArray(questionnaires, 'path', questionnaire.path);
 
         if (!inArray) {
           questionnaires.push(questionnaire);

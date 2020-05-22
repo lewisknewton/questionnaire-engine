@@ -1,6 +1,6 @@
 'use strict';
 
-import { filled } from './modules/browser-common.js';
+import { isFilled } from './modules/browser-common.js';
 
 const loading = document.querySelector('#loading');
 const questionnaireList = document.querySelector('#questionnaire-list');
@@ -51,7 +51,7 @@ async function loadQuestionnaires() {
 
   loading.classList.add('hidden');
 
-  if (res.ok && filled(data)) {
+  if (res.ok && isFilled(data)) {
     displayQuestionnaires(data);
   } else {
     displayError(data.error);

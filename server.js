@@ -1,5 +1,6 @@
 'use strict';
 
+const { isFilled } = require('./common');
 const qh = require('./questionnaire-handler');
 const { codes } = require('./status');
 const express = require('express');
@@ -30,7 +31,7 @@ async function getQuestionnaires(req, res) {
 async function getQuestionnaire(req, res) {
   const id = req.params.id;
 
-  if (id == null || id === 'null') {
+  if (!isFilled(id)) {
     res.status(codes.badRequest)
       .json({ error: 'Sorry, no questionnaire was selected. Please try again.' });
     return;
@@ -44,7 +45,7 @@ async function getQuestionnaire(req, res) {
     return;
   }
 
-  if (result.questions == null || result.questions.length === 0) {
+  if (!isFilled(result.questions)) {
     res.json({ error: 'Sorry, this questionnaire does not have any questions yet.' });
     return;
   }
@@ -57,10 +58,11 @@ async function getQuestionnaire(req, res) {
  */
 async function postResponse(req, res) {
   const body = req.body;
-  const name = req.params.name;
+  const qID = req.params.id;
   const answers = body.answers;
 
-  if (name == null || name === 'null') {
+
+  if (!isFilled(qID)) {
     res.status(codes.badRequest)
       .json({ error: 'Sorry, no questionnaire was associated with this response. Please try again.' });
     return;
@@ -70,10 +72,10 @@ async function postResponse(req, res) {
     return;
   }
 
-  const result = await qh.addResponse(name, body);
+  const result = await qh.addResponse(qID, body);
   const data = result.data;
 
-  if (data == null || data.length === 0) {
+  if (!isFilled(data)) {
     res.status(codes.internalServerErr)
       .json({ error: 'Sorry, your response could not be saved at this time. Please try again.' });
   } else {

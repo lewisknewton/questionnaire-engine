@@ -1,6 +1,6 @@
 'use strict';
 
-import { filled } from './modules/browser-common.js';
+import { isFilled } from './modules/browser-common.js';
 
 const main = document.querySelector('main');
 const loading = document.querySelector('#loading');
@@ -58,7 +58,7 @@ function getQuestionnaireID() {
   const params = (new URL(window.location)).searchParams;
   const id = params.get('id');
 
-  if (filled(id)) return id;
+  if (isFilled(id)) return id;
 
   return null;
 }

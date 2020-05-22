@@ -3,7 +3,7 @@
 /**
  * Checks to see if an array exists and has at least one item.
  */
-function filled(arr) {
+function isFilled(arr) {
   return arr != null && arr.length > 0;
 }
 
@@ -15,6 +15,6 @@ function isInArray(arr, prop, value) {
 }
 
 module.exports = {
-  filled,
+  isFilled,
   isInArray,
 };
