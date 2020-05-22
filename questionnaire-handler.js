@@ -136,7 +136,15 @@ async function selectQuestionnaires(dir = localDir) {
  * Stores a response for a given questionnaire in the database.
  */
 async function addResponse(response) {
-  console.log(response);
+  const id = generateID();
+
+  try {
+    const result = await dbClient.query(queries.addResponse, [id]);
+
+    return result.rows[0];
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 module.exports = {

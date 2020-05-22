@@ -67,7 +67,7 @@ function getQuestionnaireID() {
  * Stores all answers given in a questionnaire.
  */
 async function saveResponse() {
-  const payload = { id, answers };
+  const payload = { questionnaireId: id, answers };
 
   const res = await fetch(`api/questionnaires/${id}/responses`, {
     method: 'POST',

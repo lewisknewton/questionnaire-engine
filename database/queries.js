@@ -13,12 +13,25 @@ const queries = {
     RETURNING   id,
                 file_path AS path
   `,
+
+  addResponse: `
+    INSERT INTO response (
+                id
+    )
+    VALUES (
+                $1
+    )
+    RETURNING   id,
+                time_submitted AS submitted
+  `,
+
   selectQuestionnaireByID: `
     SELECT  id,
             file_path AS path
     FROM    questionnaire
     WHERE   id = $1
   `,
+
   selectQuestionnaireByPath: `
     SELECT  id,
             file_path AS path

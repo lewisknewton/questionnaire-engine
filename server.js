@@ -61,26 +61,24 @@ async function postResponse(req, res) {
   const qID = req.params.id;
   const answers = body.answers;
 
-
   if (!isFilled(qID)) {
     res.status(codes.badRequest)
       .json({ error: 'Sorry, no questionnaire was associated with this response. Please try again.' });
     return;
-  } else if (!isFilled(answers)) {
+  } else if (!isFilled(answers, true)) {
     res.status(codes.badRequest)
       .json({ error: 'Sorry, no answers have been provided. Please try again.' });
     return;
   }
 
-  const result = await qh.addResponse(qID, body);
-  const data = result.data;
+  const result = await qh.addResponse(body);
 
-  if (!isFilled(data)) {
+  if (!isFilled(result, true)) {
     res.status(codes.internalServerErr)
       .json({ error: 'Sorry, your response could not be saved at this time. Please try again.' });
   } else {
     res.status(codes.created)
-      .json({ success: 'Thank you, your response has been saved.', data });
+      .json({ success: 'Thank you, your response has been saved.', result });
   }
 }
 
