@@ -19,7 +19,9 @@ async function getQuestionnaire(req, res) {
 
   if (!isFilled(result, true)) {
     return res.status(codes.notFound).json({ error: errors.questionnaireNotFound(id) });
-  } else if (!isFilled(result.questions)) {
+  }
+
+  if (!isFilled(result.questions)) {
     return res.status(codes.noContent).json({ error: errors.questionnaireNoQuestions });
   }
 
@@ -58,11 +60,11 @@ async function postResponse(req, res) {
   const result = await qh.addResponse(body);
 
   if (!isFilled(result, true)) {
-    res.status(codes.internalServerErr).json({ error: errors.responseNotSaved });
-  } else {
-    res.status(codes.created)
-      .json({ success: 'Thank you, your response has been saved.', result });
+    return res.status(codes.internalServerErr).json({ error: errors.responseNotSaved });
   }
+
+  return res.status(codes.created)
+    .json({ success: 'Thank you, your response has been saved.', result });
 }
 
 module.exports = {
