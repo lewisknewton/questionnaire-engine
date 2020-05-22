@@ -46,7 +46,7 @@ async function addQuestionnaire(questionnaire) {
 
     return result.rows[0];
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 }
 
