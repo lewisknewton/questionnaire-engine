@@ -1,5 +1,6 @@
 /* global afterAll, beforeEach, describe, it, expect */
 
+const { isFilled } = require('../common'); 
 const supertest = require('supertest');
 const { codes } = require('../status');
 const dbClient = require('../db-client');
@@ -32,7 +33,7 @@ describe('GET Endpoints', () => {
       const res = await request.get(`/api/questionnaires/${q}`);
       const questions = res.body.questions;
 
-      if (questions != null && questions.length > 0) {
+      if (isFilled(questions)) {
         expect(res.statusCode).toStrictEqual(codes.ok);
         expect(res.body).toMatchObject(testQuestionnaires[q]);
       }
@@ -72,7 +73,7 @@ describe('GET Endpoints', () => {
       const res = await request.get(`/api/questionnaires/${q}`);
       const questions = res.body.questions;
 
-      if (questions == null || questions.length === 0) {
+      if (!isFilled(questions)) {
         expect(res.statusCode).toStrictEqual(codes.ok);
         expect(res.body).toMatchObject(expected);
       }
