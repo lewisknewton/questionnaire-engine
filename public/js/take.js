@@ -54,7 +54,7 @@ function displaySuccess(msg) {
 /**
  * Retrieves the ID of the selected questionnaire.
  */
-function getQuestionnaireID() {
+function getQuestionnaireId() {
   const params = (new URL(window.location)).searchParams;
   const id = params.get('id');
 
@@ -221,7 +221,7 @@ async function loadQuestionnaire(id) {
  * Initialises the web page.
  */
 function init() {
-  id = getQuestionnaireID();
+  id = getQuestionnaireId();
   loadQuestionnaire(id);
 
   submit.addEventListener('click', saveResponse);

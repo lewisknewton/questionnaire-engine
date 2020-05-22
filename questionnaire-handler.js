@@ -13,7 +13,7 @@ const localDir = './questionnaires';
 /**
  * Generates a URL-friendly ID for a resource (i.e. questionnaire or response).
  */
-function generateID() {
+function generateId() {
   return Number(new Date()).toString(36);
 }
 
@@ -38,7 +38,7 @@ async function getStats(dirPath) {
  * Stores a given questionnaire in the database.
  */
 async function addQuestionnaire(questionnaire) {
-  const id = generateID();
+  const id = generateId();
   const { path } = questionnaire;
 
   try {
@@ -54,9 +54,9 @@ async function addQuestionnaire(questionnaire) {
  * Retrieves the database records associated with a questionnaire
  * by its URL-friendly ID.
  */
-async function selectQuestionnaireByID(id) {
+async function selectQuestionnaireById(id) {
   try {
-    const result = await dbClient.query(queries.selectQuestionnaireByID, [id]);
+    const result = await dbClient.query(queries.selectQuestionnaireById, [id]);
 
     return result.rows[0];
   } catch (err) {
@@ -82,7 +82,7 @@ async function selectQuestionnaireByPath(path) {
  * Retrieves a single questionnaire using its URL-friendly ID.
  */
 async function selectQuestionnaire(id) {
-  const questionnaire = await selectQuestionnaireByID(id);
+  const questionnaire = await selectQuestionnaireById(id);
 
   if (!isFilled(questionnaire, true)) return;
 
@@ -140,10 +140,11 @@ async function selectQuestionnaires(dir = localDir) {
  * Stores a response for a given questionnaire in the database.
  */
 async function addResponse(response) {
-  const id = generateID();
+  const id = generateId();
+  const { uniqueId } = await selectQuestionnaireById(response.questionnaireId);
 
   try {
-    const result = await dbClient.query(queries.addResponse, [id]);
+    const result = await dbClient.query(queries.addResponse, [id, uniqueId]);
 
     return result.rows[0];
   } catch (err) {

@@ -48,11 +48,11 @@ async function getQuestionnaire(req, res) {
  * Stores the user's response for a given questionnaire.
  */
 async function postResponse(req, res) {
-  const qID = req.params.id;
+  const questionnaireId = req.params.id;
   const body = req.body;
   const answers = body.answers;
 
-  if (!isFilled(qID)) {
+  if (!isFilled(questionnaireId)) {
     return res.status(codes.badRequest).json({ error: errors.questionnaireNotSelected });
   }
 

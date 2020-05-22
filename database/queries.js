@@ -25,8 +25,9 @@ const queries = {
                 time_submitted AS submitted
   `,
 
-  selectQuestionnaireByID: `
+  selectQuestionnaireById: `
     SELECT  id,
+            unique_id AS "uniqueId",
             file_path AS path
     FROM    questionnaire
     WHERE   id = $1
