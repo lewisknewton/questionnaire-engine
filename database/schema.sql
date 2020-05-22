@@ -3,8 +3,8 @@ DROP DATABASE IF EXISTS questionnaire_engine;
 CREATE DATABASE questionnaire_engine;
 \c questionnaire_engine;
 
-DROP TABLE IF EXISTS response;
 DROP TABLE IF EXISTS answer;
+DROP TABLE IF EXISTS response;
 DROP TABLE IF EXISTS question;
 DROP TABLE IF EXISTS questionnaire;
 
