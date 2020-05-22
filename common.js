@@ -5,7 +5,7 @@
  * least one item (or character). Allows counting the number of keys or values.
  */
 function isFilled(obj, countKeys = false) {
-  return (obj != null && !countKeys ? obj.length > 0 : Object.keys(obj).length > 0);
+  return (obj != null && obj !== 'null' && (!countKeys ? obj.length > 0 : Object.keys(obj).length > 0));
 }
 
 /**
