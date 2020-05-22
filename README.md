@@ -22,7 +22,7 @@ The default database name is `questionnaire_engine`. If you would prefer a diffe
 
 To access the application, run `npm start` on your running virtual machine and enter the address shown into your browser.
 
-For testing purposes, the `example.json` file has been included in the questionnaires directory to provide an example questionnaire. Similar files, `another-example.json` and `without-questions.json` have been included within a sub-folder for the same reason.
+For testing purposes, the `example.json` file has been included in the questionnaires directory to provide an example questionnaire. Similar files—`another-example.json` and `without-questions.json`—have been included within a sub-folder for the same reason.
 
 ## Design
 
