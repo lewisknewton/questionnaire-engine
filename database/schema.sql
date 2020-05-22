@@ -31,7 +31,9 @@ CREATE TABLE IF NOT EXISTS response (
   unique_id uuid DEFAULT uuid_generate_v4(),
   id VARCHAR(8),
   time_submitted TIMESTAMP DEFAULT NOW(),
-  PRIMARY KEY (unique_id)
+  questionnaire_id uuid NOT NULL,
+  PRIMARY KEY (unique_id),
+  FOREIGN KEY (questionnaire_id) REFERENCES questionnaire (unique_id)
 );
 
 CREATE TABLE IF NOT EXISTS answer (

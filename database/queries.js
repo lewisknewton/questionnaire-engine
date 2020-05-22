@@ -16,12 +16,15 @@ const queries = {
 
   addResponse: `
     INSERT INTO response (
-                id
+                id,
+                questionnaire_id
     )
     VALUES (
-                $1
+                $1,
+                $2
     )
     RETURNING   id,
+                questionnaire_id AS questionnaireId,
                 time_submitted AS submitted
   `,
 
