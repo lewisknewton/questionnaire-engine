@@ -1,10 +1,11 @@
 'use strict';
 
 /**
- * Checks to see if an array exists and has at least one item.
+ * Checks to see if an object (including arrays and strings) exists and has at
+ * least one item (or character). Allows counting the number of keys or values.
  */
-function isFilled(arr) {
-  return arr != null && arr.length > 0;
+function isFilled(obj, countKeys = false) {
+  return (obj != null && !countKeys ? obj.length > 0 : Object.keys(obj).length > 0);
 }
 
 /**

@@ -66,7 +66,7 @@ async function postResponse(req, res) {
     res.status(codes.badRequest)
       .json({ error: 'Sorry, no questionnaire was associated with this response. Please try again.' });
     return;
-  } else if (answers == null || Object.keys(answers).length === 0) {
+  } else if (!isFilled(answers)) {
     res.status(codes.badRequest)
       .json({ error: 'Sorry, no answers have been provided. Please try again.' });
     return;
