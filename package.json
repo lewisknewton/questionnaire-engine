@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "Coursework project for the Web Programming module.",
   "main": "index.html",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/lewisknewton/webp-work.git"
-  },
+  "keywords": [
+    "questionnaires",
+    "web-programming"
+  ],
   "dependencies": {
     "express": "^4.17.1",
     "fs": "0.0.1-security",
