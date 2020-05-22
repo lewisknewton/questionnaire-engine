@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const { isInArray } = require('./common');
+const { isFilled, isInArray } = require('./common');
 const queries = require('./database/queries');
 const dbClient = require('./db-client');
 
@@ -82,7 +82,11 @@ async function selectQuestionnaireByPath(path) {
  * Retrieves a single questionnaire using its URL-friendly ID.
  */
 async function selectQuestionnaire(id) {
-  const { path } = await selectQuestionnaireByID(id);
+  const questionnaire = await selectQuestionnaireByID(id);
+
+  if (!isFilled(questionnaire, true)) return;
+
+  const { path } = questionnaire;
 
   try {
     const file = await fs.promises.readFile(path);
