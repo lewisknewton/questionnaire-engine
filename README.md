@@ -39,14 +39,14 @@ To avoid ambiguity, the following terms used throughout the application have bee
 
 The application uses two types of routes:
 
-* `api` routes, designed for direct calls
-* `web` routes, designed to serve client files for normal browser use
+* *API* routes, designed for direct calls
+* *Web* routes, designed to serve client files for normal browser use
 
 Their endpoints are defined in [server.js](server.js) The functions called at these endpoints are defined in [api-routes.js](routes/api-routes.js) and [web-routes.js](routes/web-routes.js), respectively.
 
 #### API
 
-The following routes may be accessed after prepending `api`.
+The following routes may be accessed after prepending `api` e.g. `xx.xxx.xxx.xx/api/questionnaires`.
 
 | Resource                        | GET                                               | POST                                       |
 |---------------------------------|---------------------------------------------------|--------------------------------------------|
@@ -66,7 +66,7 @@ To add a questionnaire, place its JSON file into the [questionnaires](questionna
 
 ### Security
 
-To avoid exposing their primary keys, 'URL-friendly' IDs are assigned to questionnaires and responses for the purpose of sharing and review.
+To avoid exposing their primary keys, 'URL-friendly' IDs are assigned to questionnaires and responses for sharing and review.
 
 ## Linting
 
