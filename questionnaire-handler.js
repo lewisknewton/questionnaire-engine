@@ -79,25 +79,6 @@ async function selectQuestionnaireByPath(path) {
 }
 
 /**
- * Retrieves a single questionnaire using its URL-friendly ID.
- */
-async function selectQuestionnaire(id) {
-  const questionnaire = await selectQuestionnaireById(id);
-
-  if (!isFilled(questionnaire, true)) return;
-
-  const { path } = questionnaire;
-
-  try {
-    const file = await fs.promises.readFile(path);
-
-    return JSON.parse(file);
-  } catch (err) {
-    console.error(err);
-  }
-}
-
-/**
  * Retrieves all questionnaires in the local directory.
  */
 async function selectQuestionnaires(dir = localDir) {
@@ -137,7 +118,26 @@ async function selectQuestionnaires(dir = localDir) {
 }
 
 /**
- * Stores a response for a given questionnaire in the database.
+ * Retrieves a single questionnaire using its URL-friendly ID.
+ */
+async function selectQuestionnaire(id) {
+  const questionnaire = await selectQuestionnaireById(id);
+
+  if (!isFilled(questionnaire, true)) return;
+
+  const { path } = questionnaire;
+
+  try {
+    const file = await fs.promises.readFile(path);
+
+    return JSON.parse(file);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+/**
+ * Stores a response for a given questionnaire.
  */
 async function addResponse(response) {
   const id = generateId();
@@ -153,7 +153,7 @@ async function addResponse(response) {
 }
 
 module.exports = {
-  selectQuestionnaire,
   selectQuestionnaires,
+  selectQuestionnaire,
   addResponse,
 };

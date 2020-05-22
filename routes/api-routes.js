@@ -6,6 +6,19 @@ const { isFilled } = require('../common');
 const { codes, errors } = require('../status');
 
 /**
+ * Retrieves all stored questionnaires.
+ */
+async function getQuestionnaires(req, res) {
+  const result = await qh.selectQuestionnaires();
+
+  if (!isFilled(result, true)) {
+    return res.status(codes.notFound).json({ error: errors.questionnairesNotFound });
+  }
+
+  res.json(result);
+}
+
+/**
  * Retrieves a single questionnaire using its URL-friendly ID, passed via the request.
  */
 async function getQuestionnaire(req, res) {
@@ -23,19 +36,6 @@ async function getQuestionnaire(req, res) {
 
   if (!isFilled(result.questions)) {
     return res.status(codes.noContent).json({ error: errors.questionnaireNoQuestions });
-  }
-
-  res.json(result);
-}
-
-/**
- * Retrieves all stored questionnaires.
- */
-async function getQuestionnaires(req, res) {
-  const result = await qh.selectQuestionnaires();
-
-  if (!isFilled(result, true)) {
-    return res.status(codes.notFound).json({ error: errors.questionnairesNotFound });
   }
 
   res.json(result);
