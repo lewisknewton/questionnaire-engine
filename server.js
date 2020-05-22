@@ -16,7 +16,7 @@ const port = 8080;
 async function getQuestionnaires(req, res) {
   const result = await qh.selectQuestionnaires();
 
-  if (!result) {
+  if (!isFilled(result, true)) {
     res.status(codes.notFound)
       .json({ error: 'Sorry, no questionnaires were found.' });
     return;
@@ -39,13 +39,11 @@ async function getQuestionnaire(req, res) {
 
   const result = await qh.selectQuestionnaire(id);
 
-  if (!result) {
+  if (!isFilled(result, true)) {
     res.status(codes.notFound)
       .json({ error: `Sorry, no questionnaire of ID '${id}' could be found.` });
     return;
-  }
-
-  if (!isFilled(result.questions)) {
+  } else if (!isFilled(result.questions)) {
     res.json({ error: 'Sorry, this questionnaire does not have any questions yet.' });
     return;
   }
