@@ -32,5 +32,6 @@
   },
   "jest": {
     "testEnvironment": "node"
-  }
+  },
+  "//": "author and repository details removed for anonymity, as requested"
 }
