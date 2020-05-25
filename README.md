@@ -54,6 +54,14 @@ The following routes may be accessed after prepending `api` e.g. `xx.xxx.xxx.xx/
 | /questionnaires/:id             | Retrieve a given questionnaire.                   |                                            |
 | /questionnaires/:id/responses   | Retrieve all responses for a given questionnaire. | Save a response for a given questionnaire. |
 
+#### Web
+
+| Path        | Page                              | Purpose                                                                      |
+|-------------|-----------------------------------|------------------------------------------------------------------------------|
+| /           | [index.html](public/index.html)   | Display all questionnaires.                                                  |
+| /take/:id   | [take.html](public/js/take.js)    | Display, and records responses for, a given questionnaire.                   |
+| /review/:id | [review.html](public/review.html) | Display details and responses for a given questionnaire to support analysis. |
+
 ### Questionnaires
 
 The questionnaire engine uses a JSON structure to define and read the details of questionnaires. 
