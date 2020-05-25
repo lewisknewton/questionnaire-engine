@@ -51,6 +51,21 @@ async function addQuestionnaire(questionnaire) {
 }
 
 /**
+ * Reads a questionnaire file using a given path and parses it as JSON.
+ */
+async function readQuestionnaireFile(path) {
+  if (!isFilled(path)) return;
+
+  try {
+    const file = await fs.promises.readFile(path);
+
+    return JSON.parse(file);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+/**
  * Retrieves the database records associated with a questionnaire
  * by its URL-friendly ID.
  */
@@ -89,10 +104,10 @@ async function selectQuestionnaires(dir = localDir) {
     for (const name in itemStats) {
       if (itemStats[name].isFile) {
         const path = itemStats[name].path;
-        const file = await fs.promises.readFile(path);
+        const file = await readQuestionnaireFile(path);
         const copyInDB = await selectQuestionnaireByPath(path);
 
-        let questionnaire = { ...JSON.parse(file), path };
+        let questionnaire = { ...file, path };
 
         if (copyInDB == null) {
           questionnaire = Object.assign(questionnaire, await addQuestionnaire(questionnaire));
@@ -121,19 +136,14 @@ async function selectQuestionnaires(dir = localDir) {
  * Retrieves a single questionnaire using its URL-friendly ID.
  */
 async function selectQuestionnaire(id) {
+  // Fetch records in the database
   const questionnaire = await selectQuestionnaireById(id);
 
   if (!isFilled(questionnaire, true)) return;
 
   const { path } = questionnaire;
 
-  try {
-    const file = await fs.promises.readFile(path);
-
-    return JSON.parse(file);
-  } catch (err) {
-    console.error(err);
-  }
+  return readQuestionnaireFile(path);
 }
 
 /**
