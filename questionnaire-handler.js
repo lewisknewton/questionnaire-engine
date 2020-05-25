@@ -163,19 +163,24 @@ async function addResponse(response) {
 }
 
 /**
- * Retrieves all responses for a given questionnaire.
+ * Retrieves all responses for a given questionnaire, along with the 
+ * questionnaire itself.
  */
 async function selectResponses(questionnaireId) {
   const questionnaire = await selectQuestionnaireById(questionnaireId);
 
   if (!isFilled(questionnaire, true)) return;
 
-  const { uniqueId } = questionnaire;
+  const { id, uniqueId, path } = questionnaire;
 
   try {
     const result = await dbClient.query(queries.selectResponses, [uniqueId]);
+    const responses = isFilled(result.rows) ? result.rows : [];
 
-    return isFilled(result.rows) ? result.rows : [];
+    // Bundle the questionnaire and its responses together
+    const bundled = { id, ...await readQuestionnaireFile(path), responses };
+
+    return bundled;
   } catch (err) {
     console.error(err);
   }
