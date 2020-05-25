@@ -50,6 +50,7 @@ main {
 
 article {
   padding: var(--space-s) var(--space-s) var(--space-s);
+  border: var(--border);
   border-radius: var(--space-xs);
   margin-bottom: var(--space-l);
   background: var(--card);
