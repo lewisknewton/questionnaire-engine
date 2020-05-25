@@ -45,7 +45,7 @@ p {
 
 main {
   width: var(--main-w);
-  margin: 0 auto var(--space-l);
+  margin: var(--space-l) auto;
 }
 
 article {
