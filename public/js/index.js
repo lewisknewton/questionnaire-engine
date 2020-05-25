@@ -34,9 +34,9 @@ function displayQuestionnaires(questionnaires) {
     name.textContent = q.name ? q.name : 'Untitled';
     count.textContent = `Questions: ${q.questions ? q.questions.length : 0}`;
 
-    takeBtn.setAttribute('href', `take?id=${q.id}`);
-    editBtn.setAttribute('href', `edit?id=${q.id}`);
-    deleteBtn.setAttribute('href', `delete?id=${q.id}`);
+    takeBtn.setAttribute('href', `take/${q.id}`);
+    editBtn.setAttribute('href', `edit/${q.id}`);
+    deleteBtn.setAttribute('href', `?delete=${q.id}`);
 
     questionnaireList.append(summary);
   }
@@ -46,7 +46,7 @@ function displayQuestionnaires(questionnaires) {
  * Retrieves all stored questionnaires.
  */
 async function loadQuestionnaires() {
-  const res = await fetch('api/questionnaires');
+  const res = await fetch('/api/questionnaires');
   const data = await res.json();
 
   loading.classList.add('hidden');

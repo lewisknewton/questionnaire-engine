@@ -55,8 +55,8 @@ function displaySuccess(msg) {
  * Retrieves the ID of the selected questionnaire.
  */
 function getQuestionnaireId() {
-  const params = (new URL(window.location)).searchParams;
-  const id = params.get('id');
+  const urlParts = window.location.pathname.split('/');
+  const id = urlParts[urlParts.indexOf('take') + 1];
 
   if (isFilled(id)) return id;
 
@@ -69,7 +69,7 @@ function getQuestionnaireId() {
 async function saveResponse() {
   const payload = { questionnaireId: id, answers };
 
-  const res = await fetch(`api/questionnaires/${id}/responses`, {
+  const res = await fetch(`/api/questionnaires/${id}/responses`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -205,7 +205,7 @@ function displayQuestionnaire(questionnaire) {
  * Retrieves the questionnaire with the given ID.
  */
 async function loadQuestionnaire(id) {
-  const res = await fetch(`api/questionnaires/${id}`);
+  const res = await fetch(`/api/questionnaires/${id}`);
   const data = await res.json();
 
   loading.classList.add('hidden');

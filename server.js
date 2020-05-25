@@ -21,6 +21,7 @@ apiRouter.post('/questionnaires/:id/responses', express.json(), api.postResponse
 
 // Define default routes (serving client files)
 webRouter.get('/test', web.doTest);
+webRouter.get('/take/:id', web.takeQuestionnaire);
 
 app.use('/', webRouter);
 app.use('/api', apiRouter);
