@@ -1,6 +1,6 @@
 'use strict';
 
-import { isFilled } from './modules/browser-common.js';
+import { isFilled, setPageTitle } from './modules/browser-common.js';
 
 const main = document.querySelector('main');
 const loading = document.querySelector('#loading');
@@ -187,6 +187,7 @@ function copyTemplates(question) {
  * Displays a given questionnaire's details and questions.
  */
 function displayQuestionnaire(questionnaire) {
+  setPageTitle(questionnaire.name);
   const questions = questionnaire.questions;
 
   main.querySelector('h1').textContent = questionnaire.name;
