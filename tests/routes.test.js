@@ -1,6 +1,6 @@
 /* global afterAll, beforeEach, describe, it, expect */
 
-const { isFilled } = require('../common'); 
+const { isFilled } = require('../common');
 const supertest = require('supertest');
 const { codes } = require('../status');
 const dbClient = require('../db-client');
