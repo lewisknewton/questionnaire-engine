@@ -1,7 +1,8 @@
 'use strict';
 
-import { isFilled, setPageTitle } from './modules/browser-common.js';
+import { setPageTitle } from './modules/browser-common.js';
 import { displayError, displaySuccess } from './modules/browser-status.js';
+import { getQuestionnaireId } from './modules/browser-questionnaire-handler.js';
 
 const main = document.querySelector('main');
 const loading = document.querySelector('#loading');
@@ -29,18 +30,6 @@ const questionTypes = {
     events: ['click'],
   },
 };
-
-/**
- * Retrieves the ID of the selected questionnaire.
- */
-function getQuestionnaireId() {
-  const urlParts = window.location.pathname.split('/');
-  const id = urlParts[urlParts.indexOf('take') + 1];
-
-  if (isFilled(id)) return id;
-
-  return null;
-}
 
 /**
  * Stores all answers given in a questionnaire.
@@ -203,7 +192,8 @@ async function loadQuestionnaire(id) {
  * Initialises the web page.
  */
 function init() {
-  id = getQuestionnaireId();
+  // Load the questionnaire, getting its ID after `take/`
+  id = getQuestionnaireId('take');
   loadQuestionnaire(id);
 
   submit.addEventListener('click', saveResponse);
