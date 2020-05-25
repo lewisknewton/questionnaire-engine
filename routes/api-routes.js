@@ -35,7 +35,7 @@ async function getQuestionnaire(req, res) {
   }
 
   if (!isFilled(result.questions)) {
-    return res.status(codes.noContent).json({ error: errors.questionnaireNoQuestions });
+    return res.status(codes.notFound).json({ error: errors.questionnaireNoQuestions });
   }
 
   res.json(result);
@@ -61,7 +61,7 @@ async function getResponses(req, res) {
 
   if (result === []) {
     // The questionnaire exists, but no responses have been given yet
-    return res.status(codes.noContent).json({ error: errors.responsesNotFound(questionnaireId) });
+    return res.status(codes.notFound).json({ error: errors.responsesNotFound(questionnaireId) });
   }
 
   res.json(result);
