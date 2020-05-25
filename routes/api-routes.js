@@ -54,12 +54,12 @@ async function getResponses(req, res) {
 
   const result = await qh.selectResponses(questionnaireId);
 
-  if (result == null) {
+  if (!isFilled(result, true)) {
     // The questionnaire does not exist
     return res.status(codes.notFound).json({ error: errors.questionnaireNotFound(questionnaireId) });
   }
 
-  if (result === []) {
+  if (result.responses.length === 0) {
     // The questionnaire exists, but no responses have been given yet
     return res.status(codes.notFound).json({ error: errors.responsesNotFound(questionnaireId) });
   }
