@@ -56,6 +56,8 @@ The following routes may be accessed after prepending `api` e.g. `xx.xxx.xxx.xx/
 
 #### Web
 
+The following routes may be accessed directly in the browser e.g. `xx.xxx.xxx.xx/`.
+
 | Path        | Page                              | Purpose                                                                      |
 |-------------|-----------------------------------|------------------------------------------------------------------------------|
 | /           | [index.html](public/index.html)   | Display all questionnaires.                                                  |
