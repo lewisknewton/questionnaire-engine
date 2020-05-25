@@ -161,8 +161,8 @@ function displayQuestionnaire(questionnaire) {
   const questions = questionnaire.questions;
 
   main.querySelector('h1').textContent = questionnaire.name;
-  main.querySelector('#questions').style.display = 'block';
-  main.querySelector('#submit').style.display = 'block';
+  main.querySelector('#questions').classList.remove('hidden');
+  main.querySelector('#submit').classList.remove('hidden');
 
   // Display question blocks
   for (const question of questions) {
