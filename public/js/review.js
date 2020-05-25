@@ -7,15 +7,17 @@ import { setPageTitle } from './modules/browser-common.js';
 const main = document.querySelector('main');
 const loading = document.querySelector('#loading');
 const responsesList = document.querySelector('#responses');
+const downloadBtn = responsesList.querySelector('#download');
 const responseTemplate = document.querySelector('#response');
 
 let id = '';
+let responses = [];
 
 /**
  * Displays details and responses of a given questionnaire.
  */
 function displayDetails(details) {
-  const { responses } = details;
+  responses = details.responses;
 
   setPageTitle(details.name);
 
@@ -56,12 +58,32 @@ async function loadResponses(questionnaireId) {
 }
 
 /**
+ * Downloads all responses in the given file format.
+ */
+function downloadResponses(format = 'json') {
+  // Convert responses to JSON for download
+  const toDownload = encodeURIComponent(JSON.stringify(responses));
+  const dataStr = `data:text/json;charset=utf-8,${toDownload}`;
+
+  // Create a hidden, temporary anchor to download the file using the correct details
+  const tempAnchor = document.createElement('a');
+  tempAnchor.setAttribute('download', `responses.${format}`);
+  tempAnchor.setAttribute('href', dataStr);
+
+  document.body.append(tempAnchor);
+  tempAnchor.click();
+  document.body.remove(tempAnchor);
+}
+
+/**
  * Initialises the web page.
  */
 function init() {
   // Load the responses, getting the questionnaire ID after `review/`
   id = getQuestionnaireId('review');
   loadResponses(id);
+
+  downloadBtn.addEventListener('click', () => downloadResponses());
 }
 
 window.addEventListener('load', init);
