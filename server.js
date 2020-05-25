@@ -17,10 +17,12 @@ app.use(express.static(path.join(__dirname, 'public'), { extensions: ['html'] })
 // Define API routes
 apiRouter.get('/questionnaires', api.getQuestionnaires);
 apiRouter.get('/questionnaires/:id', api.getQuestionnaire);
+apiRouter.get('/questionnaires/:id/responses', api.getResponses);
 apiRouter.post('/questionnaires/:id/responses', express.json(), api.postResponse);
 
 // Define default routes (serving client files)
 webRouter.get('/take/:id', web.takeQuestionnaire);
+webRouter.get('/review/:id', web.reviewQuestionnaire);
 
 app.use('/', webRouter);
 app.use('/api', apiRouter);

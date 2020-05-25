@@ -42,6 +42,32 @@ async function getQuestionnaire(req, res) {
 }
 
 /**
+ * Retrieves all responses for a given questionnaire using its URL-friendly
+ * ID, passed via the request.
+ */
+async function getResponses(req, res) {
+  const questionnaireId = req.params.id;
+
+  if (!isFilled(questionnaireId)) {
+    return res.status(codes.badRequest).json({ error: errors.questionnaireNotSelected });
+  }
+
+  const result = await qh.selectResponses(questionnaireId);
+
+  if (result == null) {
+    // The questionnaire does not exist
+    return res.status(codes.notFound).json({ error: errors.questionnaireNotFound(questionnaireId) });
+  }
+
+  if (result === []) {
+    // The questionnaire exists, but no responses have been given yet
+    return res.status(codes.noContent).json({ error: errors.responsesNotFound(questionnaireId) });
+  }
+
+  res.json(result);
+}
+
+/**
  * Stores the user's response for a given questionnaire.
  */
 async function postResponse(req, res) {
@@ -70,5 +96,6 @@ async function postResponse(req, res) {
 module.exports = {
   getQuestionnaire,
   getQuestionnaires,
+  getResponses,
   postResponse,
 };

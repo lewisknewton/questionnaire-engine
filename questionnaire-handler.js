@@ -152,8 +152,28 @@ async function addResponse(response) {
   }
 }
 
+/**
+ * Retrieves all responses for a given questionnaire.
+ */
+async function selectResponses(questionnaireId) {
+  const questionnaire = await selectQuestionnaireById(questionnaireId);
+
+  if (!isFilled(questionnaire, true)) return;
+
+  const { uniqueId } = questionnaire;
+
+  try {
+    const result = await dbClient.query(queries.selectResponses, [uniqueId]);
+
+    return isFilled(result.rows) ? result.rows : [];
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 module.exports = {
   selectQuestionnaires,
   selectQuestionnaire,
   addResponse,
+  selectResponses,
 };

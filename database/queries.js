@@ -28,6 +28,13 @@ const queries = {
                 time_submitted AS submitted
   `,
 
+  selectResponses: `
+    SELECT  id,
+            time_submitted AS submitted
+    FROM    response
+    WHERE   questionnaire_id = $1
+  `,
+
   selectQuestionnaireById: `
     SELECT  id,
             unique_id AS "uniqueId",

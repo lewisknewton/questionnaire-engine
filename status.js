@@ -23,6 +23,8 @@ const errors = {
     'Sorry, no questionnaires were found.',
   responseNotSaved:
     'Sorry, your response could not be saved at this time. Please try again.',
+  responsesNotFound:
+    id => `Sorry, no responses for questionnaire of ID '${id}' could be found.`,
 };
 
 module.exports = {
