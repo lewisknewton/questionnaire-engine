@@ -42,7 +42,7 @@ The application uses two types of routes:
 * *API* routes, designed for direct calls
 * *Web* routes, designed to serve client files for normal browser use
 
-Their endpoints are defined in [server.js](server.js) The functions called at these endpoints are defined in [api-routes.js](routes/api-routes.js) and [web-routes.js](routes/web-routes.js), respectively.
+Their endpoints are defined in [server.js](server.js). The functions called at these endpoints are defined in [api-routes.js](routes/api-routes.js) and [web-routes.js](routes/web-routes.js), respectively.
 
 #### API
 
