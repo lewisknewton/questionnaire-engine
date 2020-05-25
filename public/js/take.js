@@ -1,13 +1,12 @@
 'use strict';
 
 import { isFilled, setPageTitle } from './modules/browser-common.js';
+import { displayError, displaySuccess } from './modules/browser-status.js';
 
 const main = document.querySelector('main');
 const loading = document.querySelector('#loading');
 const questionsSection = document.querySelector('#questions');
 const submit = document.querySelector('#submit');
-const errorTemplate = document.querySelector('#error-message');
-const successTemplate = document.querySelector('#success-message');
 
 let id = '';
 const answers = {};
@@ -30,26 +29,6 @@ const questionTypes = {
     events: ['click'],
   },
 };
-
-/**
- * Displays an error message.
- */
-function displayError(msg) {
-  const error = errorTemplate.content.cloneNode(true);
-
-  error.querySelector('p').textContent = msg;
-  main.querySelector('h1').after(error);
-}
-
-/**
- * Displays a success message.
- */
-function displaySuccess(msg) {
-  const success = successTemplate.content.cloneNode(true);
-
-  success.querySelector('p').textContent = msg;
-  main.querySelector('h1').after(success);
-}
 
 /**
  * Retrieves the ID of the selected questionnaire.
@@ -80,9 +59,9 @@ async function saveResponse() {
   const data = await res.json();
 
   if (res.ok) {
-    displaySuccess(data.success);
+    displaySuccess(data.success, main.querySelector('h1'));
   } else {
-    displayError(data.error);
+    displayError(data.error, main.querySelector('h1'));
   }
 }
 
@@ -176,8 +155,10 @@ function copyTemplates(question) {
     questionBlock.classList.add(`${question.type}-question`);
   } else {
     baseCopy.textContent = '';
+    const questionNotLoadedError =
+      `Sorry, the '${question.text}' question could not be loaded. Please ensure it is supported and in the correct format.`;
 
-    displayError(`Sorry, the '${question.text}' question could not be loaded. Please ensure it is supported and in the correct format.`);
+    displayError(questionNotLoadedError, main.querySelector('h1'));
   }
 
   return baseCopy;
@@ -214,7 +195,7 @@ async function loadQuestionnaire(id) {
   if (res.ok) {
     displayQuestionnaire(data);
   } else {
-    displayError(data.error);
+    displayError(data.error, main.querySelector('h1'));
   }
 }
 

@@ -1,21 +1,11 @@
 'use strict';
 
 import { isFilled } from './modules/browser-common.js';
+import { displayError } from './modules/browser-status.js';
 
 const loading = document.querySelector('#loading');
 const questionnaireList = document.querySelector('#questionnaire-list');
 const questionnaireSummary = document.querySelector('#questionnaire-summary');
-const errorTemplate = document.querySelector('#error-message');
-
-/**
- * Displays an error message.
- */
-function displayError(msg) {
-  const error = errorTemplate.content.cloneNode(true);
-
-  error.querySelector('p').textContent = msg;
-  questionnaireList.after(error);
-}
 
 /**
  * Displays details about stored questionnaires.
@@ -27,15 +17,15 @@ function displayQuestionnaires(questionnaires) {
 
     const name = summary.querySelector('h3');
     const count = summary.querySelector('span');
+    const reviewBtn = summary.querySelector('a.review');
     const takeBtn = summary.querySelector('a.take');
-    const editBtn = summary.querySelector('a.edit');
     const deleteBtn = summary.querySelector('a.delete');
 
     name.textContent = q.name ? q.name : 'Untitled';
     count.textContent = `Questions: ${q.questions ? q.questions.length : 0}`;
 
+    reviewBtn.setAttribute('href', `review/${q.id}`);
     takeBtn.setAttribute('href', `take/${q.id}`);
-    editBtn.setAttribute('href', `edit/${q.id}`);
     deleteBtn.setAttribute('href', `?delete=${q.id}`);
 
     questionnaireList.append(summary);
@@ -54,7 +44,7 @@ async function loadQuestionnaires() {
   if (res.ok && isFilled(data)) {
     displayQuestionnaires(data);
   } else {
-    displayError(data.error);
+    displayError(data.error, questionnaireList);
   }
 }
 
