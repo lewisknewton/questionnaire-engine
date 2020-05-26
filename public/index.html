@@ -18,6 +18,20 @@
     <p id="loading">Loading questionnaires &hellip;</p>
   </section>
 
+  <div id="share-dialog" class="hidden">
+    <header>
+      <h4>Share</h4>
+      <button id="close-dialog">Close</button>
+    </header>
+
+    <p id="share-text">Share questionnaire text</p>
+
+    <textarea id="link-text" rows="1" readonly aria-labelledby="share-text">URL</textarea>
+    <button id="copy-link" class="primary">Copy Link</button>
+
+    <output aria-live="polite"></output>
+  </div>
+
   <template id="questionnaire-summary">
     <article>
       <h3>Questionnaire Name</h3>
@@ -26,9 +40,9 @@
         <span>Questions Count</span>
 
         <a href="#" class="review">Review</a>
-
-        <a href="#" class="take">Take</a>
         <a href="#" class="delete">Delete</a>
+
+        <button class="share primary">Share</button>
       </p>
     </article>
   </template>

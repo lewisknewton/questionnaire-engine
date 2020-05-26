@@ -33,7 +33,7 @@ function displayDetails(details) {
     const idEl = responseEl.querySelector('span:nth-of-type(1)');
     const submittedEl = responseEl.querySelector('span:nth-of-type(2)');
 
-    title.textContent = `${responses.indexOf(response) + 1} of ${responses.length} (${response.id})`;
+    title.textContent = `${responses.indexOf(response) + 1} of ${responses.length}`;
     idEl.textContent = `ID: ${response.id}`;
     submittedEl.textContent = `Time submitted: ${submitted}`;
 

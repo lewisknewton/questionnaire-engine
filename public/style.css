@@ -48,7 +48,8 @@ main {
   margin: var(--space-l) auto;
 }
 
-article {
+article,
+#share-dialog {
   padding: var(--space-s) var(--space-s) var(--space-s);
   border: var(--border);
   border-radius: var(--space-xs);
@@ -77,22 +78,79 @@ textarea::placeholder {
 
 input[type="number"],
 input[type="submit"],
-textarea {
+textarea,
+button {
   padding: var(--space-xs);
   font-size: inherit;
   border-radius: var(--space-xs);
 }
 
-input[type="submit"] {
-  background: var(--primary);
-  color: var(--light);
-  border: none;
+input[type="submit"],
+button {
+  border: var(--border);
   padding: var(--space-s);
+}
+
+button {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+input[type="submit"],
+button.primary {
+  background: var(--primary);
+  color: var(--fg);
 }
 
 textarea {
   width: 100%;
   max-width: 100%;
+  resize: vertical;
+}
+
+#share-dialog {
+  display: grid;
+  gap: var(--space-xs);
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    "header header"
+    "share-text share-text"
+    "link-text copy-link";
+}
+
+#share-dialog.hidden {
+  display: none;
+}
+
+#share-dialog header {
+  display: flex;
+  justify-content: space-between;
+  grid-area: header;
+}
+
+#share-dialog p {
+  grid-area: share-text;
+}
+
+#link-text {
+  resize: none;
+  grid-area: link-text;
+  padding: var(--space-s) var(--space-xs);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#copy-link {
+  grid-area: copy-link;
+}
+
+#close-dialog {
+  padding: var(--space-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--space-xs);
 }
 
 /* Status message styles */
