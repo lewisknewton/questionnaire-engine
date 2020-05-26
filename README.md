@@ -47,7 +47,7 @@ The default database name is `questionnaire_engine`. If required, this can be re
 
 To access the application, run `npm start` on your running virtual machine and enter the address shown into your browser.
 
-For testing purposes, the `example.json` file has been included in the questionnaires directory to provide an example questionnaire. Similar files—`another-example.json` and `without-questions.json`—have been included within a sub-folder for the same reason.
+For testing purposes, the `example.json` file has been included in the [questionnaires/](questionnaires/) directory to provide an example questionnaire. Similar files—`another-example.json` and `without-questions.json`—have been included within a sub-folder for the same reason.
 
 ## Design
 
@@ -93,11 +93,11 @@ The following routes may be accessed directly in the browser e.g. `xx.xxx.xxx.xx
 
 The questionnaire engine uses a JSON structure to define and read the details of questionnaires. 
 
-All questionnaires must be stored in the [questionnaires](questionnaires) directory as `.JSON` files. Any sub-folders within this directory will be searched recursively to load questionnaires included within them.
+All questionnaires must be stored in the [questionnaires/](questionnaires/) directory as `.JSON` files. Any sub-folders within this directory will be searched recursively to load questionnaires included within them.
 
 #### Adding Questionnaires
 
-To add a questionnaire, place its JSON file into the [questionnaires](questionnaires) directory. 
+To add a questionnaire, place its JSON file into the [questionnaires/](questionnaires/) directory. 
 
 ### Security
 
@@ -113,5 +113,5 @@ During development, the following linters were used:
 Two scripts, `lint-js` and `lint-css`, were defined to lint all files of the respective types. Another script, `lint`, was created to run both and is used by running `npm run lint`.
 
 ## Testing
-
-During development, [Jest](https://jestjs.io/) was used as the testing framework for the JavaScript files, along with the [SuperTest](https://www.npmjs.com/package/supertest) library. All test cases are in the tests directory and can be run using the `npm test` command.
+/
+During development, [Jest](https://jestjs.io/) was used as the testing framework for the JavaScript files, along with the [SuperTest](https://www.npmjs.com/package/supertest) library. All test cases are in the [tests/](tests/) directory and can be run using the `npm test` command.
