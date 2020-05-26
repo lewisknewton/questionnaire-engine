@@ -13,6 +13,7 @@
   --accent: #acacac;
   --primary: #00a6ff;
   --light: #fff;
+  --dark: #000;
   --shadow: 0 1rem 1rem #ebebeb;
   --danger: #f44336;
   --safe: #44a280;
@@ -209,6 +210,11 @@ textarea {
 
   a {
     color: var(--link);
+  }
+
+  input[type="submit"],
+  button.primary {
+    color: var(--dark);
   }
 }
 
