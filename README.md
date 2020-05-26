@@ -4,6 +4,16 @@ A questionnaire engine coursework project for the Web Programming module (2019-2
 
 For development and testing, the application was run on the University of Portsmouth's [Virtual Machine Service](https://uop-1-server-per-student-prod.appspot.com/instance/get).
 
+## Directory Structure
+
+The application consists of the following directories:
+
+* [database/](database/) – containing files for configuring and accessing the PostgreSQL database
+* [public/](public/) – containing front-end files to be served to clients
+* [questionnaires/](questionnaires/) – containing user-provided questionnaire files
+* [routes/](routes/) – containing endpoint definitions for the API and normal browser use
+* [tests/](tests/) – containing automated test cases
+
 ## Set-up
 
 Navigate to the installation folder and run:
