@@ -1,8 +1,8 @@
 'use strict';
 
 import { getQuestionnaireId } from './modules/browser-questionnaire-handler.js';
+import { getFormattedDate, setPageTitle } from './modules/browser-common.js';
 import { displayError } from './modules/browser-status.js';
-import { setPageTitle } from './modules/browser-common.js';
 
 const main = document.querySelector('main');
 const loading = document.querySelector('#loading');
@@ -25,7 +25,7 @@ function displayDetails(details) {
   main.querySelector('#responses').classList.remove('hidden');
 
   for (const response of responses) {
-    const submitted = new Date(response.submitted).toLocaleString();
+    const submitted = getFormattedDate(new Date(response.submitted));
 
     const responseEl = responseTemplate.content.cloneNode(true);
 
@@ -71,9 +71,7 @@ function downloadResponses(format = 'json') {
   tempAnchor.setAttribute('href', dataStr);
   tempAnchor.setAttribute('target', '_blank');
 
-  document.body.append(tempAnchor);
   tempAnchor.click();
-  document.body.remove(tempAnchor);
 }
 
 /**
