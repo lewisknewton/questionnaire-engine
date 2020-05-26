@@ -69,6 +69,7 @@ function downloadResponses(format = 'json') {
   const tempAnchor = document.createElement('a');
   tempAnchor.setAttribute('download', `responses.${format}`);
   tempAnchor.setAttribute('href', dataStr);
+  tempAnchor.setAttribute('target', '_blank');
 
   document.body.append(tempAnchor);
   tempAnchor.click();
