@@ -112,7 +112,8 @@ async function selectQuestionnaires(dir = localDir) {
         if (copyInDB == null) {
           questionnaire = Object.assign(questionnaire, await addQuestionnaire(questionnaire));
         } else {
-          questionnaire = Object.assign(questionnaire, await selectQuestionnaireByPath(path));
+          const { id } = await selectQuestionnaireByPath(path);
+          questionnaire.id = id;
         }
 
         const inArray = await isInArray(questionnaires, 'path', questionnaire.path);
@@ -143,7 +144,7 @@ async function selectQuestionnaire(id) {
 
   const { path } = questionnaire;
 
-  return readQuestionnaireFile(path);
+  return { id, ...await readQuestionnaireFile(path), path };
 }
 
 /**
