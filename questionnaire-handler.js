@@ -188,6 +188,7 @@ async function selectResponses(questionnaireId) {
 }
 
 module.exports = {
+  generateId,
   selectQuestionnaires,
   selectQuestionnaire,
   addResponse,
