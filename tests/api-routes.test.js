@@ -110,6 +110,48 @@ describe('GET Endpoints', () => {
 
     done();
   });
+
+  it('should retrieve all responses for a given questionnaire', async done => {
+    const testQuestionnaires = await request.get('/api/questionnaires');
+
+    for (const q of testQuestionnaires.body) {
+      const res = await request.get(`/api/questionnaires/${q.id}/responses`);
+
+      if (isFilled(res.body.responses)) {
+        // Responses have been provided for the given questionnaire
+        expect(res.statusCode).toStrictEqual(codes.ok);
+
+        expect(res.body).toEqual(expect.objectContaining({
+          id: expect.any(String),
+          name: expect.any(String),
+          questions: expect.arrayContaining([
+            expect.objectContaining({
+              id: expect.any(String),
+              text: expect.any(String),
+              type: expect.any(String),
+              options: expect.arrayContaining([
+                expect.any(String),
+              ]),
+            }),
+          ]),
+          responses: expect.arrayContaining([
+            expect.objectContaining({
+              id: expect.any(String),
+              submitted: expect.any(String),
+            }),
+          ]),
+        }));
+      } else {
+        // Responses have not been provided for the given questionnaire
+        const expected = { error: errors.responsesNotFound(q.id) };
+
+        expect(res.statusCode).toStrictEqual(codes.notFound);
+        expect(res.body).toMatchObject(expected);
+      }
+    }
+
+    done();
+  });
 });
 
 describe('POST endpoints', () => {
