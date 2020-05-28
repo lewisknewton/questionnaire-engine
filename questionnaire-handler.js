@@ -163,7 +163,7 @@ async function addResponse(response) {
 }
 
 /**
- * Retrieves all responses for a given questionnaire, along with the 
+ * Retrieves all responses for a given questionnaire, along with the
  * questionnaire itself.
  */
 async function selectResponses(questionnaireId) {
