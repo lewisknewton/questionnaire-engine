@@ -20,25 +20,33 @@ describe('GET Endpoints', () => {
   it('should retrieve all questionnaires', async done => {
     const res = await request.get('/api/questionnaires');
 
-    expect(res.statusCode).toStrictEqual(codes.ok);
+    if (Array.isArray(res.body) && isFilled(res.body)) {
+      // Questionnaires exist in the `questionnaires` folder
+      expect(res.statusCode).toStrictEqual(codes.ok);
+      expect(res.body).toEqual(expect.arrayContaining([
+        expect.objectContaining({
+          id: expect.any(String),
+          name: expect.any(String),
+          questions: expect.arrayContaining([
+            expect.objectContaining({
+              id: expect.any(String),
+              text: expect.any(String),
+              type: expect.any(String),
+              options: expect.arrayContaining([
+                expect.any(String),
+              ]),
+            }),
+          ]),
+          path: expect.any(String),
+        }),
+      ]));
+    } else {
+      // Questionnaires do not exist in the `questionnaires` folder
+      const expected = { error: errors.questionnairesNotFound };
 
-    expect(res.body).toEqual(expect.arrayContaining([
-      expect.objectContaining({
-        id: expect.any(String),
-        name: expect.any(String),
-        questions: expect.arrayContaining([
-          expect.objectContaining({
-            id: expect.any(String),
-            text: expect.any(String),
-            type: expect.any(String),
-            options: expect.arrayContaining([
-              expect.any(String),
-            ]),
-          }),
-        ]),
-        path: expect.any(String),
-      }),
-    ]));
+      expect(res.statusCode).toStrictEqual(codes.notFound);
+      expect(res.body).toMatchObject(expected);
+    }
 
     done();
   });
