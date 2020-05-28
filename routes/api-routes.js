@@ -80,7 +80,7 @@ async function postResponse(req, res) {
   }
 
   if (!isFilled(answers, true)) {
-    return res.status(codes.badRequest).json({ error: errors.questionnaireNoAnswers });
+    return res.status(codes.badRequest).json({ error: errors.responseNoAnswers });
   }
 
   const result = await qh.addResponse(body);
