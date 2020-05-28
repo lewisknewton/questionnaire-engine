@@ -52,7 +52,6 @@ describe('GET Endpoints', () => {
   });
 
   it('should retrieve existent questionnaires by ID', async done => {
-    // Define test data
     const testQuestionnaires = await request.get('/api/questionnaires');
 
     for (const q of testQuestionnaires.body) {
@@ -93,7 +92,6 @@ describe('GET Endpoints', () => {
   });
 
   it('should not display questionnaires with no questions', async done => {
-    // Define test data
     const testQuestionnaires = await request.get('/api/questionnaires');
 
     for (const q of testQuestionnaires.body) {
@@ -185,7 +183,6 @@ describe('POST endpoints', () => {
   }); */
 
   it('should reject responses with no answers', async done => {
-    // Define test data
     const testQuestionnaires = await request.get('/api/questionnaires');
 
     const id = generateId();
