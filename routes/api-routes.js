@@ -15,7 +15,7 @@ async function getQuestionnaires(req, res) {
     return res.status(codes.notFound).json({ error: errors.questionnairesNotFound });
   }
 
-  res.json(result);
+  return res.json(result);
 }
 
 /**
@@ -38,7 +38,7 @@ async function getQuestionnaire(req, res) {
     return res.status(codes.notFound).json({ error: errors.questionnaireNoQuestions });
   }
 
-  res.json(result);
+  return res.json(result);
 }
 
 /**
@@ -64,7 +64,7 @@ async function getResponses(req, res) {
     return res.status(codes.notFound).json({ error: errors.responsesNotFound(questionnaireId) });
   }
 
-  res.json(result);
+  return res.json(result);
 }
 
 /**
