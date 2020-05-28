@@ -45,6 +45,7 @@ const queries = {
 
   selectQuestionnaireByPath: `
     SELECT  id,
+            unique_id AS "uniqueId",
             file_path AS path
     FROM    questionnaire
     WHERE   file_path = $1
