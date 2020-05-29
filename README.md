@@ -16,7 +16,7 @@ The application consists of the following directories:
 
 ## Set-up
 
-Navigate to the installation folder and run:
+Navigate to the installation directory and run:
 
 ```bash
 npm run setup
@@ -50,7 +50,17 @@ The `npm start` command will launch the application using an HTTP server running
 
 To access the application, run `npm start` on your running virtual machine and enter the address shown into your browser.
 
-For testing purposes, the [example.json](questionnaires/example.json) file has been included to provide an example questionnaire. Similar files—[another-example.json](questionnaires/another-example/another-example.json) and [without-questions.json](questionnaires/another-example/without-questions.json)—have also been included within a sub-folder.
+For testing purposes, the [example.json](questionnaires/example.json) file has been included to provide an example questionnaire. Similar files—[another-example.json](questionnaires/another-example/another-example.json) and [without-questions.json](questionnaires/another-example/without-questions.json)—have also been included within a sub-directory.
+
+### Questionnaires
+
+The questionnaire engine uses a JSON structure to define and read the details of questionnaires. 
+
+All questionnaires must be stored in the [questionnaires/](questionnaires/) directory as `.JSON` files. Any sub-directories within this directory will be searched recursively to load questionnaires included within them.
+
+#### Adding Questionnaires
+
+To add a questionnaire, place its JSON file into the [questionnaires/](questionnaires/) directory, or a sub-directory within this directory. 
 
 ## Design
 
@@ -95,16 +105,6 @@ The following routes may be accessed directly in the browser e.g. `xx.xxx.xxx.xx
 | /           | [index.html](public/index.html)   | Display all questionnaires.                                                  |
 | /take/:id   | [take.html](public/js/take.js)    | Display, and records responses for, a given questionnaire.                   |
 | /review/:id | [review.html](public/review.html) | Display details and responses for a given questionnaire to support analysis. |
-
-### Questionnaires
-
-The questionnaire engine uses a JSON structure to define and read the details of questionnaires. 
-
-All questionnaires must be stored in the [questionnaires/](questionnaires/) directory as `.JSON` files. Any sub-folders within this directory will be searched recursively to load questionnaires included within them.
-
-#### Adding Questionnaires
-
-To add a questionnaire, place its JSON file into the [questionnaires/](questionnaires/) directory. 
 
 ### Security
 

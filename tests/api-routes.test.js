@@ -21,7 +21,7 @@ describe('GET Endpoints', () => {
     const res = await request.get('/api/questionnaires');
 
     if (Array.isArray(res.body) && isFilled(res.body)) {
-      // Questionnaires exist in the `questionnaires` folder
+      // Questionnaires exist in the `questionnaires` directory
       expect(res.statusCode).toStrictEqual(codes.ok);
       expect(res.body).toEqual(expect.arrayContaining([
         expect.objectContaining({
@@ -41,7 +41,7 @@ describe('GET Endpoints', () => {
         }),
       ]));
     } else {
-      // Questionnaires do not exist in the `questionnaires` folder
+      // Questionnaires do not exist in the `questionnaires` directory
       const expected = { error: errors.questionnairesNotFound };
 
       expect(res.statusCode).toStrictEqual(codes.notFound);
