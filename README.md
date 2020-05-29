@@ -17,10 +17,13 @@ The application consists of the following directories:
 ## Set-up
 
 Navigate to the installation folder and run:
+
 ```bash
 npm run setup
 npm start
 ```
+
+These commands will create the database and start the web server (see below for detail).
 
 ### Database
 
@@ -43,7 +46,7 @@ For example, to run the application locally you might use:
 The default database name is `questionnaire_engine`. If required, this can be replaced in the [schema.sql](database/schema.sql) and [config.json](database/config.json) files.
 
 ### Server
-`npm start` will launch the application using an HTTP server running on port 8080, located in [server.js](server.js).
+The `npm start` command will launch the application using an HTTP server running on port 8080, located in [server.js](server.js).
 
 To access the application, run `npm start` on your running virtual machine and enter the address shown into your browser.
 
@@ -70,6 +73,8 @@ The application uses two types of routes:
 * *Web* routes, designed to serve client files for normal browser use
 
 Their endpoints are defined in [server.js](server.js). The functions called at these endpoints are defined in [api-routes.js](routes/api-routes.js) and [web-routes.js](routes/web-routes.js), respectively.
+
+For simplicity and security, short IDs are used for all endpoints instead of unique IDs.
 
 #### API
 
