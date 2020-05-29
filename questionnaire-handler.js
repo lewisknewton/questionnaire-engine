@@ -69,9 +69,9 @@ async function readQuestionnaireFile(path) {
  * Retrieves the database records associated with a questionnaire
  * by its URL-friendly ID.
  */
-async function selectQuestionnaireById(id) {
+async function selectQuestionnaireByShortId(id) {
   try {
-    const result = await dbClient.query(queries.selectQuestionnaireById, [id]);
+    const result = await dbClient.query(queries.selectQuestionnaireByShortId, [id]);
 
     return result.rows[0];
   } catch (err) {
@@ -138,7 +138,7 @@ async function selectQuestionnaires(dir = localDir) {
  */
 async function selectQuestionnaire(id) {
   // Fetch records in the database
-  const questionnaire = await selectQuestionnaireById(id);
+  const questionnaire = await selectQuestionnaireByShortId(id);
 
   if (!isFilled(questionnaire, true)) return;
 
@@ -153,7 +153,7 @@ async function selectQuestionnaire(id) {
 async function addResponse(response) {
   const shortId = generateId();
   const { questionnaireId } = response;
-  const { id } = await selectQuestionnaireById(questionnaireId);
+  const { id } = await selectQuestionnaireByShortId(questionnaireId);
 
   try {
     const result = await dbClient.query(queries.addResponse, [shortId, id]);
@@ -169,7 +169,7 @@ async function addResponse(response) {
  * questionnaire itself.
  */
 async function selectResponses(questionnaireId) {
-  const questionnaire = await selectQuestionnaireById(questionnaireId);
+  const questionnaire = await selectQuestionnaireByShortId(questionnaireId);
 
   if (!isFilled(questionnaire, true)) return;
 

@@ -36,7 +36,7 @@ const queries = {
     WHERE   questionnaire_id = $1
   `,
 
-  selectQuestionnaireById: `
+  selectQuestionnaireByShortId: `
     SELECT  id,
             short_id AS "shortId",
             file_path AS path
