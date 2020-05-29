@@ -112,8 +112,8 @@ async function selectQuestionnaires(dir = localDir) {
         if (copyInDB == null) {
           questionnaire = Object.assign(questionnaire, await addQuestionnaire(questionnaire));
         } else {
-          const { id } = await selectQuestionnaireByPath(path);
-          questionnaire.id = id;
+          const { shortId } = await selectQuestionnaireByPath(path);
+          questionnaire.id = shortId;
         }
 
         const inArray = await isInArray(questionnaires, 'path', questionnaire.path);
@@ -151,12 +151,12 @@ async function selectQuestionnaire(id) {
  * Stores a response for a given questionnaire.
  */
 async function addResponse(response) {
-  const id = generateId();
+  const shortId = generateId();
   const { questionnaireId } = response;
-  const { uniqueId } = await selectQuestionnaireById(questionnaireId);
+  const { id } = await selectQuestionnaireById(questionnaireId);
 
   try {
-    const result = await dbClient.query(queries.addResponse, [id, uniqueId]);
+    const result = await dbClient.query(queries.addResponse, [shortId, id]);
 
     return result.rows[0];
   } catch (err) {
@@ -173,14 +173,14 @@ async function selectResponses(questionnaireId) {
 
   if (!isFilled(questionnaire, true)) return;
 
-  const { id, uniqueId, path } = questionnaire;
+  const { shortId, id, path } = questionnaire;
 
   try {
-    const result = await dbClient.query(queries.selectResponses, [uniqueId]);
+    const result = await dbClient.query(queries.selectResponses, [id]);
     const responses = isFilled(result.rows) ? result.rows : [];
 
     // Bundle the questionnaire and its responses together
-    const bundled = { id, ...await readQuestionnaireFile(path), responses };
+    const bundled = { questionnaireId: shortId, ...await readQuestionnaireFile(path), responses };
 
     return bundled;
   } catch (err) {

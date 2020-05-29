@@ -3,34 +3,34 @@
 const queries = {
   addQuestionnaire: `
     INSERT INTO questionnaire (
-                id,
+                short_id,
                 file_path
     )
     VALUES (
                 $1,
                 $2
     )
-    RETURNING   id,
+    RETURNING   short_id AS "shortId",
                 file_path AS path
   `,
 
   addResponse: `
     INSERT INTO response (
-                id,
+                short_id,
                 questionnaire_id
     )
     VALUES (
                 $1,
                 $2
     )
-    RETURNING   unique_id AS "uniqueId",
-                id,
+    RETURNING   id,
+                short_id AS "shortId",
                 questionnaire_id AS questionnaireId,
                 time_submitted AS submitted
   `,
 
   selectResponses: `
-    SELECT  id,
+    SELECT  short_id AS id,
             time_submitted AS submitted
     FROM    response
     WHERE   questionnaire_id = $1
@@ -38,15 +38,15 @@ const queries = {
 
   selectQuestionnaireById: `
     SELECT  id,
-            unique_id AS "uniqueId",
+            short_id AS "shortId",
             file_path AS path
     FROM    questionnaire
-    WHERE   id = $1
+    WHERE   short_id = $1
   `,
 
   selectQuestionnaireByPath: `
     SELECT  id,
-            unique_id AS "uniqueId",
+            short_id AS "shortId",
             file_path AS path
     FROM    questionnaire
     WHERE   file_path = $1

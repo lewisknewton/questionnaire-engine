@@ -120,7 +120,7 @@ describe('GET Endpoints', () => {
         expect(res.statusCode).toStrictEqual(codes.ok);
 
         expect(res.body).toEqual(expect.objectContaining({
-          id: expect.any(String),
+          questionnaireId: expect.any(String),
           name: expect.any(String),
           questions: expect.arrayContaining([
             expect.objectContaining({
