@@ -40,7 +40,7 @@ function copyShareLink() {
  * mobile users or through alternative sharing options for other devices.
  */
 async function shareQuestionnaire(q) {
-  const shareText = `Please take my ${q.name} questionnaire:`;
+  const shareText = `Share the link to your ${q.name} questionnaire:`;
   const shareUrl = `${window.location}take/${q.id}`;
 
   if (navigator.share) {
