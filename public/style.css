@@ -14,7 +14,8 @@
   --primary: #00a6ff;
   --light: #fff;
   --dark: #000;
-  --shadow: 0 1rem 1rem #ebebeb;
+  --shade: #ebebeb;
+  --shadow: 0 1rem 1rem var(--shade);
   --danger: #f44336;
   --safe: #44a280;
   --link: #bee1ff;
@@ -214,7 +215,7 @@ textarea {
     --card: #404040;
     --input: #525252;
     --accent: #777;
-    --shadow: 0 1rem 1rem #2e2e2e;
+    --shade: #2e2e2e;
   }
 
   a {
