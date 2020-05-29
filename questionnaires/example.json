@@ -36,7 +36,14 @@
       "id": "langs",
       "text": "Which computer languages have you used?",
       "type": "multi-select",
-      "options": ["JavaScript", "Java", "C", "Python", "Ook", "LISP"]
+      "options": [
+        "JavaScript",
+        "Java",
+        "C",
+        "Python",
+        "Ook",
+        "LISP"
+      ]
     }
   ]
 }

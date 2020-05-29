@@ -50,7 +50,7 @@ The `npm start` command will launch the application using an HTTP server running
 
 To access the application, run `npm start` on your running virtual machine and enter the address shown into your browser.
 
-For testing purposes, the `example.json` file has been included in the [questionnaires/](questionnaires/) directory to provide an example questionnaire. Similar files—`another-example.json` and `without-questions.json`—have been included within a sub-folder for the same reason.
+For testing purposes, the [example.json](questionnaires/example.json) file has been included to provide an example questionnaire. Similar files—[another-example.json](questionnaires/another-example/another-example.json) and [without-questions.json](questionnaires/another-example/without-questions.json)—have also been included within a sub-folder.
 
 ## Design
 

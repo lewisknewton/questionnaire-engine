@@ -1,40 +1,49 @@
 {
-  "name": "Example Questionnaire Copy",
+  "name": "Animal Quiz",
   "questions": [
     {
-      "id": "name",
-      "text": "What is your friend's name?",
-      "type": "text"
-    },
-    {
-      "id": "quest",
-      "text": "What is your friend's quest?",
-      "type": "text"
-    },
-    {
-      "id": "col",
-      "text": "What is your friend's favourite colour?",
-      "type": "text"
-    },
-    {
-      "id": "velo",
-      "text": "What is the air-speed velocity of a quokka?",
+      "id": "slug",
+      "text": "How many noses do slugs have?",
       "type": "number"
     },
     {
-      "id": "lord",
-      "text": "Which is the best lord?",
+      "id": "ostrich",
+      "text": "What is bigger than an ostrich's brain?",
       "type": "single-select",
       "options": [
-        "Lorde",
-        "Lord Farquaad"
+        "Its beak",
+        "Its eye",
+        "Its foot"
       ]
     },
     {
-      "id": "langs",
-      "text": "Which human languages have you used?",
+      "id": "rhino",
+      "text": "True or false: Rhino horns are made of hair.",
+      "type": "single-select",
+      "options": [
+        "True",
+        "False"
+      ]
+    },
+    {
+      "id": "otter",
+      "text": "True or false: Sea otters hold hands when sleeping to avoid drifting apart.",
+      "type": "single-select",
+      "options": [
+        "True",
+        "False"
+      ]
+    },
+    {
+      "id": "fun",
+      "text": "Just for fun: which of these animals do you like best?",
       "type": "multi-select",
-      "options": ["English", "Spanish", "Polish", "Japanese", "Korean", "Czech"]
+      "options": [
+        "Ostrich",
+        "Otter",
+        "Rhino",
+        "Slug"
+      ]
     }
   ]
 }
