@@ -109,6 +109,7 @@ textarea {
   resize: vertical;
 }
 
+/* Share dialog styles */
 #share[open],
 #share[aria-hidden="false"] {
   color: inherit;
