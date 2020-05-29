@@ -103,7 +103,7 @@ To add a questionnaire, place its JSON file into the [questionnaires/](questionn
 
 ### Security
 
-To avoid exposing their primary keys, 'short' IDs are assigned to questionnaires and responses for sharing and review.
+To avoid exposing their primary keys, alternative short IDs are assigned to questionnaires and responses for sharing and review.
 
 ## Linting
 
