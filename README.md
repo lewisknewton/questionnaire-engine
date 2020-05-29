@@ -53,12 +53,14 @@ For testing purposes, the `example.json` file has been included in the [question
 
 ### Terms
 
-To avoid ambiguity, the following terms used throughout the application have been defined here.
+Some key terms used throughout the application are defined as follows:
 
-| Term     | Definition                                                 |
-|----------|------------------------------------------------------------|
-| Answer   | The value a user gives to a question.                      |
-| Response | The collection of answers a user gives to a questionnaire. |
+| Term     | Definition                                                                                                                         |
+|----------|------------------------------------------------------------------------------------------------------------------------------------|
+| Answer   | The value a user gives to a question.                                                                                              |
+| ID       | The unique ID (UUID4) of a questionnaire or response, used as their primary keys.                                                  |
+| Response | The collection of answers a user gives to a questionnaire.                                                                         |
+| Short ID | The shorter, more readable version of a questionnaire or response's identifier, used in URLs to avoid exposing their primary keys. |
 
 ### Routing
 
@@ -101,7 +103,7 @@ To add a questionnaire, place its JSON file into the [questionnaires/](questionn
 
 ### Security
 
-To avoid exposing their primary keys, 'URL-friendly' IDs are assigned to questionnaires and responses for sharing and review.
+To avoid exposing their primary keys, 'short' IDs are assigned to questionnaires and responses for sharing and review.
 
 ## Linting
 

@@ -1,6 +1,6 @@
 /* global afterAll, beforeEach, describe, it, expect */
 
-const { generateId } = require('../questionnaire-handler');
+const { generateShortId } = require('../questionnaire-handler');
 const { isFilled } = require('../common');
 const supertest = require('supertest');
 const { codes, errors } = require('../status');
@@ -157,18 +157,18 @@ describe('POST endpoints', () => {
     // Define test data
     const testQuestionnaires = await request.get('/api/questionnaires');
 
-    const id = generateId();
+    const shortId = generateShortId();
     const answers = { test: 'test123' };
 
     for (const q in testQuestionnaires) {
       const expected = {
-        data: { id, answers },
+        data: { shortId, answers },
         success: 'Thank you, your response has been saved.',
       };
 
       const res = await request
         .post(`/api/questionnaires/${q}/responses`)
-        .send({ id, answers })
+        .send({ shortId, answers })
         .set('Content-Type', 'application/json');
 
       expect(res.statusCode).toStrictEqual(codes.created);
@@ -176,7 +176,7 @@ describe('POST endpoints', () => {
     }
 
     // Delete test rows
-    const query = `DELETE FROM response WHERE data @> '{"id": "${id}"}'`;
+    const query = `DELETE FROM response WHERE data @> '{"shortId": "${shortId}"}'`;
     await dbClient.query(query);
 
     done();
@@ -185,15 +185,15 @@ describe('POST endpoints', () => {
   it('should reject responses with no answers', async done => {
     const testQuestionnaires = await request.get('/api/questionnaires');
 
-    const id = generateId();
+    const shortId = generateShortId();
     const answers = null;
 
     for (const q of testQuestionnaires.body) {
       const expected = { error: errors.responseNoAnswers };
 
       const res = await request
-        .post(`/api/questionnaires/${q.id}/responses`)
-        .send({ id, answers })
+        .post(`/api/questionnaires/${q.shortId}/responses`)
+        .send({ shortId, answers })
         .set('Content-Type', 'application/json');
 
       expect(res.statusCode).toStrictEqual(codes.badRequest);

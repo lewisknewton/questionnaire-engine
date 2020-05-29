@@ -11,9 +11,9 @@ const questionnaires = [];
 const localDir = './questionnaires';
 
 /**
- * Generates a URL-friendly ID for a resource (i.e. questionnaire or response).
+ * Generates a short ID for a resource (i.e. questionnaire or response).
  */
-function generateId() {
+function generateShortId() {
   return Number(new Date()).toString(36);
 }
 
@@ -38,11 +38,11 @@ async function getStats(dirPath) {
  * Stores a given questionnaire in the database.
  */
 async function addQuestionnaire(questionnaire) {
-  const id = generateId();
+  const shortId = generateShortId();
   const { path } = questionnaire;
 
   try {
-    const result = await dbClient.query(queries.addQuestionnaire, [id, path]);
+    const result = await dbClient.query(queries.addQuestionnaire, [shortId, path]);
 
     return result.rows[0];
   } catch (err) {
@@ -67,7 +67,7 @@ async function readQuestionnaireFile(path) {
 
 /**
  * Retrieves the database records associated with a questionnaire
- * by its URL-friendly ID.
+ * by its short ID.
  */
 async function selectQuestionnaireByShortId(id) {
   try {
@@ -134,7 +134,7 @@ async function selectQuestionnaires(dir = localDir) {
 }
 
 /**
- * Retrieves a single questionnaire using its URL-friendly ID.
+ * Retrieves a single questionnaire using its short ID.
  */
 async function selectQuestionnaire(id) {
   // Fetch records in the database
@@ -151,7 +151,7 @@ async function selectQuestionnaire(id) {
  * Stores a response for a given questionnaire.
  */
 async function addResponse(response) {
-  const shortId = generateId();
+  const shortId = generateShortId();
   const { questionnaireId } = response;
   const { id } = await selectQuestionnaireByShortId(questionnaireId);
 
@@ -189,7 +189,7 @@ async function selectResponses(questionnaireId) {
 }
 
 module.exports = {
-  generateId,
+  generateShortId,
   selectQuestionnaires,
   selectQuestionnaire,
   addResponse,

@@ -19,7 +19,7 @@ async function getQuestionnaires(req, res) {
 }
 
 /**
- * Retrieves a single questionnaire using its URL-friendly ID, passed via the request.
+ * Retrieves a single questionnaire using its short ID, passed via the request.
  */
 async function getQuestionnaire(req, res) {
   const id = req.params.id;
@@ -42,7 +42,7 @@ async function getQuestionnaire(req, res) {
 }
 
 /**
- * Retrieves all responses for a given questionnaire using its URL-friendly
+ * Retrieves all responses for a given questionnaire using its short
  * ID, passed via the request.
  */
 async function getResponses(req, res) {
