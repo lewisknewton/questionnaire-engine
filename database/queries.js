@@ -1,6 +1,7 @@
 'use strict';
 
 const queries = {
+  // Questionnaires
   addQuestionnaire: `
     INSERT INTO questionnaire (
                 short_id,
@@ -14,6 +15,23 @@ const queries = {
                 file_path AS path
   `,
 
+  selectQuestionnaireByShortId: `
+    SELECT  id,
+            short_id AS "shortId",
+            file_path AS path
+    FROM    questionnaire
+    WHERE   short_id = $1
+  `,
+
+  selectQuestionnaireByPath: `
+    SELECT  id,
+            short_id AS "shortId",
+            file_path AS path
+    FROM    questionnaire
+    WHERE   file_path = $1
+  `,
+
+  // Responses
   addResponse: `
     INSERT INTO response (
                 short_id,
@@ -34,22 +52,6 @@ const queries = {
             time_submitted AS submitted
     FROM    response
     WHERE   questionnaire_id = $1
-  `,
-
-  selectQuestionnaireByShortId: `
-    SELECT  id,
-            short_id AS "shortId",
-            file_path AS path
-    FROM    questionnaire
-    WHERE   short_id = $1
-  `,
-
-  selectQuestionnaireByPath: `
-    SELECT  id,
-            short_id AS "shortId",
-            file_path AS path
-    FROM    questionnaire
-    WHERE   file_path = $1
   `,
 };
 
