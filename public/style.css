@@ -127,6 +127,7 @@ textarea {
     "share-text share-text"
     "share-link share-copy"
     "share-output share-output";
+  max-width: var(--main-w);
 }
 
 #share.hidden {
