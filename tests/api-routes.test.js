@@ -4,7 +4,7 @@ const { generateId } = require('../questionnaire-handler');
 const { isFilled } = require('../common');
 const supertest = require('supertest');
 const { codes, errors } = require('../status');
-const dbClient = require('../db-client');
+const dbClient = require('../database/db-client');
 let server, request;
 
 beforeEach(() => {

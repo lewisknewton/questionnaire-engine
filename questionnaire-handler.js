@@ -5,7 +5,7 @@ const path = require('path');
 
 const { isFilled, isInArray } = require('./common');
 const queries = require('./database/queries');
-const dbClient = require('./db-client');
+const dbClient = require('./database/db-client');
 
 const questionnaires = [];
 const localDir = './questionnaires';
