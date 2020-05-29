@@ -65,6 +65,33 @@ article h3 {
   border-bottom: var(--border);
 }
 
+.summary > footer {
+  display: flex;
+}
+
+.summary > a {
+  justify-self: left;
+}
+
+.summary .review {
+  margin-right: var(--space-s);
+}
+
+.summary a,
+.summary button {
+  width: max-content;
+  margin-top: var(--space-m);
+}
+
+.share {
+  margin-left: auto;
+}
+
+.summary > span,
+#download {
+  margin-bottom: var(--space-l);
+}
+
 /* Input styles */
 input[type="number"],
 textarea {
@@ -81,19 +108,22 @@ textarea::placeholder {
 input[type="number"],
 input[type="submit"],
 textarea,
-button {
+button,
+a.btn-link {
   padding: var(--space-xs);
   font-size: inherit;
   border-radius: var(--space-xs);
 }
 
 input[type="submit"],
-button {
+button,
+a.btn-link {
   border: var(--border);
   padding: var(--space-s);
 }
 
-button {
+button,
+a.btn-link {
   background: var(--fg);
   color: var(--bg);
 }
