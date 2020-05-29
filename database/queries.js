@@ -23,7 +23,8 @@ const queries = {
                 $1,
                 $2
     )
-    RETURNING   id,
+    RETURNING   unique_id AS "uniqueId",
+                id,
                 questionnaire_id AS questionnaireId,
                 time_submitted AS submitted
   `,

@@ -152,7 +152,8 @@ async function selectQuestionnaire(id) {
  */
 async function addResponse(response) {
   const id = generateId();
-  const { uniqueId } = await selectQuestionnaireById(response.questionnaireId);
+  const { questionnaireId } = response;
+  const { uniqueId } = await selectQuestionnaireById(questionnaireId);
 
   try {
     const result = await dbClient.query(queries.addResponse, [id, uniqueId]);
