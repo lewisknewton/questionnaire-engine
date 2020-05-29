@@ -1,6 +1,6 @@
 'use strict';
 
-import { isFilled } from './modules/browser-common.js';
+import { isFilled, trapFocus } from './modules/browser-common.js';
 import { displayError } from './modules/browser-status.js';
 
 const loading = document.querySelector('#loading');
@@ -69,6 +69,7 @@ async function shareQuestionnaire(q) {
 
       // Set focus to be inside the dialog
       shareDialogCloseBtn.focus();
+      trapFocus(shareDialog);
     }
   }
 }

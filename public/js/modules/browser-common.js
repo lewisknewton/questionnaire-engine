@@ -23,6 +23,37 @@ export function isFilled(obj) {
 }
 
 /**
+ * Restricts elements the user can focus on within a given element.
+ */
+export function trapFocus(el) {
+  const focusable = el.querySelectorAll('a, button, textarea');
+
+  // Define first and last focusable elements
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+
+  el.addEventListener('keydown', evt => {
+    const focused = document.activeElement;
+
+    // Only run if TAB key is pressed
+    if (evt.key !== 'Tab') return;
+
+    if (evt.shiftKey) {
+      // Handle SHIFT + TAB combinations
+      if (first === focused) {
+        last.focus();
+        evt.preventDefault();
+      }
+    } else {
+      if (last === focused) {
+        first.focus();
+        evt.preventDefault();
+      }
+    }
+  });
+}
+
+/**
  * Sets the current document title.
  */
 export function setPageTitle(title) {
