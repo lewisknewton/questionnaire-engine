@@ -50,7 +50,7 @@ main {
 }
 
 article,
-#share-dialog {
+#share {
   padding: var(--space-s) var(--space-s) var(--space-s);
   border: var(--border);
   border-radius: var(--space-xs);
@@ -109,44 +109,52 @@ textarea {
   resize: vertical;
 }
 
-#share-dialog {
+#share[open],
+#share[aria-hidden="false"] {
+  color: inherit;
+  position: fixed;
+  height: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: grid;
   gap: var(--space-xs);
   grid-template-columns: 1fr auto;
   grid-template-areas:
     "header header"
     "share-text share-text"
-    "link-text copy-link";
+    "share-link share-copy"
+    "share-output share-output";
 }
 
-#share-dialog.hidden {
+#share.hidden {
   display: none;
 }
 
-#share-dialog header {
+#share header {
   display: flex;
   justify-content: space-between;
   grid-area: header;
 }
 
-#share-dialog p {
+#share-text {
   grid-area: share-text;
 }
 
-#link-text {
+#share-link {
   resize: none;
-  grid-area: link-text;
+  grid-area: share-link;
   padding: var(--space-s) var(--space-xs);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-#copy-link {
-  grid-area: copy-link;
+#share-copy {
+  grid-area: share-copy;
 }
 
-#close-dialog {
+#share-close {
   padding: var(--space-xs);
   display: flex;
   align-items: center;

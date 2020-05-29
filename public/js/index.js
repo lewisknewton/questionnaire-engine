@@ -7,17 +7,22 @@ const loading = document.querySelector('#loading');
 const questionnaireList = document.querySelector('#questionnaire-list');
 const questionnaireSummary = document.querySelector('#questionnaire-summary');
 
-const shareDialog = document.querySelector('#share-dialog');
-const shareDialogCloseBtn = document.querySelector('#close-dialog');
-const shareDialogCopyBtn = document.querySelector('#copy-link');
-const shareDialogLinkText = document.querySelector('#link-text');
-const shareDialogOutput = document.querySelector('#share-dialog > output');
+const shareDialog = document.querySelector('#share');
+const shareDialogCloseBtn = document.querySelector('#share-close');
+const shareDialogCopyBtn = document.querySelector('#share-copy');
+const shareDialogLinkText = document.querySelector('#share-link');
+const shareDialogOutput = document.querySelector('#share-output');
 
 /**
  * Closes the open share dialog.
  */
 function closeShareDialog() {
-  shareDialog.classList.add('hidden');
+  if (typeof shareDialog.close === 'function') {
+    shareDialog.close();
+  } else {
+    shareDialog.setAttribute('aria-hidden', 'true');
+    shareDialog.classList.add('hidden');
+  }
 }
 
 /**
@@ -56,7 +61,15 @@ async function shareQuestionnaire(q) {
 
     if (isFilled(shareDialogOutput.value)) shareDialogOutput.value = '';
 
-    shareDialog.classList.remove('hidden');
+    if (typeof shareDialog.showModal === 'function') {
+      shareDialog.showModal();
+    } else {
+      shareDialog.setAttribute('aria-hidden', 'false');
+      shareDialog.classList.remove('hidden');
+
+      // Set focus to be inside the dialog
+      shareDialogCloseBtn.focus();
+    }
   }
 }
 
@@ -107,6 +120,13 @@ async function loadQuestionnaires() {
  */
 function init() {
   loadQuestionnaires();
+
+  // Use fallback for <dialog> if unsupported
+  if (typeof HTMLDialogElement !== 'function') {
+    shareDialog.classList.add('hidden');
+    shareDialog.setAttribute('aria-hidden', 'true');
+    shareDialog.setAttribute('role', 'dialog');
+  }
 
   shareDialogCopyBtn.addEventListener('click', copyShareLink);
   shareDialogCloseBtn.addEventListener('click', closeShareDialog);
