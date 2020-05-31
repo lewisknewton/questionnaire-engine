@@ -148,17 +148,46 @@ async function selectQuestionnaire(id) {
 }
 
 /**
+ * Stores an answer for a given response, including the reference to the
+ * question for which the answer was given.
+ */
+async function addAnswer(answer) {
+  const { content, questionId, responseId } = answer;
+
+  try {
+    const result = await dbClient.query(queries.addAnswer, [questionId, content, responseId]);
+
+    return result.rows[0];
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+/**
  * Stores a response for a given questionnaire.
  */
 async function addResponse(response) {
   const shortId = generateShortId();
-  const { questionnaireId } = response;
+  const { answers, questionnaireId } = response;
   const { id } = await selectQuestionnaireByShortId(questionnaireId);
 
   try {
     const result = await dbClient.query(queries.addResponse, [shortId, id]);
+    const insertedResponse = result.rows[0];
+    insertedResponse.answers = answers;
 
-    return result.rows[0];
+    for (const question in insertedResponse.answers) {
+      // Insert all answers in the response
+      const answer = {
+        content: answers[question],
+        questionId: question,
+        responseId: insertedResponse.id,
+      };
+
+      insertedResponse.answers = { ...await addAnswer(answer) };
+    }
+
+    return insertedResponse;
   } catch (err) {
     console.error(err);
   }

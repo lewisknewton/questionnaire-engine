@@ -48,10 +48,34 @@ const queries = {
   `,
 
   selectResponses: `
-    SELECT  short_id AS id,
-            time_submitted AS submitted
-    FROM    response
-    WHERE   questionnaire_id = $1
+    SELECT    short_id AS id,
+              time_submitted AS submitted,
+              JSON_OBJECT_AGG(
+                question_id, 
+                content
+              ) AS answers
+    FROM      response
+    LEFT JOIN answer
+    ON        response.id = answer.response_id
+    WHERE     questionnaire_id = $1
+    GROUP BY  response.id
+    `,
+
+  // Answers
+  addAnswer: `
+    INSERT INTO answer (
+                question_id,
+                content,
+                response_id
+    )
+    VALUES (
+                $1,
+                $2,
+                $3
+    )
+    RETURNING   question_id AS "questionId",
+                content,
+                response_id AS "responseId"
   `,
 };
 
