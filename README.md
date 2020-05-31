@@ -62,6 +62,17 @@ All questionnaires must be stored in the [questionnaires/](questionnaires/) dire
 
 To add a questionnaire, place its JSON file into the [questionnaires/](questionnaires/) directory, or a sub-directory within this directory. 
 
+### Questions
+
+The following question types are available:
+
+| Type          | Input Type      | Selector                 | Use              |
+|---------------|-----------------|--------------------------|------------------|
+| number        | Number          | `input[type="number"]`   | Numerical values |
+| multi-select  | Checkbox        | `input[type="checkbox"]` | Multiple choice  |
+| single-select | Radio button    | `input[type="radio"]`    | Single choice    |
+| text          | Mulit-line text | `textarea`               | Free-form text   |
+
 ## Design
 
 ### Terms
