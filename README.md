@@ -66,12 +66,13 @@ To add a questionnaire, place its JSON file into the [questionnaires/](questionn
 
 The following question types are available:
 
-| Type          | Input Type      | Selector                 | Use              |
-|---------------|-----------------|--------------------------|------------------|
-| number        | Number          | `input[type="number"]`   | Numerical values |
-| multi-select  | Checkbox        | `input[type="checkbox"]` | Multiple choice  |
-| single-select | Radio button    | `input[type="radio"]`    | Single choice    |
-| text          | Mulit-line text | `textarea`               | Free-form text   |
+| Input Type      | Property        | Selector                 | Use              | 
+|-----------------|-----------------|--------------------------|------------------|
+| Number          | `number`        | `input[type="number"]`   | Numerical values |
+| Checkbox        | `multi-select`  | `input[type="checkbox"]` | Multiple choice  |
+| Radio button    | `single-select` | `input[type="radio"]`    | Single choice    |
+| Mulit-line text | `text`          | `textarea`               | Free-form text   |
+
 
 ## Design
 
