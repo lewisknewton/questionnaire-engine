@@ -25,7 +25,7 @@ npm start
 
 These commands will create the database and start the web server (see below for detail).
 
-### Database
+## Database
 
 The application uses a PostgreSQL database to store responses and basic questionnaire details.
 
@@ -45,20 +45,20 @@ For example, to run the application locally you might use:
 
 The default database name is `questionnaire_engine`. If required, this can be replaced in the [schema.sql](database/schema.sql) and [config.json](database/config.json) files.
 
-### Server
+## Server
 The `npm start` command will launch the application using an HTTP server running on port 8080, located in [server.js](server.js).
 
 To access the application, run `npm start` on your running virtual machine and enter the address shown into your browser.
 
 For testing purposes, the [example.json](questionnaires/example.json) file has been included to provide an example questionnaire. Similar files—[another-example.json](questionnaires/another-example/another-example.json) and [without-questions.json](questionnaires/another-example/without-questions.json)—have also been included within a sub-directory.
 
-### Questionnaires
+## Questionnaires
 
 The questionnaire engine uses a JSON structure to define and read the details of questionnaires. 
 
 All questionnaires must be stored in the [questionnaires/](questionnaires/) directory as `.JSON` files. Any sub-directories within this directory will be searched recursively to load questionnaires included within them.
 
-#### Adding Questionnaires
+### Adding Questionnaires
 
 To add a questionnaire, place its JSON file into the [questionnaires/](questionnaires/) directory, or a sub-directory within this directory. 
 
