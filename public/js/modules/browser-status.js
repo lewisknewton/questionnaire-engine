@@ -14,6 +14,19 @@ export function displayError(msg, afterEl = null) {
 }
 
 /**
+ * Displays a warning message. Also provides the option to display the
+ * message after a given element.
+ */
+export function displayWarning(msg, afterEl = null) {
+  const warningTemplate = document.querySelector('#warning-message');
+  const warning = warningTemplate.content.cloneNode(true);
+
+  warning.querySelector('p').textContent = msg;
+
+  if (afterEl != null) afterEl.after(warning);
+}
+
+/**
  * Displays a success message. Also provides the option to display the
  * message after a given element.
  */

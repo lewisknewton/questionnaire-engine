@@ -16,8 +16,9 @@
   --dark: #000;
   --shade: #ebebeb;
   --shadow: 0 1rem 1rem var(--shade);
-  --danger: #f44336;
-  --safe: #44a280;
+  --danger: #f7695f;
+  --warning: #fa8728;
+  --safe: #48ad88;
   --link: #bee1ff;
   --main-w: 95%;
   --space-xs: 0.5rem;
@@ -200,13 +201,18 @@ textarea {
   background: var(--danger);
 }
 
+.warning {
+  background: var(--warning);
+}
+
 .success {
   background: var(--safe);
 }
 
 .error,
+.warning,
 .success {
-  color: var(--light);
+  color: var(--dark);
   padding: var(--space-s);
 }
 

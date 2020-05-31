@@ -1,8 +1,8 @@
 'use strict';
 
 import { getQuestionnaireId } from './modules/browser-questionnaire-handler.js';
-import { getFormattedDate, setPageTitle } from './modules/browser-common.js';
-import { displayError } from './modules/browser-status.js';
+import { getFormattedDate, isFilled, setPageTitle } from './modules/browser-common.js';
+import { displayError, displayWarning } from './modules/browser-status.js';
 
 const main = document.querySelector('main');
 const loading = document.querySelector('#loading');
@@ -51,7 +51,11 @@ async function loadResponses(questionnaireId) {
   loading.classList.add('hidden');
 
   if (res.ok) {
-    displayDetails(data);
+    if (!isFilled(data.responses) || !isFilled(data.questions)) {
+      displayWarning(data.warning, main.querySelector('h1'));
+    } else {
+      displayDetails(data);
+    }
   } else {
     displayError(data.error, main.querySelector('h1'));
   }

@@ -13,8 +13,6 @@ const codes = {
 const errors = {
   questionnaireNotFound:
     id => `Sorry, no questionnaire of ID '${id}' could be found.`,
-  questionnaireNoQuestions:
-    'Sorry, this questionnaire does not have any questions yet.',
   questionnaireNotSelected:
     'Sorry, no questionnaire was selected. Please try again.',
   questionnairesNotFound:
@@ -27,7 +25,16 @@ const errors = {
     id => `Sorry, no responses for questionnaire of ID '${id}' could be found.`,
 };
 
+// Custom warning messages
+const warnings = {
+  questionnaireNoQuestionsCreator:
+    'No questions have been added to this questionnaire yet. Please add at least one question for your participants to answer.',
+  responsesNotFound:
+    id => `Sorry, no responses for questionnaire of ID '${id}' have been given yet.`,
+};
+
 module.exports = {
   codes,
   errors,
+  warnings,
 };

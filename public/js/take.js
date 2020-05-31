@@ -1,7 +1,7 @@
 'use strict';
 
-import { setPageTitle } from './modules/browser-common.js';
-import { displayError, displaySuccess } from './modules/browser-status.js';
+import { setPageTitle, isFilled } from './modules/browser-common.js';
+import { displayError, displaySuccess, displayWarning } from './modules/browser-status.js';
 import { getQuestionnaireId } from './modules/browser-questionnaire-handler.js';
 
 const main = document.querySelector('main');
@@ -182,7 +182,11 @@ async function loadQuestionnaire(id) {
   loading.classList.add('hidden');
 
   if (res.ok) {
-    displayQuestionnaire(data);
+    if (!isFilled(data.questions)) {
+      displayWarning(data.warning, main.querySelector('h1'));
+    } else {
+      displayQuestionnaire(data);
+    }
   } else {
     displayError(data.error, main.querySelector('h1'));
   }
