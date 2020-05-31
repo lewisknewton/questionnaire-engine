@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS response (
 CREATE TABLE IF NOT EXISTS answer (
   id uuid DEFAULT uuid_generate_v4(),
   question_id VARCHAR(30),
+  content TEXT,
   response_id uuid NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (response_id) REFERENCES response (id)
