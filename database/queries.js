@@ -43,16 +43,21 @@ const queries = {
     )
     RETURNING   id,
                 short_id AS "shortId",
-                questionnaire_id AS questionnaireId,
                 time_submitted AS submitted
   `,
 
   selectResponses: `
     SELECT    short_id AS id,
               time_submitted AS submitted,
-              JSON_OBJECT_AGG(
-                question_id, 
-                content
+              COALESCE(
+                JSON_OBJECT_AGG(
+                  question_id, 
+                  content
+                )
+                FILTER (
+                  WHERE answer.response_id IS NOT NULL
+                ),
+                '{}'
               ) AS answers
     FROM      response
     LEFT JOIN answer
@@ -74,8 +79,7 @@ const queries = {
                 $3
     )
     RETURNING   question_id AS "questionId",
-                content,
-                response_id AS "responseId"
+                content
   `,
 };
 

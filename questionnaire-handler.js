@@ -142,9 +142,9 @@ async function selectQuestionnaire(id) {
 
   if (!isFilled(questionnaire, true)) return;
 
-  const { path } = questionnaire;
+  const { shortId, path } = questionnaire;
 
-  return { id, ...await readQuestionnaireFile(path), path };
+  return { id: shortId, ...await readQuestionnaireFile(path), path };
 }
 
 /**
