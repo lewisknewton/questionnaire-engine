@@ -73,6 +73,25 @@ The following question types are available:
 | Radio button    | `single-select` | `input[type="radio"]`    | Single choice    |
 | Mulit-line text | `text`          | `textarea`               | Free-form text   |
 
+To define questions of these types, use the appropriate *property*.
+
+The following is an example of a valid `single-select` question:
+
+```json
+"questions": [
+  {
+    "id": "lord",
+    "text": "Which is the best lord?",
+    "type": "single-select",
+    "options": [
+      "Lord of the Rings",
+      "Lord of the Flies",
+      "Lord of the Dance",
+      "Lorde"
+    ]
+  },
+],
+```
 
 ## Design
 
