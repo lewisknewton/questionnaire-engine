@@ -35,7 +35,7 @@ async function getQuestionnaire(req, res) {
   }
 
   if (!isFilled(result.questions)) {
-    return res.json({ ...result, warning: warnings.questionnaireNoQuestions });
+    return res.status(codes.notFound).json({ ...result, error: errors.questionnaireNoQuestions });
   }
 
   return res.json(result);
@@ -59,12 +59,12 @@ async function getResponses(req, res) {
     return res.status(codes.notFound).json({ error: errors.questionnaireNotFound(questionnaireId) });
   }
 
-  if (result.questions.length === 0) {
-    // The questionnaire exists, but no questions were provided
-    return res.json({ ...result, warning: warnings.questionnaireNoQuestionsCreator });
-  }
-
   if (result.responses.length === 0) {
+    if (result.questions.length === 0) {
+      // The questionnaire exists, but no questions were provided
+      return res.json({ ...result, warning: warnings.questionnaireNoQuestionsCreator });
+    }
+
     // The questionnaire exists, but no responses have been given yet
     return res.json({ ...result, warning: warnings.responsesNotFound(questionnaireId) });
   }

@@ -3,7 +3,7 @@
 const { generateShortId } = require('../questionnaire-handler');
 const { isFilled } = require('../common');
 const supertest = require('supertest');
-const { codes, errors } = require('../status');
+const { codes, errors, warnings } = require('../status');
 const dbClient = require('../database/db-client');
 let server, request;
 
@@ -95,10 +95,10 @@ describe('GET Endpoints', () => {
     const testQuestionnaires = await request.get('/api/questionnaires');
 
     for (const q of testQuestionnaires.body) {
-      const expected = { error: errors.questionnaireNoQuestions };
-
       const res = await request.get(`/api/questionnaires/${q.id}`);
       const questions = res.body.questions;
+
+      const expected = { ...res.body, error: errors.questionnaireNoQuestions };
 
       if (!isFilled(questions)) {
         expect(res.statusCode).toStrictEqual(codes.notFound);
@@ -115,7 +115,21 @@ describe('GET Endpoints', () => {
     for (const q of testQuestionnaires.body) {
       const res = await request.get(`/api/questionnaires/${q.id}/responses`);
 
-      if (isFilled(res.body.responses)) {
+      if (res.body.responses.length === 0) {
+        if (res.body.questions.length === 0) {
+          // No questions are available for responses to be given
+          const expected = { warning: warnings.questionnaireNoQuestionsCreator };
+
+          expect(res.statusCode).toStrictEqual(codes.ok);
+          expect(res.body).toMatchObject(expected);
+        } else {
+          // Responses have not been provided for the given questionnaire
+          const expected = { warning: warnings.responsesNotFound(q.id) };
+
+          expect(res.statusCode).toStrictEqual(codes.ok);
+          expect(res.body).toMatchObject(expected);
+        }
+      } else {
         // Responses have been provided for the given questionnaire
         expect(res.statusCode).toStrictEqual(codes.ok);
 
@@ -139,12 +153,6 @@ describe('GET Endpoints', () => {
             }),
           ]),
         }));
-      } else {
-        // Responses have not been provided for the given questionnaire
-        const expected = { error: errors.responsesNotFound(q.id) };
-
-        expect(res.statusCode).toStrictEqual(codes.notFound);
-        expect(res.body).toMatchObject(expected);
       }
     }
 

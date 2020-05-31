@@ -11,6 +11,8 @@ const codes = {
 
 // Custom error messages
 const errors = {
+  questionnaireNoQuestions:
+    'Sorry, no questions have been added to this questionnaire yet. Please check back later.',
   questionnaireNotFound:
     id => `Sorry, no questionnaire of ID '${id}' could be found.`,
   questionnaireNotSelected:
