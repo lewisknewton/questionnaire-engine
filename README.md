@@ -75,7 +75,7 @@ The following question types are available:
 
 To define questions of these types, use the appropriate *property*.
 
-The following is an example of a valid `single-select` question:
+The following is an example of a valid `single-select` question, taken from [example.json](questionnaires/example.json):
 
 ```json
 "questions": [
