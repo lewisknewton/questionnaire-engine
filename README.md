@@ -153,3 +153,9 @@ Two scripts, `lint-js` and `lint-css`, were defined to lint all files of the res
 ## Testing
 
 During development, [Jest](https://jestjs.io/) was used as the testing framework for the JavaScript files, along with the [SuperTest](https://www.npmjs.com/package/supertest) library. All test cases are in the [tests/](tests/) directory and can be run using the `npm test` command.
+
+## Icons
+
+The application uses [FontAwesome](https://fontawesome.com/) SVG icons, found in the [img/](public/img) directory. These are licenced under [CC BY 4.0 Licence](https://creativecommons.org/licenses/by/4.0/).
+
+A copy of the licence can be viewed in [fa-licence.txt](public/img/fa-licence.txt) or at [https://fontawesome.com/license/free](https://fontawesome.com/license/free).

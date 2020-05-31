@@ -215,6 +215,35 @@ textarea {
 .success {
   color: var(--dark);
   padding: var(--space-s);
+  border-radius: var(--space-xs);
+  display: grid;
+  gap: var(--space-s);
+  grid-template-areas:
+    "a"
+    "b";
+  justify-items: center;
+}
+
+.error::before {
+  background-image: url("./img/error.svg");
+}
+
+.warning::before {
+  background-image: url("./img/warning.svg");
+}
+
+.success::before {
+  background-image: url("./img/success.svg");
+}
+
+.error::before,
+.warning::before,
+.success::before {
+  content: "";
+  width: 3rem;
+  height: 3rem;
+  background-size: cover;
+  display: block;
 }
 
 /* Hiding/unhiding styles */
@@ -270,5 +299,14 @@ textarea {
 @media only screen and (min-width: 700px) {
   :root {
     --main-w: 44em;
+  }
+
+  .error,
+  .warning,
+  .success {
+    align-items: center;
+    justify-items: start;
+    grid-template-columns: auto 1fr;
+    grid-template-areas: "a b";
   }
 }
