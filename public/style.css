@@ -66,33 +66,6 @@ article h3 {
   border-bottom: var(--border);
 }
 
-.summary > footer {
-  display: flex;
-}
-
-.summary > a {
-  justify-self: left;
-}
-
-.summary .review {
-  margin-right: var(--space-s);
-}
-
-.summary a,
-.summary button {
-  width: max-content;
-  margin-top: var(--space-m);
-}
-
-.share {
-  margin-left: auto;
-}
-
-.summary > span,
-#download {
-  margin-bottom: var(--space-l);
-}
-
 /* Input styles */
 input[type="number"],
 textarea {
@@ -139,6 +112,34 @@ textarea {
   width: 100%;
   max-width: 100%;
   resize: vertical;
+}
+
+/* Questionnaire summary styles */
+.summary > footer {
+  display: flex;
+}
+
+.summary > a {
+  justify-self: left;
+}
+
+.summary .review {
+  margin-right: var(--space-s);
+}
+
+.summary a,
+.summary button {
+  width: max-content;
+  margin-top: var(--space-m);
+}
+
+.share {
+  margin-left: auto;
+}
+
+.summary > span,
+#download {
+  margin-bottom: var(--space-l);
 }
 
 /* Share dialog styles */
