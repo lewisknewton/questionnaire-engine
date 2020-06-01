@@ -20,6 +20,19 @@
     <p>All responses will be shown here.</p>
 
     <button id="download">Download responses</button>
+
+    <div role="tablist" aria-label="Response Views Tabs">
+      <button id="aggregated-tab" role="tab" aria-selected="true" aria-controls="aggregated-panel" tabindex="0">Aggregated</button>
+      <button id="individual-tab" role="tab" aria-selected="false" aria-controls="individual-panel" tabindex="-1">Individual</button>
+    </div>
+
+    <article id="aggregated-panel" role="tabpanel" tabindex="0" aria-labelledby="aggregated-tab">
+      agg
+    </article>
+
+    <article id="individual-panel" role="tabpanel" tabindex="0" aria-labelledby="individual-tab" hidden>
+      ind
+    </article>
   </section>
 
   <a href="/">Go Home</a>

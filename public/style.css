@@ -25,7 +25,8 @@
   --space-s: 1rem;
   --space-m: 1.25rem;
   --space-l: 1.5rem;
-  --border: thin solid var(--accent);
+  --thin: 0.05rem;
+  --border: var(--thin) solid var(--accent);
 }
 
 /* Base element styles */
@@ -272,6 +273,34 @@ textarea {
 .multi-select-question > h3,
 .single-select-question > h3 {
   grid-area: title;
+}
+
+/* Tab styles */
+button[role="tab"] {
+  background: var(--card);
+  color: var(--fg);
+  border-bottom: var(--thin) solid transparent;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  position: relative;
+}
+
+button[role="tab"][aria-selected="true"]::after {
+  content: '';
+  width: 100%;
+  height: var(--thin);
+  background: var(--card);
+  position: absolute;
+  bottom: calc(-2 * var(--thin));
+  left: 0;
+}
+
+button[role="tab"][aria-selected="false"] {
+  background: var(--bg);
+}
+
+article[role="tabpanel"] {
+  border-top-left-radius: 0;
 }
 
 /* Dark mode styles */
