@@ -33,6 +33,10 @@ function copyShareLink() {
   document.execCommand('copy');
 
   shareDialogOutput.value = 'Link copied.';
+
+  setTimeout(() => {
+    shareDialogOutput.value = '';
+  }, 3000);
 }
 
 /**

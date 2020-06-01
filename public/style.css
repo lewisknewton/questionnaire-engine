@@ -12,7 +12,7 @@
   --input: var(--card);
   --accent: #acacac;
   --primary: #00a6ff;
-  --primary-alt: #1F87FF;
+  --primary-alt: #1f87ff;
   --primary-shade: #0086ce;
   --secondary: #575757;
   --secondary-alt: #414141;
@@ -25,7 +25,7 @@
   --safe: #48ad88;
   --link: #0056b3;
   --link-active: #ff1f44;
-  --link-visited: #7828C8;
+  --link-visited: #7828c8;
   --main-w: 95%;
   --space-xs: 0.5rem;
   --space-s: 1rem;
@@ -190,8 +190,8 @@ textarea {
   grid-template-areas:
     "header header"
     "share-text share-text"
-    "share-link share-copy"
-    "share-output share-output";
+    "share-output share-output"
+    "share-link share-copy";
   max-width: var(--main-w);
 }
 
