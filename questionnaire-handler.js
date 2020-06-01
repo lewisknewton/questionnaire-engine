@@ -116,7 +116,11 @@ async function selectQuestionnaires(dir = localDir) {
           questionnaire.id = shortId;
         }
 
+        // Check if the questionnaire has already been selected
         const inArray = await isInArray(questionnaires, 'path', questionnaire.path);
+
+        // Hide the path from users
+        delete questionnaire.path;
 
         if (!inArray) {
           questionnaires.push(questionnaire);
@@ -144,7 +148,7 @@ async function selectQuestionnaire(id) {
 
   const { shortId, path } = questionnaire;
 
-  return { id: shortId, ...await readQuestionnaireFile(path), path };
+  return { id: shortId, ...await readQuestionnaireFile(path) };
 }
 
 /**
