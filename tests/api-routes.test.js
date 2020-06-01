@@ -37,7 +37,6 @@ describe('GET Endpoints', () => {
               ]),
             }),
           ]),
-          path: expect.any(String),
         }),
       ]));
     } else {
@@ -116,7 +115,7 @@ describe('GET Endpoints', () => {
       const res = await request.get(`/api/questionnaires/${q.id}/responses`);
 
       if (res.body.responses.length === 0) {
-        if (res.body.questions.length === 0) {
+        if (!res.body.hasQuestions) {
           // No questions are available for responses to be given
           const expected = { warning: warnings.questionnaireNoQuestionsCreator };
 
@@ -136,19 +135,11 @@ describe('GET Endpoints', () => {
         expect(res.body).toEqual(expect.objectContaining({
           questionnaireId: expect.any(String),
           name: expect.any(String),
-          questions: expect.arrayContaining([
-            expect.objectContaining({
-              id: expect.any(String),
-              text: expect.any(String),
-              type: expect.any(String),
-              options: expect.arrayContaining([
-                expect.any(String),
-              ]),
-            }),
-          ]),
+          hasQuestions: expect.any(Boolean),
           responses: expect.arrayContaining([
             expect.objectContaining({
               id: expect.any(String),
+              answers: expect.any(Object),
               submitted: expect.any(String),
             }),
           ]),
