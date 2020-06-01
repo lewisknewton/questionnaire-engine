@@ -12,6 +12,10 @@
   --input: var(--card);
   --accent: #acacac;
   --primary: #00a6ff;
+  --primary-alt: #1F87FF;
+  --primary-shade: #0086ce;
+  --secondary: #575757;
+  --secondary-alt: #414141;
   --light: #fff;
   --dark: #000;
   --shade: #ebebeb;
@@ -19,14 +23,18 @@
   --danger: #f7695f;
   --warning: #fa8728;
   --safe: #48ad88;
-  --link: #bee1ff;
+  --link: #0056b3;
+  --link-active: #ff1f44;
+  --link-visited: #7828C8;
   --main-w: 95%;
   --space-xs: 0.5rem;
   --space-s: 1rem;
   --space-m: 1.25rem;
   --space-l: 1.5rem;
   --thin: 0.05rem;
+  --medium: 0.1rem;
   --border: var(--thin) solid var(--accent);
+  --button-shadow: inset 0 0.5rem 0.5rem rgb(0, 0, 0, 0.2);
 }
 
 /* Base element styles */
@@ -35,6 +43,19 @@ body {
   line-height: 1.5;
   color: var(--fg);
   background: var(--bg);
+}
+
+a {
+  color: var(--link);
+  text-underline-position: under;
+}
+
+a:active {
+  color: var(--link-active);
+}
+
+a:visited {
+  color: var(--link-visited);
 }
 
 h1,
@@ -83,24 +104,34 @@ textarea::placeholder {
 input[type="number"],
 input[type="submit"],
 textarea,
-button,
-a.btn-link {
-  padding: var(--space-xs);
+button {
   font-size: inherit;
   border-radius: var(--space-xs);
 }
 
 input[type="submit"],
-button,
-a.btn-link {
+button {
   border: var(--border);
   padding: var(--space-s);
 }
 
-button,
-a.btn-link {
-  background: var(--fg);
+button {
+  border: none;
+  background: var(--secondary);
   color: var(--bg);
+}
+
+button:hover {
+  background: var(--secondary-alt);
+}
+
+button.primary:hover {
+  background: var(--primary-alt);
+}
+
+button:active {
+  box-shadow: var(--button-shadow);
+  transform: translateY(0.05rem);
 }
 
 input[type="submit"],
@@ -118,6 +149,7 @@ textarea {
 /* Questionnaire summary styles */
 .summary > footer {
   display: flex;
+  align-items: center;
 }
 
 .summary > a {
@@ -125,7 +157,7 @@ textarea {
 }
 
 .summary .review {
-  margin-right: var(--space-s);
+  margin-right: var(--space-l);
 }
 
 .summary a,
@@ -277,6 +309,7 @@ textarea {
 
 /* Tab styles */
 button[role="tab"] {
+  border: var(--border);
   background: var(--card);
   color: var(--fg);
   border-bottom: var(--thin) solid transparent;
@@ -286,7 +319,7 @@ button[role="tab"] {
 }
 
 button[role="tab"][aria-selected="true"]::after {
-  content: '';
+  content: "";
   width: 100%;
   height: var(--thin);
   background: var(--card);
@@ -312,10 +345,11 @@ article[role="tabpanel"] {
     --input: #525252;
     --accent: #777;
     --shade: #2e2e2e;
-  }
-
-  a {
-    color: var(--link);
+    --link: #bee1ff;
+    --link-active: #ffc7d2;
+    --link-visited: #e5d1f5;
+    --secondary: #fff;
+    --secondary-alt: #ebebeb;
   }
 
   input[type="submit"],
