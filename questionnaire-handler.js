@@ -117,7 +117,7 @@ async function selectQuestionnaires(dir = localDir) {
         }
 
         // Check if the questionnaire has already been selected
-        const inArray = await isInArray(questionnaires, 'path', questionnaire.path);
+        const inArray = await isInArray(questionnaires, 'id', questionnaire.id);
 
         // Hide the path from users
         delete questionnaire.path;
