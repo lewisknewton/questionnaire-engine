@@ -125,7 +125,7 @@ The following routes may be accessed after prepending `api` e.g. `xx.xxx.xxx.xx/
 |---------------------------------|---------------------------------------------------|--------------------------------------------|
 | /questionnaires                 | Retrieve all questionnaires.                      |                                            |
 | /questionnaires/:id             | Retrieve a given questionnaire.                   |                                            |
-| /questionnaires/:id/responses   | Retrieve all responses for a given questionnaire. | Save a response for a given questionnaire. |
+| /questionnaires/:id/responses   | Retrieve all responses for a given questionnaire, as well as some details about the questionnaire for context. | Save a response for a given questionnaire. |
 
 #### Web
 

@@ -164,7 +164,8 @@ async function addAnswer(answer) {
 }
 
 /**
- * Stores a response for a given questionnaire.
+ * Stores a response for a given questionnaire, using the
+ * answers stored in the response and the questionnaire's unique ID.
  */
 async function addResponse(response) {
   const shortId = generateShortId();
@@ -194,24 +195,28 @@ async function addResponse(response) {
 }
 
 /**
- * Retrieves all responses for a given questionnaire, along with the
- * questionnaire itself.
+ * Retrieves all responses for a given questionnaire, using
+ * the questionnaire's short ID.
  */
 async function selectResponses(questionnaireId) {
   const questionnaire = await selectQuestionnaireByShortId(questionnaireId);
 
   if (!isFilled(questionnaire, true)) return;
 
-  const { shortId, id, path } = questionnaire;
+  const { id: qId, shortId, path } = questionnaire;
 
   try {
-    const result = await dbClient.query(queries.selectResponses, [id]);
+    const result = await dbClient.query(queries.selectResponses, [qId]);
     const responses = isFilled(result.rows) ? result.rows : [];
 
-    // Bundle the questionnaire and its responses together
-    const bundled = { questionnaireId: shortId, ...await readQuestionnaireFile(path), responses };
+    const { name, questions } = await readQuestionnaireFile(path);
 
-    return bundled;
+    return {
+      questionnaireId: shortId,
+      name,
+      hasQuestions: isFilled(questions),
+      responses,
+    };
   } catch (err) {
     console.error(err);
   }

@@ -60,7 +60,7 @@ async function getResponses(req, res) {
   }
 
   if (result.responses.length === 0) {
-    if (result.questions.length === 0) {
+    if (!result.hasQuestions) {
       // The questionnaire exists, but no questions were provided
       return res.json({ ...result, warning: warnings.questionnaireNoQuestionsCreator });
     }

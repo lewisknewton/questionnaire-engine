@@ -1,7 +1,7 @@
 'use strict';
 
 import { getQuestionnaireId } from './modules/browser-questionnaire-handler.js';
-import { getFormattedDate, isFilled, setPageTitle } from './modules/browser-common.js';
+import { getFormattedDate, setPageTitle } from './modules/browser-common.js';
 import { displayError, displayWarning } from './modules/browser-status.js';
 
 const main = document.querySelector('main');
@@ -14,14 +14,9 @@ let id = '';
 let responses = [];
 
 /**
- * Displays details and responses of a given questionnaire.
+ * Displays the responses of the given questionnaire.
  */
-function displayDetails(details) {
-  responses = details.responses;
-
-  setPageTitle(details.name);
-
-  main.querySelector('h1').textContent = details.name;
+function displayResponses() {
   main.querySelector('#responses').classList.remove('hidden');
 
   for (const response of responses) {
@@ -51,10 +46,14 @@ async function loadResponses(questionnaireId) {
   loading.classList.add('hidden');
 
   if (res.ok) {
-    if (!isFilled(data.responses) || !isFilled(data.questions)) {
+    main.querySelector('h1').textContent = data.name;
+    setPageTitle(data.name);
+
+    if (data.warning) {
       displayWarning(data.warning, main.querySelector('h1'));
     } else {
-      displayDetails(data);
+      responses = data.responses;
+      displayResponses();
     }
   } else {
     displayError(data.error, main.querySelector('h1'));
