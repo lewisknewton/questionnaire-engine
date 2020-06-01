@@ -141,6 +141,8 @@ The following routes may be accessed directly in the browser e.g. `xx.xxx.xxx.xx
 
 To avoid exposing their primary keys, alternative short IDs are assigned to questionnaires and responses for sharing and review.
 
+Paths to questionnaire files are also hidden to avoid hinting at the server's contents to users.
+
 ## Linting
 
 During development, the following linters were used:
