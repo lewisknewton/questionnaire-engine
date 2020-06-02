@@ -26,13 +26,28 @@
       <button id="individual-tab" role="tab" aria-selected="false" aria-controls="individual-panel" tabindex="-1">Individual</button>
     </div>
 
-    <article id="aggregated-panel" role="tabpanel" tabindex="0" aria-labelledby="aggregated-tab">
-      agg
-    </article>
+    <section id="aggregated-panel" class="card" role="tabpanel" tabindex="0" aria-labelledby="aggregated-tab">
+      <h3>Aggregated Responses</h3>
+    </section>
 
-    <article id="individual-panel" role="tabpanel" tabindex="0" aria-labelledby="individual-tab" hidden>
-      ind
-    </article>
+    <section id="individual-panel" class="card" role="tabpanel" tabindex="0" aria-labelledby="individual-tab" hidden>
+      <h3>Individual Responses</h3>
+
+      <!-- Controls for navigating through individual responses -->
+      <nav id="individual-nav">
+        <button id="previous-response" aria-label="Previous response" title="Previous response">
+          <span>&lsaquo;</span> 
+        </button>
+
+        <input type="number" name="current-response-number" id="current-response-number" min="1" aria-label="Current response number">
+
+        <span id="response-numbers">of ?</span>
+
+        <button id="next-response" aria-label="Next response" title="Next response">
+          <span>&rsaquo;</span>
+        </button>
+      </nav>
+    </section>
   </section>
 
   <a href="/">Go Home</a>
@@ -52,11 +67,11 @@
 
   <!-- Reproducible templates for responses -->
   <template id="response">
-    <article>
+    <article class="response">
       <h3>Response</h3>
       
-      <span>ID</span>
-      <span>Time Submitted</span>
+      <span>ID:</span>
+      <span>Time Submitted: <time>Timestamp</time></span>
     </article>
   </template>
 </main>

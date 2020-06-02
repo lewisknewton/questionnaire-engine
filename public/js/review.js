@@ -7,6 +7,12 @@ import { displayError, displayWarning } from './modules/browser-status.js';
 const main = document.querySelector('main');
 const loading = document.querySelector('#loading');
 const responsesList = document.querySelector('#responses');
+
+const individualPanel = document.querySelector('#individual-panel');
+const prevResponseBtn = document.querySelector('#previous-response');
+const nextResponseBtn = document.querySelector('#next-response');
+const responseSelector = document.querySelector('#current-response-number');
+const responseNumbers = document.querySelector('#response-numbers');
 const downloadBtn = responsesList.querySelector('#download');
 const responseTemplate = document.querySelector('#response');
 
@@ -14,7 +20,7 @@ const navKeys = ['ArrowLeft', 'ArrowRight'];
 
 let tabFocus = 0;
 const tabs = document.querySelectorAll('button[role="tab"]');
-const panels = document.querySelectorAll('article[role="tabpanel"');
+const panels = document.querySelectorAll('section[role="tabpanel"]');
 const tabList = document.querySelector('div[role="tablist"]');
 
 let id = '';
@@ -49,11 +55,59 @@ function focusOnTab(e) {
 }
 
 /**
+ * Enables or disables the previous or next buttons for showing individual
+ * responses, using a given index.
+ */
+function handleUseOfNavigationControls(index) {
+  // Control previous (left) navigation
+  if (index <= 0) {
+    prevResponseBtn.setAttribute('disabled', true);
+  } else {
+    prevResponseBtn.removeAttribute('disabled');
+  }
+
+  // Control next (right) navigation
+  if (index >= responses.length - 1) {
+    nextResponseBtn.setAttribute('disabled', true);
+  } else {
+    nextResponseBtn.removeAttribute('disabled');
+  }
+
+  // Disable all controls when there is only one response
+  if (responses.length === 1) {
+    prevResponseBtn.setAttribute('disabled', true);
+    nextResponseBtn.setAttribute('disabled', true);
+    responseSelector.setAttribute('disabled', true);
+  }
+}
+
+/**
+ * Navigates through individual responses in either a forwards (positive steps)
+ * or backwards (negative steps) direction.
+ */
+function traverseResponses(step) {
+  const currentResponse = individualPanel.querySelector('article.response');
+  const currentIndex = Number(currentResponse.getAttribute('data-index'));
+
+  // Index of the desired response
+  let targetIndex;
+
+  // Determine direction (previous/left or next/right)
+  if (step === 1 && currentIndex < responses.length - 1) {
+    targetIndex = currentIndex + 1;
+  } else if (step === -1 && currentIndex > 0) {
+    targetIndex = currentIndex - 1;
+  }
+
+  displayResponse(targetIndex);
+}
+
+/**
  * Changes the current responses view (aggregated or individual) displayed.
  */
 function switchView(e) {
   const clicked = e.target;
-  const panel = document.querySelector(`article[aria-labelledby="${clicked.id}"]`);
+  const panel = document.querySelector(`section[aria-labelledby="${clicked.id}"]`);
 
   // Deselect the tab of the currently shown view
   for (const tab of tabs) {
@@ -71,26 +125,35 @@ function switchView(e) {
 }
 
 /**
- * Displays the responses of the given questionnaire.
+ * Displays a response of the given questionnaire.
  */
-function displayResponses() {
-  main.querySelector('#responses').classList.remove('hidden');
+function displayResponse(index) {
+  const existing = individualPanel.querySelector('article.response');
 
-  for (const response of responses) {
-    const submitted = getFormattedDate(new Date(response.submitted));
+  // Remove any response already shown
+  if (existing != null) existing.remove();
 
-    const responseEl = responseTemplate.content.cloneNode(true);
+  // Keep number input up-to-date
+  responseSelector.value = index + 1;
 
-    const title = responseEl.querySelector('h3');
-    const idEl = responseEl.querySelector('span:nth-of-type(1)');
-    const submittedEl = responseEl.querySelector('span:nth-of-type(2)');
+  const response = responses[index];
+  const submitted = getFormattedDate(new Date(response.submitted));
 
-    title.textContent = `${responses.indexOf(response) + 1} of ${responses.length}`;
-    idEl.textContent = `ID: ${response.id}`;
-    submittedEl.textContent = `Time submitted: ${submitted}`;
+  const responseEl = responseTemplate.content.cloneNode(true);
+  const titleEl = responseEl.querySelector('h3');
+  const idEl = responseEl.querySelector('span:nth-of-type(1)');
+  const submittedEl = responseEl.querySelector('time');
 
-    responsesList.append(responseEl);
-  }
+  responseEl.querySelector('article').setAttribute('data-index', index);
+  titleEl.textContent = `${index + 1} of ${responses.length}`;
+  idEl.textContent = `ID: ${response.id}`;
+  submittedEl.textContent = submitted;
+  submittedEl.setAttribute('datetime', submitted);
+
+  individualPanel.append(responseEl);
+
+  // Enable or disable the appropriate navigation control(s)
+  handleUseOfNavigationControls(index);
 }
 
 /**
@@ -110,7 +173,17 @@ async function loadResponses(questionnaireId) {
       displayWarning(data.warning, main.querySelector('h1'));
     } else {
       responses = data.responses;
-      displayResponses();
+
+      responseSelector.value = 1;
+      responseSelector.setAttribute('max', responses.length);
+      responseNumbers.textContent = `of ${responses.length}`;
+
+      // Enable or disable the appropriate navigation control(s)
+      handleUseOfNavigationControls();
+
+      // Display the first response
+      main.querySelector('#responses').classList.remove('hidden');
+      displayResponse(0);
     }
   } else {
     displayError(data.error, main.querySelector('h1'));
@@ -135,6 +208,45 @@ function downloadResponses(format = 'json') {
 }
 
 /**
+ * Attaches event listeners and handlers to the tab elements, allowing them to
+ * be navigated through clicking or via the keyboard.
+ */
+function handleTabEvents() {
+  // Handle clicks
+  for (const tab of tabs) tab.addEventListener('click', switchView);
+
+  // Handle keyboard navigation
+  tabList.addEventListener('keydown', focusOnTab);
+}
+
+/**
+ * Attaches event listeners and handlers to elements related to the individual
+ * responses view.
+ */
+function handleIndividualResponsesEvents() {
+  // Handle clicks on the navigation controls
+  nextResponseBtn.addEventListener('click', () => traverseResponses(+1));
+  prevResponseBtn.addEventListener('click', () => traverseResponses(-1));
+
+  // Handle manual response number inputs
+  responseSelector.addEventListener('input', (e) => {
+    let index = e.target.value - 1;
+
+    // Adjust index when given invalid inputs
+    if (index < 0 || isNaN(index)) {
+      index = 0;
+    } else if (index > responses.length - 1) {
+      index = responses.length - 1;
+    }
+
+    displayResponse(index);
+  });
+
+  // Handle clicks on the download button
+  downloadBtn.addEventListener('click', () => downloadResponses());
+}
+
+/**
  * Initialises the web page.
  */
 function init() {
@@ -142,16 +254,9 @@ function init() {
   id = getQuestionnaireId('review');
   loadResponses(id);
 
-  // Handle clicks on the responses views tabs
-  for (const tab of tabs) {
-    tab.addEventListener('click', switchView);
-  }
-
-  // Handle keypresses for navigating tabs via the keyboard
-  tabList.addEventListener('keydown', focusOnTab);
-
-  // Handle clicks on the download button
-  downloadBtn.addEventListener('click', () => downloadResponses());
+  // Add event listeners and handlers
+  handleTabEvents();
+  handleIndividualResponsesEvents();
 }
 
 window.addEventListener('load', init);

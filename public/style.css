@@ -345,8 +345,28 @@ button[role="tab"][aria-selected="false"] {
   background: var(--bg);
 }
 
-article[role="tabpanel"] {
+section[role="tabpanel"] {
   border-top-left-radius: 0;
+}
+
+/* Individual response styles */
+#individual-nav {
+  margin-bottom: var(--space-l);
+}
+
+#previous-response {
+  margin-right: var(--space-xs);
+}
+
+#next-response {
+  margin-left: var(--space-xs);
+}
+
+#current-response-number {
+  text-align: right;
+  height: 3rem;
+  width: 3rem;
+  display: inline-block;
 }
 
 /* Dark mode styles */
