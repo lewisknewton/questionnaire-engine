@@ -109,6 +109,7 @@ function copyQuestionTemplate(question) {
       inputCopy.setAttribute('id', opaqueId);
       inputCopy.setAttribute('value', opaqueId);
       inputCopy.setAttribute('name', question.id);
+      inputCopy.setAttribute('aria-describedby', question.id);
 
       addInputEventListeners(inputCopy, ...questionTypes[type].events);
 
