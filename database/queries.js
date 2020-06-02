@@ -50,9 +50,11 @@ const queries = {
     SELECT    short_id AS id,
               time_submitted AS submitted,
               COALESCE(
-                JSON_OBJECT_AGG(
-                  question_id, 
-                  content
+                JSON_AGG(
+                  JSON_BUILD_OBJECT(
+                    'questionId', question_id, 
+                    'content', content
+                  )
                 )
                 FILTER (
                   WHERE answer.response_id IS NOT NULL

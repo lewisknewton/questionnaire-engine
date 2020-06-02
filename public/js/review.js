@@ -8,23 +8,27 @@ const main = document.querySelector('main');
 const loading = document.querySelector('#loading');
 const responsesList = document.querySelector('#responses');
 
+// Individual responses view elements
 const individualPanel = document.querySelector('#individual-panel');
 const prevResponseBtn = document.querySelector('#previous-response');
 const nextResponseBtn = document.querySelector('#next-response');
 const responseSelector = document.querySelector('#current-response-number');
 const responseNumbers = document.querySelector('#response-numbers');
 const downloadBtn = responsesList.querySelector('#download');
+
+// Reproducible templates
 const responseTemplate = document.querySelector('#response');
+const answerTemplate = document.querySelector('#answer');
 
-const navKeys = ['ArrowLeft', 'ArrowRight'];
-
+// Focus control elements
 let tabFocus = 0;
+const navKeys = ['ArrowLeft', 'ArrowRight'];
 const tabs = document.querySelectorAll('button[role="tab"]');
 const panels = document.querySelectorAll('section[role="tabpanel"]');
 const tabList = document.querySelector('div[role="tablist"]');
 
-let id = '';
 let responses = [];
+let questions = [];
 
 /**
  * Sets the focus on the appropriate responses view tab for keyboard navigation.
@@ -137,6 +141,7 @@ function displayResponse(index) {
   responseSelector.value = index + 1;
 
   const response = responses[index];
+  const answers = response.answers;
   const submitted = getFormattedDate(new Date(response.submitted));
 
   const responseEl = responseTemplate.content.cloneNode(true);
@@ -145,10 +150,25 @@ function displayResponse(index) {
   const submittedEl = responseEl.querySelector('time');
 
   responseEl.querySelector('article').setAttribute('data-index', index);
-  titleEl.textContent = `${index + 1} of ${responses.length}`;
+  titleEl.textContent = `Response ${index + 1} of ${responses.length}`;
   idEl.textContent = `ID: ${response.id}`;
   submittedEl.textContent = submitted;
   submittedEl.setAttribute('datetime', submitted);
+
+  // Add answers
+  for (const answer of answers) {
+    const answerEl = answerTemplate.content.cloneNode(true);
+    const answerTitleEl = answerEl.querySelector('h5');
+    const answerContentEl = answerEl.querySelector('span');
+
+    // Find the question to which the answer was given
+    const related = questions.filter(q => q.id === answer.questionId)[0];
+
+    answerTitleEl.textContent = `${related.text} (${answer.questionId})`;
+    answerContentEl.textContent = `${answer.content} `;
+
+    responseEl.querySelector('section.answers').append(answerEl);
+  }
 
   individualPanel.append(responseEl);
 
@@ -157,13 +177,11 @@ function displayResponse(index) {
 }
 
 /**
- * Retrieves the responses for the questionnaire of the given ID.
+ * Retrieves the responses for a given questionnaire, using its ID.
  */
 async function loadResponses(questionnaireId) {
   const res = await fetch(`/api/questionnaires/${questionnaireId}/responses`);
   const data = await res.json();
-
-  loading.classList.add('hidden');
 
   if (res.ok) {
     main.querySelector('h1').textContent = data.name;
@@ -188,6 +206,26 @@ async function loadResponses(questionnaireId) {
   } else {
     displayError(data.error, main.querySelector('h1'));
   }
+}
+
+/**
+ * Retrieves the questions for a given questionnaire, using its ID.
+ */
+async function loadQuestions(questionnaireId) {
+  const res = await fetch(`/api/questionnaires/${questionnaireId}`);
+  const data = await res.json();
+
+  if (res.ok) questions = data.questions;
+}
+
+/**
+ * Retrieves a given questionnaire's details and responses.
+ */
+async function loadData(questionnaireId) {
+  await loadQuestions(questionnaireId);
+  await loadResponses(questionnaireId);
+
+  loading.classList.add('hidden');
 }
 
 /**
@@ -250,9 +288,9 @@ function handleIndividualResponsesEvents() {
  * Initialises the web page.
  */
 function init() {
-  // Load the responses, getting the questionnaire ID after `review/`
-  id = getQuestionnaireId('review');
-  loadResponses(id);
+  // Load the responses and questionnaire detials, getting the questionnaire ID after `review/`
+  const id = getQuestionnaireId('review');
+  loadData(id);
 
   // Add event listeners and handlers
   handleTabEvents();
