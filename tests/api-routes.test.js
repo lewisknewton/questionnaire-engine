@@ -139,7 +139,12 @@ describe('GET Endpoints', () => {
           responses: expect.arrayContaining([
             expect.objectContaining({
               id: expect.any(String),
-              answers: expect.any(Object),
+              answers: expect.arrayContaining([
+                expect.objectContaining({
+                  questionId: expect.any(String),
+                  content: expect.any(String),
+                }),
+              ]),
               submitted: expect.any(String),
             }),
           ]),
