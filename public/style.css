@@ -73,8 +73,7 @@ main {
   margin: var(--space-l) auto;
 }
 
-article,
-#share {
+.card {
   padding: var(--space-s) var(--space-s) var(--space-s);
   border: var(--border);
   border-radius: var(--space-xs);
@@ -83,13 +82,14 @@ article,
   box-shadow: var(--shadow);
 }
 
-article h3 {
-  padding-bottom: var(--space-xs);
-  border-bottom: var(--border);
-}
-
 /* Input styles */
 input[type="number"],
+input[type="text"] {
+  padding: var(--space-xs);
+}
+
+input[type="number"],
+input[type="text"],
 textarea {
   color: inherit;
   border: var(--border);
@@ -97,11 +97,13 @@ textarea {
 }
 
 input[type="number"]::placeholder,
+input[type="text"]::placeholder,
 textarea::placeholder {
   color: var(--accent);
 }
 
 input[type="number"],
+input[type="text"],
 input[type="submit"],
 textarea,
 button {
@@ -134,6 +136,11 @@ button:active {
   transform: translateY(0.05rem);
 }
 
+button:disabled {
+  opacity: 50%;
+  cursor: not-allowed;
+}
+
 input[type="submit"],
 button.primary {
   background: var(--primary);
@@ -144,9 +151,15 @@ textarea {
   width: 100%;
   max-width: 100%;
   resize: vertical;
+  padding: var(--space-s);
 }
 
 /* Questionnaire summary styles */
+.summary h3 {
+  padding-bottom: var(--space-xs);
+  border-bottom: var(--border);
+}
+
 .summary > footer {
   display: flex;
   align-items: center;
