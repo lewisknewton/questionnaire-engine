@@ -182,7 +182,7 @@ async function loadQuestionnaire(id) {
   loading.classList.add('hidden');
 
   if (res.ok) {
-    if (!isFilled(data.questions)) {
+    if (data.warning) {
       displayWarning(data.warning, main.querySelector('h1'));
     } else {
       displayQuestionnaire(data);
