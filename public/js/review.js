@@ -143,20 +143,20 @@ function displayResponse(index) {
   const submitted = getFormattedDate(new Date(response.submitted));
 
   const responseEl = responseTemplate.content.cloneNode(true);
-  const titleEl = responseEl.querySelector('h3');
-  const idEl = responseEl.querySelector('span:nth-of-type(1)');
+  const titleEl = individualPanel.querySelector('h3');
+  const idEl = responseEl.querySelector('b ~ span');
   const submittedEl = responseEl.querySelector('time');
 
   responseEl.querySelector('article').setAttribute('data-index', index);
   titleEl.textContent = `Response ${index + 1} of ${responses.length}`;
-  idEl.textContent = `ID: ${response.id}`;
+  idEl.textContent = `${response.id}`;
   submittedEl.textContent = submitted;
   submittedEl.setAttribute('datetime', submitted);
 
   // Add answers
   for (const answer of answers) {
     const answerEl = answerTemplate.content.cloneNode(true);
-    const answerTitleEl = answerEl.querySelector('h5');
+    const answerTitleEl = answerEl.querySelector('h4');
     const answerContentEl = answerEl.querySelector('span');
 
     // Find the question to which the answer was given

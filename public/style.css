@@ -64,7 +64,13 @@ h3 {
   margin-bottom: var(--space-m);
 }
 
-p {
+h4 {
+  margin-bottom: var(--space-xs);
+  border-bottom: var(--border);
+}
+
+p,
+span {
   margin-bottom: var(--space-s);
 }
 
@@ -367,6 +373,23 @@ section[role="tabpanel"] {
   height: 3rem;
   width: 3rem;
   display: inline-block;
+  padding-right: 0;
+}
+
+.response {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.answers {
+  display: grid;
+  grid-template-columns: min-content auto;
+  column-gap: var(--space-s);
+}
+
+.answers,
+.answers > h4 {
+  grid-column-start: span 2;
 }
 
 /* Dark mode styles */
