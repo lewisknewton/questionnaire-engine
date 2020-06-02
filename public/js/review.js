@@ -34,8 +34,6 @@ let questions = [];
  * Sets the focus on the appropriate responses view tab for keyboard navigation.
  */
 function focusOnTab(e) {
-  console.log(e.target);
-
   if (navKeys.includes(e.key)) {
     // Remove focus on the current tab
     tabs[tabFocus].setAttribute('tabindex', -1);
