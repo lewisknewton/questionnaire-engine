@@ -64,6 +64,7 @@ const queries = {
     ON          response.id = answers_sub.response_id
     WHERE       questionnaire_id = $1
     GROUP BY    response.id
+    ORDER BY    submitted
   `,
 
   // Answers
