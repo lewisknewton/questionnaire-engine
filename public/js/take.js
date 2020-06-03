@@ -130,7 +130,7 @@ function copyQuestionTemplate(question) {
       const opaqueId = question.options[i].replace(/\s/g, '_');
 
       const inputCopy = input.cloneNode(false);
-      inputCopy.setAttribute('id', opaqueId);
+      inputCopy.setAttribute('id', `${question.id}_${opaqueId}`);
       inputCopy.setAttribute('value', opaqueId);
       inputCopy.setAttribute('name', question.id);
       inputCopy.setAttribute('aria-describedby', question.id);
@@ -138,7 +138,7 @@ function copyQuestionTemplate(question) {
       addInputEventListeners(inputCopy, ...questionTypes[type].events);
 
       const labelCopy = label.cloneNode(false);
-      labelCopy.setAttribute('for', opaqueId);
+      labelCopy.setAttribute('for', inputCopy.getAttribute('id'));
       labelCopy.textContent = question.options[i];
 
       // Append labels and inputs not already present
