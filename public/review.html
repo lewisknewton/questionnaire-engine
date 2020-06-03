@@ -19,7 +19,31 @@
 
     <p>All responses will be shown here.</p>
 
-    <button id="download">Download responses</button>
+    <details open>
+      <summary>Download Options</summary>
+
+      <fieldset>
+        <legend>File Format</legend>
+
+        <label>
+          <input id="csv" name="format" type="radio">
+          CSV (.csv)
+        </label>
+
+        <label>
+          <input id="json" name="format" type="radio" checked>
+          JSON (.json)
+        </label>
+
+        <label>
+          <input id="tsv" name="format" type="radio">
+          TSV (.tsv)
+        </label>
+      </fieldset>
+
+    </details>
+
+    <button id="download">Download Responses</button>
 
     <div role="tablist" aria-label="Response Views Tabs">
       <button id="aggregated-tab" role="tab" aria-selected="true" aria-controls="aggregated-panel"

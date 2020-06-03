@@ -160,6 +160,28 @@ textarea {
   padding: var(--space-s);
 }
 
+legend {
+  padding: 0 var(--space-xs) 0 var(--space-xs);
+}
+
+fieldset {
+  border-radius: var(--space-xs);
+  border: var(--border);
+  padding: var(--space-xs) var(--space-s);
+  margin-bottom: var(--space-xs);
+}
+
+fieldset > label {
+  display: grid;
+  column-gap: var(--space-s);
+  grid-template-columns: auto 1fr;
+  align-items: center;
+}
+
+details {
+  margin-bottom: var(--space-m);
+}
+
 /* Questionnaire summary styles */
 .summary h3 {
   padding-bottom: var(--space-xs);

@@ -226,20 +226,115 @@ async function loadData(questionnaireId) {
 }
 
 /**
+ * Retrieves the selected options to be applied to a downloaded responses file.
+ */
+function getDownloadOptions() {
+  const options = {};
+  const downloadOpts =
+    document.querySelectorAll('input[name="format"]:checked, input[name="included"]:checked');
+
+  for (const input of downloadOpts) {
+    if (input.type === 'radio') {
+      options[input.name] = input.id;
+    } else {
+      if (!isFilled(options[input.name])) {
+        options[input.name] = [input.id];
+      } else {
+        options[input.name].push(input.id);
+      }
+    }
+  }
+
+  return options;
+}
+
+/**
+ * Converts the responses object into separated values using a given separator,
+ * suitable for CSV or TSV files.
+ */
+function convertToSeparatedValues(sep) {
+  // Use the intended question order for reference
+  const originalOrder = questions.map(question => question.id);
+
+  const newLine = '\r\n';
+  let data = ['id', 'submitted', originalOrder.join(sep)].join(sep) + newLine;
+
+  for (const response of responses) {
+    let row = '';
+
+    for (const prop in response) {
+      // Add top-level properties (i.e. id and time submitted)
+      if (prop !== 'answers') row += `${response[prop]}${sep}`;
+    }
+
+    for (const question of originalOrder) {
+      // Compare question IDs to those questions actually answered
+      const answered = response.answers.map(answer => answer.questionId);
+
+      for (const answer of response.answers) {
+        if (answer.questionId !== question) {
+          // Skip the answered question for now to retain the correct order
+          if (answered.includes(question)) continue;
+
+          // Add empty records for unanswered questions
+          row += sep;
+          break;
+        } else {
+          row += `${answer.content.join(';')}${sep}`;
+        }
+      }
+    }
+
+    data += `${row}${newLine}`;
+  }
+
+  return data;
+}
+
+/**
+ * Converts responses data into the correct format for downloading, using a
+ * given file format (i.e. CSV, JSON).
+ */
+function convertResponses(format) {
+  let data;
+  let type;
+
+  if (format === 'csv') {
+    data = convertToSeparatedValues(',');
+    type = 'text/csv';
+  } else if (format === 'json') {
+    data = JSON.stringify(responses);
+    type = 'application/json';
+  } else if (format === 'tsv') {
+    data = convertToSeparatedValues('\t');
+    type = 'text/tab-separated-values';
+  }
+
+  const blob = new Blob([data], { type });
+
+  return blob;
+}
+
+/**
  * Downloads all responses in the given file format.
  */
-function downloadResponses(format = 'json') {
-  // Convert responses to JSON for download
-  const toDownload = encodeURIComponent(JSON.stringify(responses));
-  const dataStr = `data:text/json;charset=utf-8,${toDownload}`;
+function downloadResponses() {
+  const { format } = getDownloadOptions();
+
+  // Define data to be downloaded
+  const blob = convertResponses(format);
+  const url = URL.createObjectURL(blob);
 
   // Create a hidden, temporary anchor to download the file using the correct details
   const tempAnchor = document.createElement('a');
   tempAnchor.setAttribute('download', `responses.${format}`);
-  tempAnchor.setAttribute('href', dataStr);
+  tempAnchor.setAttribute('href', url);
   tempAnchor.setAttribute('target', '_blank');
 
   tempAnchor.click();
+
+  // Remove reference to the URL reference
+  URL.revokeObjectURL(url);
 }
 
 /**
