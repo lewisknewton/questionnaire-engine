@@ -10,6 +10,7 @@ const questionsSection = document.querySelector('#questions');
 const submit = document.querySelector('#submit');
 
 let id = '';
+let questionnaire = {};
 const answers = {};
 
 const questionTypes = {
@@ -181,7 +182,7 @@ function copyTemplates(question) {
 /**
  * Displays a given questionnaire's details and questions.
  */
-function displayQuestionnaire(questionnaire) {
+function displayQuestionnaire() {
   setPageTitle(questionnaire.name);
   const questions = questionnaire.questions;
 
@@ -210,7 +211,8 @@ async function loadQuestionnaire(id) {
     if (data.warning) {
       displayWarning(data.warning, main.querySelector('h1'));
     } else {
-      displayQuestionnaire(data);
+      questionnaire = data;
+      displayQuestionnaire();
     }
   } else {
     displayError(data.error, main.querySelector('h1'));
