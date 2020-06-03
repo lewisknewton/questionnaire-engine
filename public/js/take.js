@@ -1,6 +1,6 @@
 'use strict';
 
-import { setPageTitle, isFilled } from './modules/browser-common.js';
+import { setPageTitle } from './modules/browser-common.js';
 import { displayError, displaySuccess, displayWarning } from './modules/browser-status.js';
 import { getQuestionnaireId } from './modules/browser-questionnaire-handler.js';
 
@@ -91,9 +91,7 @@ function storeAnswer(evt) {
  * Adds an event listener for any number of events to a given input.
  */
 function addInputEventListeners(input, ...events) {
-  for (const evt of events) {
-    input.addEventListener(evt, storeAnswer);
-  }
+  for (const evt of events) input.addEventListener(evt, storeAnswer);
 }
 
 /**
