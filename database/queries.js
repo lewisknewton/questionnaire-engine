@@ -47,27 +47,24 @@ const queries = {
   `,
 
   selectResponses: `
-    SELECT    short_id AS id,
-              time_submitted AS submitted,
-              COALESCE(
-                JSON_AGG(
-                  JSON_BUILD_OBJECT(
-                    'questionId', question_id, 
-                    'content', content
-                  )
-                )
-                FILTER (
-                  WHERE answer.response_id IS NOT NULL
-                ),
-                '{}'
-              ) AS answers
-    FROM      response
-    LEFT JOIN answer
-    ON        response.id = answer.response_id
-    WHERE     questionnaire_id = $1
-    GROUP BY  response.id
-    ORDER BY  time_submitted
-    `,
+    SELECT      short_id AS id,
+                time_submitted AS submitted,
+                JSON_AGG(answers) AS answers
+    FROM (
+                SELECT    response_id,
+                          JSON_BUILD_OBJECT(
+                            'questionId', question_id,
+                            'content', JSON_AGG(content)
+                          ) AS answers
+                FROM      answer
+                GROUP BY  response_id,
+                          question_id
+    ) answers_sub
+    RIGHT JOIN  response
+    ON          response.id = answers_sub.response_id
+    WHERE       questionnaire_id = $1
+    GROUP BY    response.id
+  `,
 
   // Answers
   addAnswer: `

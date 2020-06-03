@@ -1,12 +1,12 @@
 'use strict';
 
 import { getQuestionnaireId } from './modules/browser-questionnaire-handler.js';
-import { getFormattedDate, setPageTitle } from './modules/browser-common.js';
+import { getFormattedDate, isFilled, setPageTitle } from './modules/browser-common.js';
 import { displayError, displayWarning } from './modules/browser-status.js';
 
 const main = document.querySelector('main');
 const loading = document.querySelector('#loading');
-const responsesList = document.querySelector('#responses');
+const downloadBtn = document.querySelector('#download');
 
 // Individual responses view elements
 const individualPanel = document.querySelector('#individual-panel');
@@ -14,7 +14,6 @@ const prevResponseBtn = document.querySelector('#previous-response');
 const nextResponseBtn = document.querySelector('#next-response');
 const responseSelector = document.querySelector('#current-response-number');
 const responseNumbers = document.querySelector('#response-numbers');
-const downloadBtn = responsesList.querySelector('#download');
 
 // Reproducible templates
 const responseTemplate = document.querySelector('#response');
@@ -163,7 +162,7 @@ function displayResponse(index) {
     const related = questions.filter(q => q.id === answer.questionId)[0];
 
     answerTitleEl.textContent = `${related.text} (${answer.questionId})`;
-    answerContentEl.textContent = `${answer.content} `;
+    answerContentEl.textContent = `${answer.content.join(', ')} `;
 
     responseEl.querySelector('section.answers').append(answerEl);
   }

@@ -58,7 +58,33 @@ async function saveResponse() {
  * Stores the value given to a question.
  */
 function storeAnswer(evt) {
-  answers[evt.target.name] = evt.target.value.replace(/_/g, ' ');
+  const input = evt.target;
+
+  // Extract formatted answer (without separators)
+  const formatAnswer = el => el.value.replace(/_/g, ' ');
+  let answer = formatAnswer(input);
+
+  if (input.type === 'checkbox') {
+    // Handle saving of multiple values for multi-select questions
+    const checked = [];
+    const checkboxes = input.parentElement.querySelectorAll('input');
+
+    for (const checkbox of checkboxes) {
+      answer = formatAnswer(checkbox);
+
+      if (checkbox.checked) {
+        checked.push(answer);
+      } else {
+        delete answers[input.name];
+      }
+    }
+
+    // Add answers of all checked inputs
+    answers[input.name] = [...checked];
+  } else {
+    // Save single values for all other question types
+    answers[input.name] = answer;
+  }
 }
 
 /**

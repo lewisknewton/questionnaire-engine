@@ -189,7 +189,16 @@ async function addResponse(response) {
         responseId: insertedResponse.id,
       };
 
-      insertedResponse.answers = { ...await addAnswer(answer) };
+      if (Array.isArray(answer.content) && isFilled(answer.content)) {
+        // Insert values individually for multi-select questions
+        for (const value of answer.content) {
+          answer.content = value;
+          insertedResponse.answers = { ...await addAnswer(answer) };
+        }
+      } else {
+        // Insert whole values for all other question types
+        insertedResponse.answers = { ...await addAnswer(answer) };
+      }
     }
 
     return insertedResponse;
