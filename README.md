@@ -35,7 +35,7 @@ The `npm run setup` command will create the database and its tables, using the p
 
 The default `host` parameter is designed for use on the university VMs, which do not require the `user` and `password` parameters. If required, these parameters can be replaced in the [config.json](database/config.json) file.
 
-For example, to run the application locally you might use:
+For example, to run the application locally you might use something like:
 
 ```json
 "host": "localhost",
@@ -48,21 +48,46 @@ The default database name is `questionnaire_engine`. If required, this can be re
 ## Server
 The `npm start` command will launch the application using an HTTP server running on port 8080, located in [server.js](server.js).
 
-To access the application, run `npm start` on your running virtual machine and enter the address shown into your browser.
+To access the application, run `npm start` on your PC or running virtual machine and enter the address shown into your browser.
 
-For testing purposes, the [example.json](questionnaires/example.json) file has been included to provide an example questionnaire. Similar files—[another-example.json](questionnaires/another-example/another-example.json) and [without-questions.json](questionnaires/another-example/without-questions.json)—have also been included within a sub-directory.
+### Terms
 
-## Questionnaires
+Some key terms used throughout the application are defined as follows:
 
-The questionnaire engine uses a JSON structure to define and read the details of questionnaires. 
+| Term     | Definition                                                                                                                         |
+|----------|------------------------------------------------------------------------------------------------------------------------------------|
+| Answer   | The value a user gives to a question.                                                                                              |
+| ID       | The unique ID (UUID4) of a questionnaire or response, used as their primary keys.                                                  |
+| Response | The collection of answers a user gives to a questionnaire.                                                                         |
+| Short ID | The shorter, more readable version of a questionnaire or response's identifier, used in URLs to avoid exposing their primary keys. |
+
+## Features
+
+The application caters to two main user types: *authors* and *participants*.
+
+Authors can:
+
+* add questionnaires
+* share questionnaires
+* view questionnaire responses
+
+Participants can:
+
+* take questionnaires
+
+### Questionnaires
+
+The questionnaire engine uses JSON files to define the details and structures of questionnaires. Records of these files are also stored in the database, which include their unique ID, short ID, and file path.
 
 All questionnaires must be stored in the [questionnaires/](questionnaires/) directory as `.JSON` files. Any sub-directories within this directory will be searched recursively to load questionnaires included within them.
 
-### Adding Questionnaires
+For testing purposes, the [example.json](questionnaires/example.json) file has been included to provide an example questionnaire. Similar files—[another-example.json](questionnaires/another-example/another-example.json) and [without-questions.json](questionnaires/another-example/without-questions.json)—have also been included within a sub-directory.
 
-To add a questionnaire, place its JSON file into the [questionnaires/](questionnaires/) directory, or a sub-directory within this directory. 
+#### Adding Questionnaires
 
-### Questions
+To add a questionnaire, place its JSON file into the [questionnaires/](questionnaires/) directory, or a sub-directory within this directory.
+
+#### Questions
 
 The following question types are available:
 
@@ -93,26 +118,13 @@ The following is an example of a valid `single-select` question, taken from [exa
 ],
 ```
 
-## Responses
+### Responses
 
 When a participant takes a questionnaire, their answers are collated to form a response for that questionnaire. This response is stored in the database, and the questionnaire author can then view the response on the [review.html](public/review.html) page, using the ID of the questionnaire.
 
 The server will attempt to fetch responses in the background so that new responses are shown to authors shortly after they are recorded.
 
-## Design
-
-### Terms
-
-Some key terms used throughout the application are defined as follows:
-
-| Term     | Definition                                                                                                                         |
-|----------|------------------------------------------------------------------------------------------------------------------------------------|
-| Answer   | The value a user gives to a question.                                                                                              |
-| ID       | The unique ID (UUID4) of a questionnaire or response, used as their primary keys.                                                  |
-| Response | The collection of answers a user gives to a questionnaire.                                                                         |
-| Short ID | The shorter, more readable version of a questionnaire or response's identifier, used in URLs to avoid exposing their primary keys. |
-
-### Routing
+## Routing
 
 The application uses two types of routes:
 
@@ -123,7 +135,7 @@ Their endpoints are defined in [server.js](server.js). The functions called at t
 
 For simplicity and security, short IDs are used for all endpoints instead of unique IDs.
 
-#### API
+### API
 
 The following routes may be accessed after prepending `api` e.g. `xx.xxx.xxx.xx/api/questionnaires`.
 
@@ -133,7 +145,7 @@ The following routes may be accessed after prepending `api` e.g. `xx.xxx.xxx.xx/
 | /questionnaires/:id             | Retrieve a given questionnaire.                   |                                            |
 | /questionnaires/:id/responses   | Retrieve all responses for a given questionnaire, as well as some details about the questionnaire for context. | Save a response for a given questionnaire. |
 
-#### Web
+### Web
 
 The following routes may be accessed directly in the browser e.g. `xx.xxx.xxx.xx/`.
 
@@ -143,11 +155,11 @@ The following routes may be accessed directly in the browser e.g. `xx.xxx.xxx.xx
 | /take/:id   | [take.html](public/js/take.js)    | Display, and records responses for, a given questionnaire.                   |
 | /review/:id | [review.html](public/review.html) | Display details and responses for a given questionnaire to support analysis. |
 
-### Security
+## Security
 
 To avoid exposing their primary keys, alternative short IDs are assigned to questionnaires and responses for sharing and review.
 
-Paths to questionnaire files are also hidden to avoid hinting at the server's contents to users.
+Paths to questionnaire files are also hidden to avoid hinting at the server's contents to users on the client-side.
 
 ## Linting
 
