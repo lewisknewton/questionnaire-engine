@@ -28,7 +28,7 @@ app.use('/', webRouter);
 app.use('/api', apiRouter);
 
 const server = app.listen(port, err => {
-  console.error(`Server error: ${err}`);
+  if (err != null) console.error(`Server error: ${err}`);
 });
 
 module.exports = server;
