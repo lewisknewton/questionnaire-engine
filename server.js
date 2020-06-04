@@ -27,6 +27,8 @@ webRouter.get('/review/:id', web.reviewQuestionnaire);
 app.use('/', webRouter);
 app.use('/api', apiRouter);
 
-const server = app.listen(port);
+const server = app.listen(port, err => {
+  console.error(`Server error: ${err}`);
+});
 
 module.exports = server;
