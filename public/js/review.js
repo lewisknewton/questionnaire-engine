@@ -8,6 +8,8 @@ const main = document.querySelector('main');
 const loading = document.querySelector('#loading');
 const downloadBtn = document.querySelector('#download');
 
+const responsesList = document.querySelector('#responses');
+
 // Individual responses view elements
 const individualPanel = document.querySelector('#individual-panel');
 const prevResponseBtn = document.querySelector('#previous-response');
@@ -180,16 +182,18 @@ async function loadResponses(questionnaireId) {
   const res = await fetch(`/api/questionnaires/${questionnaireId}/responses`);
   const data = await res.json();
 
+  const title = main.querySelector('h1');
+
   if (res.ok) {
-    main.querySelector('h1').textContent = data.name;
+    if (title.textContent !== data.name) title.textContent = data.name;
     setPageTitle(data.name);
 
     if (data.warning) {
-      displayWarning(data.warning, main.querySelector('h1'));
+      displayWarning(data.warning, title);
     } else {
       responses = data.responses;
 
-      responseSelector.value = 1;
+      responseSelector.value = responseSelector.value || 1;
       responseSelector.setAttribute('max', responses.length);
       responseNumbers.textContent = `of ${responses.length}`;
 
@@ -197,11 +201,11 @@ async function loadResponses(questionnaireId) {
       handleUseOfNavigationControls();
 
       // Display the first response
-      main.querySelector('#responses').classList.remove('hidden');
-      displayResponse(0);
+      responsesList.classList.remove('hidden');
+      displayResponse(responseSelector.value - 1);
     }
   } else {
-    displayError(data.error, main.querySelector('h1'));
+    displayError(data.error, title);
   }
 
   // Poll for new responses every 10 seconds
