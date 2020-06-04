@@ -203,6 +203,9 @@ async function loadResponses(questionnaireId) {
   } else {
     displayError(data.error, main.querySelector('h1'));
   }
+
+  // Poll for new responses every 10 seconds
+  setTimeout(() => loadResponses(questionnaireId), 10000);
 }
 
 /**
