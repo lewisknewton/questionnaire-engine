@@ -259,11 +259,11 @@ function getDownloadOptions() {
  * suitable for CSV or TSV files.
  */
 function convertToSeparatedValues(sep) {
-  // Use the intended question order for reference
+  const responseProps = Object.keys(responses[0]).filter(a => a !== 'answers');
   const originalOrder = questions.map(question => question.id);
 
   const newLine = '\r\n';
-  let data = ['id', 'submitted', originalOrder.join(sep)].join(sep) + newLine;
+  let data = [responseProps, originalOrder.join(sep)].join(sep) + newLine;
 
   for (const response of responses) {
     let row = '';
