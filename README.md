@@ -127,6 +127,14 @@ When a participant takes a questionnaire, their answers are collated to form a r
 
 The server will attempt to fetch responses in the background so that new responses are shown to authors shortly after they are recorded.
 
+#### Downloading Responses
+
+Authors can download responses in one of the following file formats:
+
+* CSV (`.csv`)
+* JSON (`.json`)
+* TSV (`.tsv`)
+
 ## Routing
 
 The application uses two types of routes:
