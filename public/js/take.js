@@ -1,8 +1,7 @@
 'use strict';
 
-import { setPageTitle } from './modules/browser-common.js';
+import { getQuestionnaireId, setPageTitle } from './modules/browser-common.js';
 import { displayError, displaySuccess, displayWarning } from './modules/browser-status.js';
-import { getQuestionnaireId } from './modules/browser-questionnaire-handler.js';
 
 const main = document.querySelector('main');
 const loading = document.querySelector('#loading');

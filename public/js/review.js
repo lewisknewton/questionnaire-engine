@@ -1,8 +1,7 @@
 'use strict';
 
-import { getQuestionnaireId } from './modules/browser-questionnaire-handler.js';
-import { getFormattedDate, isFilled, setPageTitle } from './modules/browser-common.js';
 import { displayError, displayWarning } from './modules/browser-status.js';
+import { getFormattedDate, getQuestionnaireId, isFilled, setPageTitle } from './modules/browser-common.js';
 
 const main = document.querySelector('main');
 const loading = document.querySelector('#loading');

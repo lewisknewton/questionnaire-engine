@@ -1,6 +1,33 @@
 'use strict';
 
 /**
+ * Checks if an array (or string) exists and has at least one item (or character).
+ */
+export function isFilled(obj) {
+  return obj != null && obj.length > 0;
+}
+
+/**
+ * Sets the current document title.
+ */
+export function setPageTitle(title) {
+  if (document.title !== title) document.title = title;
+}
+
+/**
+ * Retrieves the ID of the selected questionnaire, using a given string
+ * at which to divide the URL path (e.g. after `take` or after `review`).
+ */
+export function getQuestionnaireId(pathDivider) {
+  const urlParts = window.location.pathname.split('/');
+  const id = urlParts[urlParts.indexOf(pathDivider) + 1];
+
+  if (isFilled(id)) return id;
+
+  return null;
+}
+
+/**
  * Converts a given Date object into a human-readable format.
  */
 export function getFormattedDate(dateObj) {
@@ -13,13 +40,6 @@ export function getFormattedDate(dateObj) {
   const secs = dateObj.getSeconds() < 10 ? `0${dateObj.getSeconds()}` : dateObj.getSeconds();
 
   return `${year}-${month}-${day} ${hours}:${mins}:${secs}`;
-}
-
-/**
- * Checks to see if an array (or string) exists and has at least one item (or character).
- */
-export function isFilled(obj) {
-  return obj != null && obj.length > 0;
 }
 
 /**
@@ -51,11 +71,4 @@ export function trapFocus(el) {
       }
     }
   });
-}
-
-/**
- * Sets the current document title.
- */
-export function setPageTitle(title) {
-  if (document.title !== title) document.title = title;
 }
