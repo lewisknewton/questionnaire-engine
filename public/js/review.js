@@ -163,7 +163,7 @@ function displayResponse(index) {
     const related = questions.filter(q => q.id === answer.questionId)[0];
 
     answerTitleEl.textContent = `${related.text} (${answer.questionId})`;
-    answerContentEl.textContent = `${answer.content.join(', ')} `;
+    answerContentEl.textContent = `${Array.isArray(answer.content) ? answer.content.join(', ') : answer.content || '(Unanswered)'}`;
 
     responseEl.querySelector('section.answers').append(answerEl);
   }
@@ -289,7 +289,7 @@ function convertToSeparatedValues(sep) {
           row += sep;
           break;
         } else {
-          row += `${answer.content.join(';')}${sep}`;
+          row += `${Array.isArray(answer.content) ? answer.content.join('; ') : answer.content || ''}${sep}`;
         }
       }
     }

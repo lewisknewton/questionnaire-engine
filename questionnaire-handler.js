@@ -225,15 +225,27 @@ async function selectResponses(questionnaireId) {
     const { name, questions } = await readQuestionnaireFile(path);
     const order = questions.map(question => question.id);
 
-    // Maintain original question order in answersn
     for (const response of responses) {
       const sortable = [];
 
       for (const answer of response.answers) {
+        const type = questions
+          .filter(question => question.id === answer.questionId)
+          .map(question => question.type)[0];
+
+        if (answer.content.length === 1) {
+          // Replace nulls with empty arrays for multi-select questions
+          if (type === 'multi-select' && !isFilled(answer.content)) answer.content = [];
+
+          // Replace one-item arrays with single values for other questions
+          answer.content = answer.content[0];
+        }
+
         const index = order.indexOf(answer.questionId);
         sortable.push([index, answer]);
       }
 
+      // Retain the original question order in answers
       response.answers = sortable.sort().map(item => item[1]);
     }
 
