@@ -38,6 +38,10 @@
 }
 
 /* Base element styles */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-size: 100%;
   line-height: 1.5;
@@ -412,6 +416,13 @@ section[role="tabpanel"] {
 .answers,
 .answers > h4 {
   grid-column-start: span 2;
+}
+
+/* Motion styles */
+@media (prefers-reduced-motion) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 /* Dark mode styles */
