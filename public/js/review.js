@@ -143,12 +143,12 @@ function displayResponse(index) {
   const submitted = getFormattedDate(new Date(response.submitted));
 
   const responseEl = responseTemplate.content.cloneNode(true);
-  const titleEl = individualPanel.querySelector('h3');
+  const currentEl = individualPanel.querySelector('h3 > span#current-response');
   const idEl = responseEl.querySelector('b ~ span');
   const submittedEl = responseEl.querySelector('time');
 
   responseEl.querySelector('article').setAttribute('data-index', index);
-  titleEl.textContent = `Response ${index + 1} of ${responses.length}`;
+  currentEl.textContent = `Response ${index + 1}`;
   idEl.textContent = `${response.id}`;
   submittedEl.textContent = submitted;
   submittedEl.setAttribute('datetime', submitted);
@@ -182,6 +182,7 @@ async function loadResponses(questionnaireId) {
   const data = await res.json();
 
   const title = main.querySelector('h1');
+  const rTitleMax = individualPanel.querySelector('h3 > span#max-responses');
 
   if (res.ok) {
     if (title.textContent !== data.name) title.textContent = data.name;
@@ -194,7 +195,7 @@ async function loadResponses(questionnaireId) {
 
       responseSelector.value = responseSelector.value || 1;
       responseSelector.setAttribute('max', responses.length);
-      responseNumbers.textContent = `of ${responses.length}`;
+      for (const el of [responseNumbers, rTitleMax]) el.textContent = `of ${responses.length}`;
 
       // Enable or disable the appropriate navigation control(s)
       handleUseOfNavigationControls(responseSelector.value - 1);
