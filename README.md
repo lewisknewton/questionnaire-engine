@@ -166,6 +166,8 @@ The following routes may be accessed directly in the browser e.g. `xx.xxx.xxx.xx
 | /take/:id   | [take.html](public/js/take.js)    | Display, and records responses for, a given questionnaire.                   |
 | /review/:id | [review.html](public/review.html) | Display details and responses for a given questionnaire to support analysis. |
 
+These routes allow for more readable URLs, as opposed to using query strings e.g. `/take?id=xxx`.
+
 ## Accessibility
 
 Where possible, the application uses native elements. However, in the few places this was not possible due to certain layouts and dynamic content, additional accessibility information was provided using ARIA.
