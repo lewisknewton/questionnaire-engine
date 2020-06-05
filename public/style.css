@@ -231,7 +231,7 @@ details {
   transform: translate(-50%, -50%);
   display: grid;
   gap: var(--space-xs);
-  grid-template-columns: 1fr auto;
+  grid-template-columns: max-content auto;
   grid-template-areas:
     "header header"
     "share-text share-text"
@@ -240,8 +240,8 @@ details {
   max-width: var(--main-w);
 }
 
-#share.hidden {
-  display: none;
+#share-title {
+  border: none;
 }
 
 #share header {
@@ -259,7 +259,6 @@ details {
   grid-area: share-link;
   padding: var(--space-s) var(--space-xs);
   overflow: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
