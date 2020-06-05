@@ -166,6 +166,16 @@ The following routes may be accessed directly in the browser e.g. `xx.xxx.xxx.xx
 | /take/:id   | [take.html](public/js/take.js)    | Display, and records responses for, a given questionnaire.                   |
 | /review/:id | [review.html](public/review.html) | Display details and responses for a given questionnaire to support analysis. |
 
+## Accessibility
+
+Where possible, the application uses native elements. However, in the few places this was not possible due to certain layouts and dynamic content, additional accessibility information was provided using ARIA.
+
+Recommendations were followed to make controls that are not yet standard as part of HTML more accessible. For example, a fallback was used for dialogs and keyboard navigation was configured for tabs.
+
+The colours used throughout conform to, at minimum, WCAG 2.0 Level AA. However, most satisfy WCAG 2.0 Level AAA. 
+
+Button and other input sizes were also kept consistent for easy access.
+
 ## Security
 
 To avoid exposing their primary keys, alternative short IDs are assigned to questionnaires and responses for sharing and review.
