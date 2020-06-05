@@ -80,10 +80,14 @@ function storeAnswer(evt) {
     }
 
     // Add answers of all checked inputs
-    answers[input.name] = [...checked];
+    if (isFilled(checked)) answers[input.name] = [...checked];
   } else {
     // Save single values for all other question types
-    answers[input.name] = answer;
+    if (isFilled(answer)) {
+      answers[input.name] = answer;
+    } else {
+      delete answers[input.name];
+    }
   }
 }
 
