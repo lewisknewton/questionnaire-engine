@@ -16,7 +16,10 @@ export function displayStatus(msg, type, afterEl = null) {
   const template = document.querySelector(`#${type}-message`);
   const status = template.content.cloneNode(true);
 
-  status.querySelector('p').textContent = msg;
+  const statusEl = status.querySelector('p');
+
+  statusEl.textContent = msg;
+  statusEl.setAttribute('aria-live', 'assertive');
 
   const existing = Array.from(document.querySelectorAll(`.${type}`)).map(el => el.textContent);
 
