@@ -208,4 +208,4 @@ During development, [Jest](https://jestjs.io/) was used as the testing framework
 
 The application uses [FontAwesome](https://fontawesome.com/) SVG icons, found in the [img/](public/img) directory. These are licenced under [CC BY 4.0 Licence](https://creativecommons.org/licenses/by/4.0/).
 
-A copy of the licence can be viewed in [fa-licence.txt](public/img/fa-licence.txt) or at [https://fontawesome.com/license/free](https://fontawesome.com/license/free).
+A copy of the licence can be viewed in [fa-licence.txt](public/img/fa-licence.txt) or on the [FontAwesome Free License page](https://fontawesome.com/license/free).
