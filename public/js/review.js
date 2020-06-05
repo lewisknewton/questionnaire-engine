@@ -1,6 +1,6 @@
 'use strict';
 
-import { getQuestionnaireId, isFilled} from './modules/browser-common.js';
+import { getQuestionnaireId, isFilled } from './modules/browser-common.js';
 import { displayStatus, getFormattedDate, setPageTitle } from './modules/browser-status.js';
 
 const main = document.querySelector('main');
@@ -182,7 +182,7 @@ async function loadResponses(questionnaireId) {
   const data = await res.json();
 
   const title = main.querySelector('h1');
-  const rTitleMax = individualPanel.querySelector('h3 > span#max-responses');
+  const responseTitleMax = individualPanel.querySelector('h3 > span#max-responses');
 
   if (res.ok) {
     if (title.textContent !== data.name) title.textContent = data.name;
@@ -195,7 +195,7 @@ async function loadResponses(questionnaireId) {
 
       responseSelector.value = responseSelector.value || 1;
       responseSelector.setAttribute('max', responses.length);
-      for (const el of [responseNumbers, rTitleMax]) el.textContent = `of ${responses.length}`;
+      for (const el of [responseNumbers, responseTitleMax]) el.textContent = `of ${responses.length}`;
 
       // Enable or disable the appropriate navigation control(s)
       handleUseOfNavigationControls(responseSelector.value - 1);
