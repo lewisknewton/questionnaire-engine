@@ -197,11 +197,13 @@ async function loadResponses(questionnaireId) {
       responseNumbers.textContent = `of ${responses.length}`;
 
       // Enable or disable the appropriate navigation control(s)
-      handleUseOfNavigationControls();
+      handleUseOfNavigationControls(responseSelector.value - 1);
 
-      // Display the first response
-      responsesList.classList.remove('hidden');
-      displayResponse(responseSelector.value - 1);
+      // Display the current response
+      if (document.querySelector('.response') == null) {
+        responsesList.classList.remove('hidden');
+        displayResponse(responseSelector.value - 1);
+      }
     }
   } else {
     displayStatus(data.error, 'error', title);
