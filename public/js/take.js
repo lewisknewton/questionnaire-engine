@@ -45,9 +45,14 @@ const questionTypes = {
  * Stores all answers given in a questionnaire.
  */
 async function saveResponse() {
-  const payload = { questionnaireId: id, answers };
+  const sorted = {};
+  const order = questionnaire.questions.map(question => question.id);
 
-  console.log(answers);
+  // Maintain original question order in answers
+  for (const id of order) sorted[id] = null;
+  Object.assign(sorted, answers);
+
+  const payload = { questionnaireId: id, answers: sorted };
 
   const res = await fetch(`/api/questionnaires/${id}/responses`, {
     method: 'POST',

@@ -179,9 +179,9 @@ async function addResponse(response) {
   try {
     const result = await dbClient.query(queries.addResponse, [shortId, id]);
     const insertedResponse = result.rows[0];
-    insertedResponse.answers = answers;
+    insertedResponse.answers = [];
 
-    for (const question in insertedResponse.answers) {
+    for (const question in answers) {
       // Insert all answers in the response
       const answer = {
         content: answers[question],
@@ -193,11 +193,11 @@ async function addResponse(response) {
         // Insert values individually for multi-select questions
         for (const value of answer.content) {
           answer.content = value;
-          insertedResponse.answers = { ...await addAnswer(answer) };
+          insertedResponse.answers.push(await addAnswer(answer));
         }
       } else {
         // Insert whole values for all other question types
-        insertedResponse.answers = { ...await addAnswer(answer) };
+        insertedResponse.answers.push(await addAnswer(answer));
       }
     }
 
@@ -223,6 +223,19 @@ async function selectResponses(questionnaireId) {
     const responses = isFilled(result.rows) ? result.rows : [];
 
     const { name, questions } = await readQuestionnaireFile(path);
+    const order = questions.map(question => question.id);
+
+    // Maintain original question order in answersn
+    for (const response of responses) {
+      const sortable = [];
+
+      for (const answer of response.answers) {
+        const index = order.indexOf(answer.questionId);
+        sortable.push([index, answer]);
+      }
+
+      response.answers = sortable.sort().map(item => item[1]);
+    }
 
     return {
       questionnaireId: shortId,
