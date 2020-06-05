@@ -20,6 +20,29 @@
 
   <input id="submit" class="hidden" type="submit" value="Submit">
 
+  <section id="finished" class="hidden">
+    <h2>Enjoy taking this questionnaire?</h2>
+
+    <p>You can close this page now, or you could share this questionnaire to help the author recruit more participants.
+    </p>
+
+    <button class="share primary">Share</button>
+  </section>
+
+  <dialog id="share" class="card" aria-labelledby="share-title" aria-describedby="share-text">
+    <header>
+      <h4 id="share-title">Share</h4>
+      <button id="share-close">Close</button>
+    </header>
+
+    <p id="share-text">Share questionnaire text</p>
+
+    <textarea id="share-link" rows="1" readonly aria-labelledby="share-text">URL</textarea>
+    <button id="share-copy" class="primary">Copy Link</button>
+
+    <output id="share-output" aria-live="polite"></output>
+  </dialog>
+
   <!-- Status messages -->
   <template id="error-message" aria-live="assertive">
     <p class="error">Error message</p>

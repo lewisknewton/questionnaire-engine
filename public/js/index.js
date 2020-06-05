@@ -1,82 +1,17 @@
 'use strict';
 
-import { isFilled, trapFocus } from './modules/browser-common.js';
+import { isFilled, initialiseShareElements, shareQuestionnaire } from './modules/browser-common.js';
 import { displayStatus } from './modules/browser-status.js';
 
 const loading = document.querySelector('#loading');
 const questionnaireList = document.querySelector('#questionnaire-list');
 const questionnaireSummary = document.querySelector('#questionnaire-summary');
 
-const shareDialog = document.querySelector('#share');
-const shareDialogCloseBtn = document.querySelector('#share-close');
-const shareDialogCopyBtn = document.querySelector('#share-copy');
-const shareDialogLinkText = document.querySelector('#share-link');
-const shareDialogOutput = document.querySelector('#share-output');
-
-/**
- * Closes the open share dialog.
- */
-function closeShareDialog() {
-  if (typeof shareDialog.close === 'function') {
-    shareDialog.close();
-  } else {
-    shareDialog.setAttribute('aria-hidden', 'true');
-    shareDialog.classList.add('hidden');
-  }
-}
-
-/**
- * Copies the URL of the selected questionnaire to the clipboard.
- */
-function copyShareLink() {
-  shareDialogLinkText.select();
-  document.execCommand('copy');
-
-  shareDialogOutput.value = 'Link copied.';
-
-  setTimeout(() => {
-    shareDialogOutput.value = '';
-  }, 3000);
-}
-
-/**
- * Shares a link to the questionnaire, either via native sharing options for
- * mobile users or through alternative sharing options for other devices.
- */
-async function shareQuestionnaire(q) {
-  const shareText = `Share the link to your ${q.name} questionnaire:`;
-  const shareUrl = `${window.location}take/${q.id}`;
-
-  if (navigator.share) {
-    const data = {
-      title: q.name,
-      text: shareText,
-      url: shareUrl,
-    };
-
-    try {
-      await navigator.share(data);
-    } catch (err) {
-      console.error(err);
-    }
-  } else {
-    shareDialog.querySelector('p').textContent = shareText;
-    shareDialogLinkText.textContent = shareUrl;
-
-    if (isFilled(shareDialogOutput.value)) shareDialogOutput.value = '';
-
-    if (typeof shareDialog.showModal === 'function') {
-      shareDialog.showModal();
-    } else {
-      shareDialog.setAttribute('aria-hidden', 'false');
-      shareDialog.classList.remove('hidden');
-
-      // Set focus to be inside the dialog
-      shareDialogCloseBtn.focus();
-      trapFocus(shareDialog);
-    }
-  }
-}
+const share = document.querySelector('#share');
+const shareCloseBtn = document.querySelector('#share-close');
+const shareCopyBtn = document.querySelector('#share-copy');
+const shareLink = document.querySelector('#share-link');
+const shareOutput = document.querySelector('#share-output');
 
 /**
  * Displays details about stored questionnaires.
@@ -98,7 +33,7 @@ function displayQuestionnaires(questionnaires) {
     reviewBtn.setAttribute('href', `review/${q.id}`);
     deleteBtn.setAttribute('href', `?delete=${q.id}`);
 
-    shareBtn.addEventListener('click', () => shareQuestionnaire(q));
+    shareBtn.addEventListener('click', () => shareQuestionnaire(q, share, shareLink, shareOutput));
 
     questionnaireList.append(summary);
   }
@@ -126,15 +61,7 @@ async function loadQuestionnaires() {
 function init() {
   loadQuestionnaires();
 
-  // Use fallback for <dialog> if unsupported
-  if (typeof HTMLDialogElement !== 'function') {
-    shareDialog.classList.add('hidden');
-    shareDialog.setAttribute('aria-hidden', 'true');
-    shareDialog.setAttribute('role', 'dialog');
-  }
-
-  shareDialogCopyBtn.addEventListener('click', copyShareLink);
-  shareDialogCloseBtn.addEventListener('click', closeShareDialog);
+  initialiseShareElements(share, shareLink, shareOutput, shareCopyBtn, shareCloseBtn);
 }
 
 window.addEventListener('load', init);

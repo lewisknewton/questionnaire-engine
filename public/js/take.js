@@ -1,12 +1,22 @@
 'use strict';
 
-import { getQuestionnaireId, isFilled } from './modules/browser-common.js';
+import { getQuestionnaireId, isFilled, initialiseShareElements, shareQuestionnaire } from './modules/browser-common.js';
 import { displayStatus, setPageTitle } from './modules/browser-status.js';
 
 const main = document.querySelector('main');
 const loading = document.querySelector('#loading');
+
 const questionsSection = document.querySelector('#questions');
-const submit = document.querySelector('#submit');
+const submitBtn = document.querySelector('#submit');
+
+const finishedSection = document.querySelector('#finished');
+const shareBtn = document.querySelector('#finished > .share');
+
+const share = document.querySelector('#share');
+const shareCloseBtn = document.querySelector('#share-close');
+const shareCopyBtn = document.querySelector('#share-copy');
+const shareLink = document.querySelector('#share-link');
+const shareOutput = document.querySelector('#share-output');
 
 let id = '';
 let questionnaire = {};
@@ -37,6 +47,8 @@ const questionTypes = {
 async function saveResponse() {
   const payload = { questionnaireId: id, answers };
 
+  console.log(answers);
+
   const res = await fetch(`/api/questionnaires/${id}/responses`, {
     method: 'POST',
     headers: {
@@ -48,7 +60,13 @@ async function saveResponse() {
   const data = await res.json();
 
   if (res.ok) {
+    submitBtn.setAttribute('disabled', true);
+    submitBtn.classList.add('hidden');
+    questionsSection.classList.add('hidden');
+
     displayStatus(data.success, 'success', main.querySelector('h1'));
+
+    finishedSection.classList.remove('hidden');
   } else {
     displayStatus(data.error, 'error', main.querySelector('h1'));
   }
@@ -190,8 +208,8 @@ function displayQuestionnaire() {
   const questions = questionnaire.questions;
 
   main.querySelector('h1').textContent = questionnaire.name;
-  main.querySelector('#questions').classList.remove('hidden');
-  main.querySelector('#submit').classList.remove('hidden');
+  questionsSection.classList.remove('hidden');
+  submitBtn.classList.remove('hidden');
 
   // Display question blocks
   for (const question of questions) {
@@ -230,7 +248,10 @@ function init() {
   id = getQuestionnaireId('take');
   loadQuestionnaire(id);
 
-  submit.addEventListener('click', saveResponse);
+  submitBtn.addEventListener('click', saveResponse);
+  shareBtn.addEventListener('click', () => shareQuestionnaire(questionnaire, share, shareLink, shareOutput));
+
+  initialiseShareElements(share, shareLink, shareOutput, shareCopyBtn, shareCloseBtn);
 }
 
 window.addEventListener('load', init);

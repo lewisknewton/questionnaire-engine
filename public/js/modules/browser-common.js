@@ -50,3 +50,85 @@ export function trapFocus(el) {
     }
   });
 }
+
+/**
+ * Prepares the share area and its children to be used when opened.
+ */
+export function initialiseShareElements(share, shareLink, shareOutput, shareCopyBtn, shareCloseBtn) {
+  // Use fallback for <dialog> if unsupported
+  if (typeof HTMLDialogElement !== 'function') {
+    share.classList.add('hidden');
+    share.setAttribute('aria-hidden', 'true');
+    share.setAttribute('role', 'dialog');
+  }
+
+  shareCopyBtn.addEventListener('click', () => copyShareLink(shareLink, shareOutput));
+  shareCloseBtn.addEventListener('click', () => closeShareArea(share));
+}
+
+/**
+ * Closes the open share dialog.
+ */
+export function closeShareArea(share) {
+  if (typeof share.close === 'function') {
+    share.close();
+  } else {
+    share.setAttribute('aria-hidden', 'true');
+    share.classList.add('hidden');
+  }
+}
+
+/**
+ * Copies the URL of the selected questionnaire to the clipboard.
+ */
+export function copyShareLink(shareLink, shareOutput) {
+  shareLink.select();
+  document.execCommand('copy');
+
+  shareOutput.value = 'Link copied.';
+
+  setTimeout(() => {
+    shareOutput.value = '';
+  }, 3000);
+}
+
+/**
+ * Shares a link to the questionnaire, either via native sharing options for
+ * mobile users or through alternative sharing options for other devices.
+ */
+export async function shareQuestionnaire(q, share, shareLink, shareOutput, shareCloseBtn) {
+  const url = window.location;
+
+  const shareText = `Share the link to the ${q.name} questionnaire:`;
+  const shareUrl = url.pathname.includes(`take/${q.id}`) ? url.href : `${url.href}take/${q.id}`;
+
+  if (navigator.share) {
+    const data = {
+      title: q.name,
+      text: shareText,
+      url: shareUrl,
+    };
+
+    try {
+      await navigator.share(data);
+    } catch (err) {
+      console.error(err);
+    }
+  } else {
+    share.querySelector('p').textContent = shareText;
+    shareLink.textContent = shareUrl;
+
+    if (isFilled(shareOutput.value)) shareOutput.value = '';
+
+    if (typeof share.showModal === 'function') {
+      share.showModal();
+    } else {
+      share.removeAttribute('aria-hidden');
+      share.classList.remove('hidden');
+
+      // Set focus to be inside the dialog
+      shareCloseBtn.focus();
+      trapFocus(share);
+    }
+  }
+}
