@@ -48,7 +48,7 @@ async function saveResponse() {
   const sorted = {};
   const order = questionnaire.questions.map(question => question.id);
 
-  // Maintain original question order in answers
+  // Retain the original question order in answers
   for (const id of order) sorted[id] = null;
   Object.assign(sorted, answers);
 
