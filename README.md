@@ -176,6 +176,13 @@ The colours used throughout conform to, at minimum, WCAG 2.0 Level AA. However, 
 
 Button and other input sizes were also kept consistent for easy access.
 
+## Usability
+
+The UI adapts to the user's preferences by:
+
+* showing all or limited animations, depending on their `prefers-reduced-motion` feature
+* showing a *light* or *dark* colour scheme, depending on their `prefers-color-scheme` feature
+
 ## Security
 
 To avoid exposing their primary keys, alternative short IDs are assigned to questionnaires and responses for sharing and review.
