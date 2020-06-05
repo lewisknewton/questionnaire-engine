@@ -1,7 +1,7 @@
 'use strict';
 
-import { getQuestionnaireId, setPageTitle } from './modules/browser-common.js';
-import { displayError, displaySuccess, displayWarning } from './modules/browser-status.js';
+import { getQuestionnaireId, isFilled } from './modules/browser-common.js';
+import { displayStatus, setPageTitle } from './modules/browser-status.js';
 
 const main = document.querySelector('main');
 const loading = document.querySelector('#loading');
@@ -48,9 +48,9 @@ async function saveResponse() {
   const data = await res.json();
 
   if (res.ok) {
-    displaySuccess(data.success, main.querySelector('h1'));
+    displayStatus(data.success, 'success', main.querySelector('h1'));
   } else {
-    displayError(data.error, main.querySelector('h1'));
+    displayStatus(data.error, 'error', main.querySelector('h1'));
   }
 }
 
@@ -172,7 +172,7 @@ function copyTemplates(question) {
     const questionNotLoadedError =
       `Sorry, the '${question.text}' question could not be loaded. Please ensure it is supported and in the correct format.`;
 
-    displayError(questionNotLoadedError, main.querySelector('h1'));
+    displayStatus(questionNotLoadedError, 'error', main.querySelector('h1'));
   }
 
   return baseCopy;
@@ -208,13 +208,13 @@ async function loadQuestionnaire(id) {
 
   if (res.ok) {
     if (data.warning) {
-      displayWarning(data.warning, main.querySelector('h1'));
+      displayStatus(data.warning, 'warning', main.querySelector('h1'));
     } else {
       questionnaire = data;
       displayQuestionnaire();
     }
   } else {
-    displayError(data.error, main.querySelector('h1'));
+    displayStatus(data.error, 'error', main.querySelector('h1'));
   }
 }
 

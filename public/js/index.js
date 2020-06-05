@@ -1,7 +1,7 @@
 'use strict';
 
 import { isFilled, trapFocus } from './modules/browser-common.js';
-import { displayError } from './modules/browser-status.js';
+import { displayStatus } from './modules/browser-status.js';
 
 const loading = document.querySelector('#loading');
 const questionnaireList = document.querySelector('#questionnaire-list');
@@ -116,7 +116,7 @@ async function loadQuestionnaires() {
   if (res.ok && isFilled(data)) {
     displayQuestionnaires(data);
   } else {
-    displayError(data.error, questionnaireList);
+    displayStatus(data.error, 'error', questionnaireList);
   }
 }
 

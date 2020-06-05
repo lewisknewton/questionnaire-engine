@@ -8,13 +8,6 @@ export function isFilled(obj) {
 }
 
 /**
- * Sets the current document title.
- */
-export function setPageTitle(title) {
-  if (document.title !== title) document.title = title;
-}
-
-/**
  * Retrieves the ID of the selected questionnaire, using a given string
  * at which to divide the URL path (e.g. after `take` or after `review`).
  */
@@ -25,21 +18,6 @@ export function getQuestionnaireId(pathDivider) {
   if (isFilled(id)) return id;
 
   return null;
-}
-
-/**
- * Converts a given Date object into a human-readable format.
- */
-export function getFormattedDate(dateObj) {
-  const day = dateObj.getDate() < 10 ? `0${dateObj.getDate()}` : dateObj.getDate();
-  const month = dateObj.getMonth() + 1 < 10 ? `0${dateObj.getMonth() + 1}` : dateObj.getMonth() + 1;
-  const year = dateObj.getFullYear();
-
-  const hours = dateObj.getHours() < 10 ? `0${dateObj.getHours()}` : dateObj.getHours();
-  const mins = dateObj.getMinutes() < 10 ? `0${dateObj.getMinutes()}` : dateObj.getMinutes();
-  const secs = dateObj.getSeconds() < 10 ? `0${dateObj.getSeconds()}` : dateObj.getSeconds();
-
-  return `${year}-${month}-${day} ${hours}:${mins}:${secs}`;
 }
 
 /**

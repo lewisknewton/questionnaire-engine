@@ -1,7 +1,7 @@
 'use strict';
 
-import { displayError, displayWarning } from './modules/browser-status.js';
-import { getFormattedDate, getQuestionnaireId, isFilled, setPageTitle } from './modules/browser-common.js';
+import { getQuestionnaireId, isFilled} from './modules/browser-common.js';
+import { displayStatus, getFormattedDate, setPageTitle } from './modules/browser-status.js';
 
 const main = document.querySelector('main');
 const loading = document.querySelector('#loading');
@@ -188,7 +188,7 @@ async function loadResponses(questionnaireId) {
     setPageTitle(data.name);
 
     if (data.warning) {
-      displayWarning(data.warning, title);
+      displayStatus(data.warning, 'warning', title);
     } else {
       responses = data.responses;
 
@@ -204,7 +204,7 @@ async function loadResponses(questionnaireId) {
       displayResponse(responseSelector.value - 1);
     }
   } else {
-    displayError(data.error, title);
+    displayStatus(data.error, 'error', title);
   }
 
   // Poll for new responses every 5 seconds

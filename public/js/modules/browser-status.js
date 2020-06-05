@@ -1,40 +1,45 @@
 'use strict';
 
 /**
- * Displays an error message. Also provides the option to display the
- * message after a given element.
+ * Sets the current document title.
  */
-export function displayError(msg, afterEl = null) {
-  const errorTemplate = document.querySelector('#error-message');
-  const error = errorTemplate.content.cloneNode(true);
-
-  error.querySelector('p').textContent = msg;
-
-  if (afterEl != null) afterEl.after(error);
+export function setPageTitle(title) {
+  if (document.title !== title) document.title = title;
 }
 
 /**
- * Displays a warning message. Also provides the option to display the
- * message after a given element.
+ * Displays a status message of a given type (success, warning, or error).
+ * Also provides the option to display the message after a given element, or
+ * to append directly to main content.
  */
-export function displayWarning(msg, afterEl = null) {
-  const warningTemplate = document.querySelector('#warning-message');
-  const warning = warningTemplate.content.cloneNode(true);
+export function displayStatus(msg, type, afterEl = null) {
+  const template = document.querySelector(`#${type}-message`);
+  const status = template.content.cloneNode(true);
 
-  warning.querySelector('p').textContent = msg;
+  status.querySelector('p').textContent = msg;
 
-  if (afterEl != null) afterEl.after(warning);
+  const existing = Array.from(document.querySelectorAll(`.${type}`)).map(el => el.textContent);
+
+  if (!existing.includes(msg)) {
+    if (afterEl != null) {
+      afterEl.after(status);
+    } else {
+      document.querySelector('main').append(status);
+    }
+  }
 }
 
 /**
- * Displays a success message. Also provides the option to display the
- * message after a given element.
+ * Converts a given Date object into a human-readable format.
  */
-export function displaySuccess(msg, afterEl = null) {
-  const successTemplate = document.querySelector('#success-message');
-  const success = successTemplate.content.cloneNode(true);
+export function getFormattedDate(dateObj) {
+  const day = dateObj.getDate() < 10 ? `0${dateObj.getDate()}` : dateObj.getDate();
+  const month = dateObj.getMonth() + 1 < 10 ? `0${dateObj.getMonth() + 1}` : dateObj.getMonth() + 1;
+  const year = dateObj.getFullYear();
 
-  success.querySelector('p').textContent = msg;
+  const hours = dateObj.getHours() < 10 ? `0${dateObj.getHours()}` : dateObj.getHours();
+  const mins = dateObj.getMinutes() < 10 ? `0${dateObj.getMinutes()}` : dateObj.getMinutes();
+  const secs = dateObj.getSeconds() < 10 ? `0${dateObj.getSeconds()}` : dateObj.getSeconds();
 
-  if (afterEl != null) afterEl.after(success);
+  return `${year}-${month}-${day} ${hours}:${mins}:${secs}`;
 }
