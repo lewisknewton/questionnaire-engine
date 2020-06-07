@@ -54,14 +54,15 @@ async function saveResponse() {
 
   const payload = { questionnaireId: id, answers: sorted };
 
-  const res = await fetch(`/api/questionnaires/${id}/responses`, {
+  const opts = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(payload),
-  });
+  };
 
+  const res = await fetch(`/api/questionnaires/${id}/responses`, opts);
   const data = await res.json();
 
   if (res.ok) {
