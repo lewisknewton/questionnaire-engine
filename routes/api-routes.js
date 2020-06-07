@@ -1,9 +1,25 @@
 'use strict';
 
-const qh = require('../questionnaire-handler');
-
+const config = require('../config.json');
 const { isFilled } = require('../common');
 const { codes, errors, warnings } = require('../status');
+
+const qh = require('../questionnaire-handler');
+const multer = require('multer');
+
+// Define where and how to store questionnaire files
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, './questionnaires/'),
+  filename: (req, file, cb) => {
+    const { 0: originalName, 1: ext } = file.originalname.split('.');
+    const uniqueName = `${originalName}-${Date.now()}`;
+
+    cb(null, `${uniqueName}.${ext}`);
+  },
+});
+
+const uploader = multer({ ...config.multer, storage });
+const single = uploader.single('questionnaire');
 
 /**
  * Retrieves all stored questionnaires.
@@ -39,6 +55,42 @@ async function getQuestionnaire(req, res) {
   }
 
   return res.json(result);
+}
+
+/**
+ * Adds a questionnaire by uploading a given questionnaire file.
+ */
+function postQuestionnaire(req, res) {
+  const validType = 'application/json';
+
+  single(req, res, (err) => {
+    const file = req.file;
+
+    if (file.mimetype !== validType) {
+      return res.status(codes.badRequest).json({ error: errors.questionnaireFileInvalid });
+    }
+
+    if (err) {
+      let code;
+      let msg;
+
+      if (err.code === 'LIMIT_FILE_SIZE') {
+        code = codes.payloadTooLarge;
+        msg = errors.questionnaireFileTooLarge;
+      } else {
+        code = codes.internalServerErr;
+        msg = errors.questionnaireFileNotUploaded;
+      }
+
+      return res.status(code).json({ error: msg });
+    }
+
+    return res.status(codes.created)
+      .json({
+        success: 'Thank you, your questionnaire has been uploaded.',
+        name: file.originalname,
+      });
+  });
 }
 
 /**
@@ -99,8 +151,9 @@ async function postResponse(req, res) {
 }
 
 module.exports = {
-  getQuestionnaire,
   getQuestionnaires,
+  getQuestionnaire,
+  postQuestionnaire,
   getResponses,
   postResponse,
 };

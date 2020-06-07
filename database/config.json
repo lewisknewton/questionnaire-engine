@@ -1,4 +1,0 @@
-{
-  "host": "/var/run/postgresql",
-  "database": "questionnaire_engine"
-}

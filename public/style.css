@@ -83,6 +83,33 @@ main {
   margin: var(--space-l) auto;
 }
 
+dialog[open],
+dialog[aria-hidden="false"] {
+  color: inherit;
+  position: fixed;
+  height: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: var(--main-w);
+}
+
+dialog header h4 {
+  border: none;
+}
+
+dialog header {
+  display: flex;
+  justify-content: space-between;
+  grid-area: header;
+  margin-bottom: var(--space-xs);
+}
+
+.close {
+  padding: var(--space-xs);
+  border-radius: var(--space-xs);
+}
+
 .card {
   padding: var(--space-s) var(--space-s) var(--space-s);
   border: var(--border);
@@ -187,6 +214,19 @@ details {
 }
 
 /* Questionnaire summary styles */
+#questionnaire-list {
+  display: grid;
+  grid-template-columns: auto max-content;
+}
+
+#add {
+  margin-bottom: var(--space-m);
+}
+
+.summary {
+  grid-column-start: span 2;
+}
+
 .summary h3 {
   padding-bottom: var(--space-xs);
   border-bottom: var(--border);
@@ -223,31 +263,14 @@ details {
 /* Share dialog styles */
 #share[open],
 #share[aria-hidden="false"] {
-  color: inherit;
-  position: fixed;
-  height: auto;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   display: grid;
-  gap: var(--space-xs);
+  column-gap: var(--space-xs);
   grid-template-columns: max-content auto;
   grid-template-areas:
     "header header"
     "share-text share-text"
     "share-output share-output"
     "share-link share-copy";
-  max-width: var(--main-w);
-}
-
-#share-title {
-  border: none;
-}
-
-#share header {
-  display: flex;
-  justify-content: space-between;
-  grid-area: header;
 }
 
 #share-text {
@@ -264,14 +287,6 @@ details {
 
 #share-copy {
   grid-area: share-copy;
-}
-
-#share-close {
-  padding: var(--space-xs);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--space-xs);
 }
 
 /* Status message styles */
@@ -326,6 +341,12 @@ details {
 /* Hiding/unhiding styles */
 .hidden {
   display: none;
+}
+
+/* Element interaction styles */
+.highlighted,
+.highlighted input[type="file"] {
+  border: var(--medium) solid var(--primary);
 }
 
 /* Questionnaire styles */

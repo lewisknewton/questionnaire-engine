@@ -6,6 +6,7 @@ const codes = {
   noContent: 204,
   badRequest: 400,
   notFound: 404,
+  payloadTooLarge: 413,
   internalServerErr: 500,
 };
 
@@ -17,6 +18,12 @@ const errors = {
     id => `Sorry, no questionnaire of ID '${id}' could be found. Please check the ID and try again.`,
   questionnaireNotSelected:
     'Sorry, no questionnaire was selected. Please try again using the ID of the questionnaire.',
+  questionnaireFileInvalid:
+    'Sorry, your questionnaire file was not in the correct format. Please try uploading it again as a valid JSON file.',
+  questionnaireFileNotUploaded:
+  'Sorry, your questionnaire file could not be uploaded. Please try uploading it again.',
+  questionnaireFileTooLarge:
+    'Sorry, your questionnaire file was too large. Please ensure the file does not exceed 5MB.',
   questionnairesNotFound:
     'Sorry, no questionnaires were found. Please add them to the questionnaires folder.',
   responseNoAnswers:

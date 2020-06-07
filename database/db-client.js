@@ -1,7 +1,7 @@
 const { Client } = require('pg');
-const config = require('./config');
+const config = require('../config.json');
 
-const dbClient = new Client(config);
+const dbClient = new Client(config.database);
 
 /**
  * Connects to the PostgreSQL database.

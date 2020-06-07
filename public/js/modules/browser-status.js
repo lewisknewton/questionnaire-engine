@@ -8,6 +8,20 @@ export function setPageTitle(title) {
 }
 
 /**
+ * Adds a visual indicator showing that a given element is being interacted with.
+ */
+export function highlight(el) {
+  el.classList.add('highlighted');
+}
+
+/**
+ * Removes the visual indicator showing a given element was being interacted with.
+ */
+export function unhighlight(el) {
+  el.classList.remove('highlighted');
+}
+
+/**
  * Displays a status message of a given type (success, warning, or error).
  * Also provides the option to display the message after a given element, or
  * to append directly to main content.

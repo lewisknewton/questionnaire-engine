@@ -17,6 +17,8 @@ app.use(express.static(path.join(__dirname, 'public'), { extensions: ['html'] })
 // Define API routes
 apiRouter.get('/questionnaires', api.getQuestionnaires);
 apiRouter.get('/questionnaires/:id', api.getQuestionnaire);
+apiRouter.post('/questionnaires', api.postQuestionnaire);
+
 apiRouter.get('/questionnaires/:id/responses', api.getResponses);
 apiRouter.post('/questionnaires/:id/responses', express.json(), api.postResponse);
 

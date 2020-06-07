@@ -15,13 +15,27 @@
   <section id="questionnaire-list">
     <h2>Questionnaires</h2>
 
+    <button id="add">Add Questionnaire</button>
+
     <p id="loading">Loading questionnaires &hellip;</p>
   </section>
+
+  <dialog id="upload" class="card" aria-labelledby="upload-title" aria-describedby="upload-text">
+    <header>
+      <h4 id="upload-title">Add Questionnaires</h4>
+      <button id="upload-close" class="close">Close</button>
+    </header>
+
+    <p id="upload-text">Upload one or more questionnaire JSON files, either by dragging and dropping into this area or
+      using the file selector below.</p>
+
+    <input type="file" accept="application/json, .json" multiple name="questionnaire-file" id="questionnaire-file">
+  </dialog>
 
   <dialog id="share" class="card" aria-labelledby="share-title" aria-describedby="share-text">
     <header>
       <h4 id="share-title">Share</h4>
-      <button id="share-close">Close</button>
+      <button id="share-close" class="close">Close</button>
     </header>
 
     <p id="share-text">Share questionnaire text</p>
@@ -47,8 +61,13 @@
     </article>
   </template>
 
+  <!-- Status messages -->
   <template id="error-message">
     <p class="error">Error message</p>
+  </template>
+
+  <template id="success-message">
+    <p class="success">Success message</p>
   </template>
 </main>
 

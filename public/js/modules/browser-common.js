@@ -21,6 +21,14 @@ export function getQuestionnaireId(pathDivider) {
 }
 
 /**
+ * Prevents elements from carrying out their default behaviours.
+ */
+export function preventDefault(evt) {
+  evt.preventDefault();
+  evt.stopPropagation();
+}
+
+/**
  * Restricts elements the user can focus on within a given element.
  */
 export function trapFocus(el) {
@@ -52,29 +60,53 @@ export function trapFocus(el) {
 }
 
 /**
- * Prepares the share area and its children to be used when opened.
+ * Uses a fallback for browsers that do not support the <dialog> element.
  */
-export function initialiseShareElements(share, shareLink, shareOutput, shareCopyBtn, shareCloseBtn) {
-  // Use fallback for <dialog> if unsupported
+export function handleDialogSupport(dialog) {
   if (typeof HTMLDialogElement !== 'function') {
-    share.classList.add('hidden');
-    share.setAttribute('aria-hidden', 'true');
-    share.setAttribute('role', 'dialog');
+    dialog.classList.add('hidden');
+    dialog.setAttribute('aria-hidden', 'true');
+    dialog.setAttribute('role', 'dialog');
   }
-
-  shareCopyBtn.addEventListener('click', () => copyShareLink(shareLink, shareOutput));
-  shareCloseBtn.addEventListener('click', () => closeShareArea(share));
 }
 
 /**
- * Closes the open share dialog.
+ * Prepares the share area and its children to be used when opened.
  */
-export function closeShareArea(share) {
-  if (typeof share.close === 'function') {
-    share.close();
+export function initialiseShareElements(share, shareLink, shareOutput, shareCopyBtn, shareCloseBtn) {
+  handleDialogSupport(share);
+
+  shareCopyBtn.addEventListener('click', () => copyShareLink(shareLink, shareOutput));
+  shareCloseBtn.addEventListener('click', () => closeDialog(share));
+}
+
+/**
+ * Shows a given hidden (closed) dialog.
+ */
+export function openDialog(dialog) {
+  if (typeof dialog.showModal === 'function') {
+    dialog.showModal();
   } else {
-    share.setAttribute('aria-hidden', 'true');
-    share.classList.add('hidden');
+    dialog.removeAttribute('aria-hidden');
+    dialog.classList.remove('hidden');
+
+    const focusable = dialog.querySelectorAll('a[href], button, input, textarea');
+
+    // Set focus to be inside the dialog
+    focusable[0].focus();
+    trapFocus(dialog);
+  }
+}
+
+/**
+ * Hides a given shown (open) dialog.
+ */
+export function closeDialog(dialog) {
+  if (typeof dialog.close === 'function') {
+    dialog.close();
+  } else {
+    dialog.setAttribute('aria-hidden', 'true');
+    dialog.classList.add('hidden');
   }
 }
 
@@ -96,7 +128,7 @@ export function copyShareLink(shareLink, shareOutput) {
  * Shares a link to the questionnaire, either via native sharing options for
  * mobile users or through alternative sharing options for other devices.
  */
-export async function shareQuestionnaire(q, share, shareLink, shareOutput, shareCloseBtn) {
+export async function shareQuestionnaire(q, share, shareLink, shareOutput) {
   const url = window.location;
 
   const shareText = `Share the link to the ${q.name} questionnaire:`;
@@ -120,15 +152,6 @@ export async function shareQuestionnaire(q, share, shareLink, shareOutput, share
 
     if (isFilled(shareOutput.value)) shareOutput.value = '';
 
-    if (typeof share.showModal === 'function') {
-      share.showModal();
-    } else {
-      share.removeAttribute('aria-hidden');
-      share.classList.remove('hidden');
-
-      // Set focus to be inside the dialog
-      shareCloseBtn.focus();
-      trapFocus(share);
-    }
+    openDialog(share);
   }
 }

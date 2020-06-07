@@ -1,0 +1,12 @@
+{
+  "database": {
+    "host": "/var/run/postgresql",
+    "database": "questionnaire_engine"
+  },
+  "multer": {
+    "limits": {
+      "files": 1,
+      "fileSize": 5120
+    }
+  }
+}
