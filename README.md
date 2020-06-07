@@ -29,21 +29,23 @@ These commands will create the database and start the web server (see below for 
 
 The application uses a PostgreSQL database to store responses and basic questionnaire details.
 
-The `npm run setup` command will create the database and its tables, using the parameters in the [config.json](database/config.json) file.
+The `npm run setup` command will create the database and its tables, using the parameters in the [config.json](config.json) file.
 
 > **NOTE**: The `npm run setup` command does not specify the username and password. If required, these can be provided manually (e.g. with the `-U` flag or a `.pgpass` file).
 
-The default `host` parameter is designed for use on the university VMs, which do not require the `user` and `password` parameters. If required, these parameters can be replaced in the [config.json](database/config.json) file.
+The default `host` parameter is designed for use on the university VMs, which do not require the `user` and `password` parameters. If required, these parameters can be replaced in the `database` object of the [config.json](config.json) file.
 
 For example, to run the application locally you might use something like:
 
 ```json
-"host": "localhost",
-"user": "postgres",
-"password": "yourpassword"
+"database": {
+  "host": "localhost",
+  "user": "postgres",
+  "password": "yourpassword"
+}
 ```
 
-The default database name is `questionnaire_engine`. If required, this can be replaced in the [schema.sql](database/schema.sql) and [config.json](database/config.json) files.
+The default database name is `questionnaire_engine`. If required, this can be replaced in the [schema.sql](database/schema.sql) and [config.json](config.json) files.
 
 ## Server
 The `npm start` command will launch the application using an HTTP server running on port 8080, located in [server.js](server.js).
