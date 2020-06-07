@@ -458,7 +458,7 @@ section[role="tabpanel"] {
     --link-active: #ffc7d2;
     --link-visited: #e5d1f5;
     --secondary: #fff;
-    --secondary-alt: #ebebeb;
+    --secondary-alt: #c2c2c2;
   }
 
   input[type="submit"],
