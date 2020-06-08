@@ -7,7 +7,7 @@ const { isFilled, isInArray } = require('./common');
 const queries = require('./database/queries');
 const dbClient = require('./database/db-client');
 
-const questionnaires = [];
+const qnrs = [];
 const localDir = './questionnaires';
 
 /**
@@ -37,9 +37,9 @@ async function getStats(dirPath) {
 /**
  * Stores a given questionnaire in the database.
  */
-async function addQuestionnaire(questionnaire) {
+async function addQuestionnaire(qnr) {
   const shortId = generateShortId();
-  const { path } = questionnaire;
+  const { path } = qnr;
 
   try {
     const result = await dbClient.query(queries.addQuestionnaire, [shortId, path]);
@@ -115,12 +115,12 @@ async function keepUpToDate(records) {
     const file = await readQuestionnaireFile(record.path);
 
     if (file == null) {
-      const existing = await isInArray(questionnaires, 'id', record.shortId)[0];
+      const existing = await isInArray(qnrs, 'id', record.shortId)[0];
 
       // Remove the questionnaire already shown to users
-      for (let i = 0; i < questionnaires.length; i += 1) {
-        if (questionnaires[i] === existing) {
-          questionnaires.splice(i, 1);
+      for (let i = 0; i < qnrs.length; i += 1) {
+        if (qnrs[i] === existing) {
+          qnrs.splice(i, 1);
           i -= 1;
         }
       }
@@ -145,31 +145,31 @@ async function selectQuestionnaires(dir = localDir) {
       if (itemStats[name].isFile) {
         const path = itemStats[name].path;
         const file = await readQuestionnaireFile(path);
-        let questionnaire = { ...file, path };
+        let qnr = { ...file, path };
 
         // Check if the questionnaire already has a record in the database
-        const record = await isInArray(records, 'path', questionnaire.path)[0];
+        const record = await isInArray(records, 'path', qnr.path)[0];
 
         if (record == null) {
-          questionnaire = Object.assign(questionnaire, await addQuestionnaire(questionnaire));
+          qnr = Object.assign(qnr, await addQuestionnaire(qnr));
         } else {
-          questionnaire.id = record.shortId;
+          qnr.id = record.shortId;
         }
 
         // Check if the questionnaire has already been selected
-        const inArray = await isInArray(questionnaires, 'id', questionnaire.id);
+        const inArray = await isInArray(qnrs, 'id', qnr.id);
 
         // Hide the path from users
-        delete questionnaire.path;
+        delete qnr.path;
 
-        if (!isFilled(inArray)) questionnaires.push(questionnaire);
+        if (!isFilled(inArray)) qnrs.push(qnr);
       } else {
         // If the item is a directory, look for questionnaires inside it
         await selectQuestionnaires(`${dir}/${name}`);
       }
     }
 
-    return questionnaires;
+    return qnrs;
   } catch (err) {
     console.error(err);
   }
@@ -180,11 +180,11 @@ async function selectQuestionnaires(dir = localDir) {
  */
 async function selectQuestionnaire(id) {
   // Fetch records in the database
-  const questionnaire = await selectQuestionnaireByShortId(id);
+  const qnr = await selectQuestionnaireByShortId(id);
 
-  if (!isFilled(questionnaire, true)) return;
+  if (!isFilled(qnr, true)) return;
 
-  const { shortId, path } = questionnaire;
+  const { shortId, path } = qnr;
 
   return { id: shortId, ...await readQuestionnaireFile(path) };
 }
@@ -249,15 +249,15 @@ async function addResponse(response) {
  * Retrieves all responses for a given questionnaire, using
  * the questionnaire's short ID.
  */
-async function selectResponses(questionnaireId) {
-  const questionnaire = await selectQuestionnaireByShortId(questionnaireId);
+async function selectResponses(qnrId) {
+  const qnr = await selectQuestionnaireByShortId(qnrId);
 
-  if (!isFilled(questionnaire, true)) return;
+  if (!isFilled(qnr, true)) return;
 
-  const { id: qId, shortId, path } = questionnaire;
+  const { shortId, path } = qnr;
 
   try {
-    const result = await dbClient.query(queries.selectResponses, [qId]);
+    const result = await dbClient.query(queries.selectResponses, [qnrId]);
     const responses = isFilled(result.rows) ? result.rows : [];
 
     const { name, questions } = await readQuestionnaireFile(path);

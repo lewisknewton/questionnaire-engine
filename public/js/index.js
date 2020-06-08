@@ -22,20 +22,20 @@ const shareOutput = document.querySelector('#share-output');
 /**
  * Displays details about stored questionnaires.
  */
-function displayQuestionnaires(questionnaires) {
+function displayQuestionnaires(qnrs) {
   const existing =
     [...new Set(document.querySelectorAll('.summary'))].map(el => el.getAttribute('data-id'));
 
   for (const id of existing) {
     // Remove deleted questionnaires so that they are not shown to authors
-    const inArray = isInArray(questionnaires, 'id', id)[0];
+    const inArray = isInArray(qnrs, 'id', id)[0];
 
     if (inArray == null) document.querySelector(`.summary[data-id=${id}]`).remove();
   }
 
   // Add content to questionnaire summary template
-  for (const q of questionnaires) {
-    if (!existing.includes(q.id)) {
+  for (const qnr of qnrs) {
+    if (!existing.includes(qnr.id)) {
       const summary = questionnaireSummary.content.cloneNode(true);
 
       const name = summary.querySelector('h3');
@@ -44,14 +44,14 @@ function displayQuestionnaires(questionnaires) {
       const deleteBtn = summary.querySelector('a.delete');
       const shareBtn = summary.querySelector('button.share');
 
-      summary.querySelector(':nth-child(1)').setAttribute('data-id', q.id);
-      name.textContent = q.name ? q.name : 'Untitled';
-      count.textContent = `Questions: ${q.questions ? q.questions.length : 0}`;
+      summary.querySelector(':nth-child(1)').setAttribute('data-id', qnr.id);
+      name.textContent = qnr.name ? qnr.name : 'Untitled';
+      count.textContent = `Questions: ${qnr.questions ? qnr.questions.length : 0}`;
 
-      reviewBtn.setAttribute('href', `review/${q.id}`);
-      deleteBtn.setAttribute('href', `?delete=${q.id}`);
+      reviewBtn.setAttribute('href', `review/${qnr.id}`);
+      deleteBtn.setAttribute('href', `?delete=${qnr.id}`);
 
-      shareBtn.addEventListener('click', () => shareQuestionnaire(q, share, shareLink, shareOutput));
+      shareBtn.addEventListener('click', () => shareQuestionnaire(qnr, share, shareLink, shareOutput));
 
       questionnaireList.append(summary);
     }

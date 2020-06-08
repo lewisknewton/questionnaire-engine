@@ -177,8 +177,8 @@ function displayResponse(index) {
 /**
  * Retrieves the responses for a given questionnaire, using its ID.
  */
-async function loadResponses(questionnaireId) {
-  const res = await fetch(`/api/questionnaires/${questionnaireId}/responses`);
+async function loadResponses(qnrId) {
+  const res = await fetch(`/api/questionnaires/${qnrId}/responses`);
   const data = await res.json();
 
   const title = main.querySelector('h1');
@@ -211,14 +211,14 @@ async function loadResponses(questionnaireId) {
   }
 
   // Poll for new responses every 5 seconds
-  setTimeout(loadResponses, 5000, questionnaireId);
+  setTimeout(loadResponses, 5000, qnrId);
 }
 
 /**
  * Retrieves the questions for a given questionnaire, using its ID.
  */
-async function loadQuestions(questionnaireId) {
-  const res = await fetch(`/api/questionnaires/${questionnaireId}`);
+async function loadQuestions(qnrId) {
+  const res = await fetch(`/api/questionnaires/${qnrId}`);
   const data = await res.json();
 
   if (res.ok) questions = data.questions;
@@ -227,9 +227,9 @@ async function loadQuestions(questionnaireId) {
 /**
  * Retrieves a given questionnaire's details and responses.
  */
-async function loadData(questionnaireId) {
-  await loadQuestions(questionnaireId);
-  await loadResponses(questionnaireId);
+async function loadData(qnrId) {
+  await loadQuestions(qnrId);
+  await loadResponses(qnrId);
 
   loading.classList.add('hidden');
 }

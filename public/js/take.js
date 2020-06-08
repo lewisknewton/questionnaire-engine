@@ -19,7 +19,7 @@ const shareLink = document.querySelector('#share-link');
 const shareOutput = document.querySelector('#share-output');
 
 let id = '';
-let questionnaire = {};
+let qnr = {};
 const answers = {};
 
 const questionTypes = {
@@ -46,7 +46,7 @@ const questionTypes = {
  */
 async function saveResponse() {
   const sorted = {};
-  const order = questionnaire.questions.map(question => question.id);
+  const order = qnr.questions.map(question => question.id);
 
   // Retain the original question order in answers
   for (const id of order) sorted[id] = null;
@@ -210,10 +210,10 @@ function copyTemplates(question) {
  * Displays a given questionnaire's details and questions.
  */
 function displayQuestionnaire() {
-  setPageTitle(questionnaire.name);
-  const questions = questionnaire.questions;
+  setPageTitle(qnr.name);
+  const questions = qnr.questions;
 
-  main.querySelector('h1').textContent = questionnaire.name;
+  main.querySelector('h1').textContent = qnr.name;
   questionsSection.classList.remove('hidden');
   submitBtn.classList.remove('hidden');
 
@@ -238,7 +238,7 @@ async function loadQuestionnaire(id) {
     if (data.warning) {
       displayStatus(data.warning, 'warning', main.querySelector('h1'));
     } else {
-      questionnaire = data;
+      qnr = data;
       displayQuestionnaire();
     }
   } else {
@@ -255,7 +255,7 @@ function init() {
   loadQuestionnaire(id);
 
   submitBtn.addEventListener('click', saveResponse);
-  shareBtn.addEventListener('click', () => shareQuestionnaire(questionnaire, share, shareLink, shareOutput));
+  shareBtn.addEventListener('click', () => shareQuestionnaire(qnr, share, shareLink, shareOutput));
 
   initialiseShareElements(share, shareLink, shareOutput, shareCopyBtn, shareCloseBtn);
 }
