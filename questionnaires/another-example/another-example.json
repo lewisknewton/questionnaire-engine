@@ -44,6 +44,18 @@
         "Rhino",
         "Slug"
       ]
+    },
+    {
+      "id": "knowledge",
+      "text": "On a scale from 1 to 5, how would you rate your knowledge of the animal kingdom?",
+      "type": "likert",
+      "options": [
+        "Poor (1)",
+        "Fair (2)",
+        "Good (3)",
+        "Very good (4)",
+        "Excellent (5)"
+      ]
     }
   ]
 }
