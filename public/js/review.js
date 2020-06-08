@@ -147,7 +147,7 @@ function displayResponse(index) {
   const idEl = responseEl.querySelector('b ~ span');
   const submittedEl = responseEl.querySelector('time');
 
-  responseEl.querySelector('article').setAttribute('data-index', index);
+  responseEl.querySelector(':nth-child(1)').setAttribute('data-index', index);
   currentEl.textContent = `Response ${index + 1}`;
   idEl.textContent = `${response.id}`;
   submittedEl.textContent = submitted;

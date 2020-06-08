@@ -190,7 +190,7 @@ function copyTemplates(question) {
 
   if (question.type in questionTypes) {
     const questionCopy = copyQuestionTemplate(question);
-    const questionBlock = baseCopy.querySelector('article');
+    const questionBlock = baseCopy.querySelector(':nth-child(1)');
 
     // Include question details
     questionBlock.append(questionCopy);
