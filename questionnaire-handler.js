@@ -254,10 +254,10 @@ async function selectResponses(qnrId) {
 
   if (!isFilled(qnr, true)) return;
 
-  const { shortId, path } = qnr;
+  const { id: qnrUniqueId, shortId, path } = qnr;
 
   try {
-    const result = await dbClient.query(queries.selectResponses, [qnrId]);
+    const result = await dbClient.query(queries.selectResponses, [qnrUniqueId]);
     const responses = isFilled(result.rows) ? result.rows : [];
 
     const { name, questions } = await readQuestionnaireFile(path);
