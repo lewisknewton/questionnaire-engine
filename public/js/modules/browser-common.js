@@ -29,6 +29,27 @@ export function getQuestionnaireId(pathDivider) {
 }
 
 /**
+ * Makes an element disappear smoothly or abruptly, depending on the user's
+ * preferences. Also supports removing the element from the DOM and a duration
+ * in milliseconds.
+ */
+export function hideElement(el, remove = false, duration = 500) {
+  const { matches: reduceMotion } = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  if (!reduceMotion) el.classList.add('smooth-hide');
+
+  setTimeout(() => {
+    el.classList.add('hidden');
+  }, duration / 2);
+
+  if (remove) {
+    setTimeout(() => {
+      el.remove();
+    }, duration);
+  }
+}
+
+/**
  * Prevents elements from carrying out their default behaviours.
  */
 export function preventDefault(evt) {

@@ -1,6 +1,6 @@
 'use strict';
 
-import { closeDialog, handleDialogSupport, initialiseShareElements, isFilled, isInArray, openDialog, preventDefault, shareQuestionnaire } from './modules/browser-common.js';
+import { closeDialog, handleDialogSupport, hideElement, initialiseShareElements, isFilled, isInArray, openDialog, preventDefault, shareQuestionnaire } from './modules/browser-common.js';
 import { displayStatus, highlight, unhighlight } from './modules/browser-status.js';
 
 const loading = document.querySelector('#loading');
@@ -30,7 +30,9 @@ function displayQuestionnaires(qnrs) {
     // Remove deleted questionnaires so that they are not shown to authors
     const inArray = isInArray(qnrs, 'id', id)[0];
 
-    if (inArray == null) document.querySelector(`.summary[data-id=${id}]`).remove();
+    if (inArray == null) {
+      hideElement(document.querySelector(`.summary[data-id=${id}]`), true);
+    }
   }
 
   // Add content to questionnaire summary template
@@ -65,7 +67,7 @@ async function loadQuestionnaires() {
   const res = await fetch('/api/questionnaires');
   const data = await res.json();
 
-  loading.classList.add('hidden');
+  hideElement(loading);
 
   if (res.ok && isFilled(data)) {
     displayQuestionnaires(data);
@@ -94,8 +96,16 @@ async function addQuestionnaire(file) {
 
   if (res.ok) {
     displayStatus(data.success, 'success', header);
+
+    setTimeout(() => {
+      hideElement(document.querySelector('.success'), true);
+    }, 5000);
   } else {
     displayStatus(data.error, 'error', header);
+
+    setTimeout(() => {
+      hideElement(document.querySelector('.error'), true);
+    }, 5000);
   }
 }
 
@@ -123,6 +133,10 @@ function handleFiles(files) {
       const msg =
         `Sorry, '${file.name}' is not a valid questionnaire JSON file. Please try uploading again with a valid file.`;
       displayStatus(msg, 'error', header);
+
+      setTimeout(() => {
+        hideElement(document.querySelector('.error'), true);
+      }, 5000);
     }
   }
 

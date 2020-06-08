@@ -350,6 +350,22 @@ details {
   display: none;
 }
 
+.smooth-hide {
+  animation: fadeShrink 0.25s forwards ease-in-out;
+  transform-origin: center top;
+}
+
+@keyframes fadeShrink {
+  0% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+}
+
 /* Element interaction styles */
 .highlighted,
 .highlighted input[type="file"] {

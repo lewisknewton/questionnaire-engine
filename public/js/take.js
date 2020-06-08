@@ -1,6 +1,6 @@
 'use strict';
 
-import { getQuestionnaireId, isFilled, initialiseShareElements, shareQuestionnaire } from './modules/browser-common.js';
+import { getQuestionnaireId, isFilled, initialiseShareElements, shareQuestionnaire, hideElement } from './modules/browser-common.js';
 import { displayStatus, setPageTitle } from './modules/browser-status.js';
 
 const main = document.querySelector('main');
@@ -71,14 +71,22 @@ async function saveResponse() {
 
   if (res.ok) {
     submitBtn.setAttribute('disabled', true);
-    submitBtn.classList.add('hidden');
-    questionsSection.classList.add('hidden');
+    finishedSection.classList.remove('hidden');
+
+    hideElement(submitBtn, true);
+    hideElement(questionsSection, true, 1000);
 
     displayStatus(data.success, 'success', main.querySelector('h1'));
 
-    finishedSection.classList.remove('hidden');
+    setTimeout(() => {
+      hideElement(document.querySelector('.success'), true);
+    }, 5000);
   } else {
     displayStatus(data.error, 'error', main.querySelector('h1'));
+
+    setTimeout(() => {
+      hideElement(document.querySelector('.error'), true);
+    }, 5000);
   }
 }
 
@@ -242,15 +250,10 @@ async function loadQuestionnaire(id) {
   const res = await fetch(`/api/questionnaires/${id}`);
   const data = await res.json();
 
-  loading.classList.add('hidden');
+  hideElement(loading);
 
   if (res.ok) {
-    if (data.warning) {
-      displayStatus(data.warning, 'warning', main.querySelector('h1'));
-    } else {
-      qnr = data;
-      displayQuestionnaire();
-    }
+    displayQuestionnaire();
   } else {
     displayStatus(data.error, 'error', main.querySelector('h1'));
   }

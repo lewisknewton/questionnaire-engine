@@ -1,6 +1,6 @@
 'use strict';
 
-import { getQuestionnaireId, isFilled } from './modules/browser-common.js';
+import { getQuestionnaireId, isFilled, hideElement } from './modules/browser-common.js';
 import { displayStatus, getFormattedDate, setPageTitle } from './modules/browser-status.js';
 
 const main = document.querySelector('main');
@@ -205,6 +205,9 @@ async function loadResponses(qnrId) {
         responsesList.classList.remove('hidden');
         displayResponse(responseSelector.value - 1);
       }
+
+      if (document.querySelector('.error')) hideElement(document.querySelector('.error'), true);
+      if (document.querySelector('.warning')) hideElement(document.querySelector('.warning'), true);
     }
   } else {
     displayStatus(data.error, 'error', title);
@@ -231,7 +234,7 @@ async function loadData(qnrId) {
   await loadQuestions(qnrId);
   await loadResponses(qnrId);
 
-  loading.classList.add('hidden');
+  hideElement(loading);
 }
 
 /**
@@ -390,8 +393,8 @@ function handleIndividualResponsesEvents() {
  */
 function init() {
   // Load the responses and questionnaire detials, getting the questionnaire ID after `review/`
-  const id = getQuestionnaireId('review');
-  loadData(id);
+  const qnrId = getQuestionnaireId('review');
+  loadData(qnrId);
 
   // Add event listeners and handlers
   handleTabEvents();
