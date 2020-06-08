@@ -11,7 +11,7 @@ const queries = {
                 $1,
                 $2
     )
-    RETURNING   short_id AS "shortId",
+    RETURNING   short_id AS id,
                 file_path AS path
   `,
 

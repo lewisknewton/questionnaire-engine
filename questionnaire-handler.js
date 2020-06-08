@@ -105,15 +105,14 @@ async function selectQuestionnaires(dir = localDir) {
       if (itemStats[name].isFile) {
         const path = itemStats[name].path;
         const file = await readQuestionnaireFile(path);
-        const copyInDB = await selectQuestionnaireByPath(path);
+        const dbRecord = await selectQuestionnaireByPath(path);
 
         let questionnaire = { ...file, path };
 
-        if (copyInDB == null) {
+        if (dbRecord == null) {
           questionnaire = Object.assign(questionnaire, await addQuestionnaire(questionnaire));
         } else {
-          const { shortId } = await selectQuestionnaireByPath(path);
-          questionnaire.id = shortId;
+          questionnaire.id = dbRecord.shortId;
         }
 
         // Check if the questionnaire has already been selected

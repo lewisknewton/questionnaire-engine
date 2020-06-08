@@ -23,25 +23,31 @@ const shareOutput = document.querySelector('#share-output');
  * Displays details about stored questionnaires.
  */
 function displayQuestionnaires(questionnaires) {
+  const existing =
+    [...new Set(document.querySelectorAll('.summary'))].map(el => el.getAttribute('data-id'));
+
   // Add content to questionnaire summary template
   for (const q of questionnaires) {
-    const summary = questionnaireSummary.content.cloneNode(true);
+    if (!existing.includes(q.id)) {
+      const summary = questionnaireSummary.content.cloneNode(true);
 
-    const name = summary.querySelector('h3');
-    const count = summary.querySelector('span');
-    const reviewBtn = summary.querySelector('a.review');
-    const deleteBtn = summary.querySelector('a.delete');
-    const shareBtn = summary.querySelector('button.share');
+      const name = summary.querySelector('h3');
+      const count = summary.querySelector('span');
+      const reviewBtn = summary.querySelector('a.review');
+      const deleteBtn = summary.querySelector('a.delete');
+      const shareBtn = summary.querySelector('button.share');
 
-    name.textContent = q.name ? q.name : 'Untitled';
-    count.textContent = `Questions: ${q.questions ? q.questions.length : 0}`;
+      summary.querySelector(':nth-child(1)').setAttribute('data-id', q.id);
+      name.textContent = q.name ? q.name : 'Untitled';
+      count.textContent = `Questions: ${q.questions ? q.questions.length : 0}`;
 
-    reviewBtn.setAttribute('href', `review/${q.id}`);
-    deleteBtn.setAttribute('href', `?delete=${q.id}`);
+      reviewBtn.setAttribute('href', `review/${q.id}`);
+      deleteBtn.setAttribute('href', `?delete=${q.id}`);
 
-    shareBtn.addEventListener('click', () => shareQuestionnaire(q, share, shareLink, shareOutput));
+      shareBtn.addEventListener('click', () => shareQuestionnaire(q, share, shareLink, shareOutput));
 
-    questionnaireList.append(summary);
+      questionnaireList.append(summary);
+    }
   }
 }
 
@@ -59,6 +65,9 @@ async function loadQuestionnaires() {
   } else {
     displayStatus(data.error, 'error', header);
   }
+
+  // Poll for new questionnaires every 5 seconds
+  setTimeout(loadQuestionnaires, 5000);
 }
 
 /**
@@ -107,7 +116,6 @@ function handleFiles(files) {
       const msg =
         `Sorry, '${file.name}' is not a valid questionnaire JSON file. Please try uploading again with a valid file.`;
       displayStatus(msg, 'error', header);
-
     }
   }
 
