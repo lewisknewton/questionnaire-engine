@@ -222,13 +222,14 @@ details {
 /* Questionnaire summary styles */
 #questionnaire-list {
   display: grid;
-  grid-template-columns: auto max-content;
 }
 
 #add {
-  margin-bottom: var(--space-m);
+  margin: 0 auto var(--space-m);
 }
 
+#questionnaire-list h2,
+#add,
 .summary {
   grid-column-start: span 2;
 }
@@ -270,13 +271,13 @@ details {
 #share[open],
 #share[aria-hidden="false"] {
   display: grid;
-  column-gap: var(--space-xs);
-  grid-template-columns: max-content auto;
+  gap: var(--space-xs);
   grid-template-areas:
-    "header header"
-    "share-text share-text"
-    "share-output share-output"
-    "share-link share-copy";
+    "header"
+    "share-text"
+    "share-output"
+    "share-link"
+    "share-copy";
 }
 
 #share-text {
@@ -507,5 +508,24 @@ section[role="tabpanel"] {
     justify-items: start;
     grid-template-columns: auto 1fr;
     grid-template-areas: "a b";
+  }
+
+  #questionnaire-list {
+    grid-template-columns: auto max-content;
+  }
+
+  #questionnaire-list > h2,
+  #add {
+    grid-column: auto;
+  }
+
+  #share[open],
+  #share[aria-hidden="false"] {
+    grid-template-columns: max-content auto;
+    grid-template-areas:
+      "header header"
+      "share-text share-text"
+      "share-output share-output"
+      "share-link share-copy";
   }
 }
