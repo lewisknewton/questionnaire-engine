@@ -100,8 +100,9 @@ The following question types are available:
 
 | Input Type      | Property        | Selector                 | Use              | 
 |-----------------|-----------------|--------------------------|------------------|
-| Number          | `number`        | `input[type="number"]`   | Numerical values |
+| Radio button    | `likert`        | `input[type="radio"]`    | Likert scale     |
 | Checkbox        | `multi-select`  | `input[type="checkbox"]` | Multiple choice  |
+| Number          | `number`        | `input[type="number"]`   | Numerical values |
 | Radio button    | `single-select` | `input[type="radio"]`    | Single choice    |
 | Mulit-line text | `text`          | `textarea`               | Free-form text   |
 
