@@ -23,8 +23,8 @@ export function unhighlight(el) {
 
 /**
  * Displays a status message of a given type (success, warning, or error).
- * Also provides the option to display the message after a given element, or
- * to append directly to main content.
+ * Also provides the option to display the message after a given element or
+ * to append it directly to the main content.
  */
 export function displayStatus(msg, type, afterEl = null) {
   const template = document.querySelector(`#${type}-message`);
@@ -45,6 +45,8 @@ export function displayStatus(msg, type, afterEl = null) {
       document.querySelector('main').append(status);
     }
   }
+
+  statusEl.scrollIntoView();
 }
 
 /**
