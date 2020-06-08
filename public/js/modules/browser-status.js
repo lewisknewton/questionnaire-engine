@@ -35,7 +35,8 @@ export function displayStatus(msg, type, afterEl = null) {
   statusEl.textContent = msg;
   statusEl.setAttribute('aria-live', 'assertive');
 
-  const existing = Array.from(document.querySelectorAll(`.${type}`)).map(el => el.textContent);
+  const existing =
+    [...document.querySelectorAll(`.${type}`)].map(el => el.textContent);
 
   if (!existing.includes(msg)) {
     if (afterEl != null) {
