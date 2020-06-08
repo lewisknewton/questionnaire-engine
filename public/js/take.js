@@ -188,7 +188,6 @@ function copyQuestionTemplate(question) {
         labelCopy.setAttribute('for', inputCopy.getAttribute('id'));
         questionCopy.append(inputCopy, labelCopy);
       }
-
     }
   } else {
     input.setAttribute('name', question.id);
@@ -253,6 +252,7 @@ async function loadQuestionnaire(id) {
   hideElement(loading);
 
   if (res.ok) {
+    qnr = data;
     displayQuestionnaire();
   } else {
     displayStatus(data.error, 'error', main.querySelector('h1'));
