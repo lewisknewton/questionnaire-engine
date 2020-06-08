@@ -356,16 +356,37 @@ details {
 }
 
 /* Questionnaire styles */
+.likert-question {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.likert-question > h3 {
+  flex: 100%;
+}
+
+.likert-question label {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.likert-question input {
+  margin-top: var(--space-xs);
+}
+
 .multi-select-question,
 .single-select-question {
   display: grid;
-  grid-template-areas: "title title";
   grid-template-columns: auto 1fr;
   column-gap: var(--space-s);
   justify-content: start;
   align-items: center;
 }
 
+.likert-question label,
 .multi-select-question label,
 .multi-select-question input,
 .single-select-question label,
@@ -375,7 +396,7 @@ details {
 
 .multi-select-question > h3,
 .single-select-question > h3 {
-  grid-area: title;
+  grid-column-start: span 2;
 }
 
 /* Tab styles */
