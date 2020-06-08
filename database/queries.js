@@ -23,12 +23,20 @@ const queries = {
     WHERE   short_id = $1
   `,
 
-  selectQuestionnaireByPath: `
+  selectQuestionnaireRecords: `
     SELECT  id,
             short_id AS "shortId",
             file_path AS path
     FROM    questionnaire
-    WHERE   file_path = $1
+  `,
+
+  deleteQuestionnaireById: `
+    DELETE
+    FROM      questionnaire
+    WHERE     id = $1
+    RETURNING id,
+              short_id AS "shortId",
+              file_path AS path
   `,
 
   // Responses

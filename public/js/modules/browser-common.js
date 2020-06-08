@@ -8,6 +8,14 @@ export function isFilled(obj) {
 }
 
 /**
+ * Checks to see if an array contains one or more objects with a given property,
+ * and returns the object(s) if found.
+ */
+export function isInArray(arr, prop, value) {
+  return arr.filter(item => item[prop] === value);
+}
+
+/**
  * Retrieves the ID of the selected questionnaire, using a given string
  * at which to divide the URL path (e.g. after `take` or after `review`).
  */

@@ -80,16 +80,53 @@ async function selectQuestionnaireByShortId(id) {
 }
 
 /**
- * Retrieves the database records associated with a questionnaire
- * by its file path.
+ * Retrieves all stored records about questionnaires in the database.
  */
-async function selectQuestionnaireByPath(path) {
+async function selectQuestionnaireRecords() {
   try {
-    const result = await dbClient.query(queries.selectQuestionnaireByPath, [path]);
+    const result = await dbClient.query(queries.selectQuestionnaireRecords);
+
+    return result.rows;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+/**
+ * Removes the stored record about a questionnaire in the database, using its
+ * unique ID.
+ */
+async function deleteQuestionnaire(id) {
+  try {
+    const result = await dbClient.query(queries.deleteQuestionnaireById, [id]);
 
     return result.rows[0];
   } catch (err) {
     console.error(err);
+  }
+}
+
+/**
+ * Ensures the database contains records only for files stored in the
+ * local directory.
+ */
+async function keepUpToDate(records) {
+  for (const record of records) {
+    const file = await readQuestionnaireFile(record.path);
+
+    if (file == null) {
+      const existing = await isInArray(questionnaires, 'id', record.shortId)[0];
+
+      // Remove the questionnaire already shown to users
+      for (let i = 0; i < questionnaires.length; i += 1) {
+        if (questionnaires[i] === existing) {
+          questionnaires.splice(i, 1);
+          i -= 1;
+        }
+      }
+
+      await deleteQuestionnaire(record.id);
+    }
   }
 }
 
@@ -99,20 +136,24 @@ async function selectQuestionnaireByPath(path) {
 async function selectQuestionnaires(dir = localDir) {
   try {
     const itemStats = await getStats(dir);
+    const records = await selectQuestionnaireRecords();
+
+    keepUpToDate(records);
 
     // Add questionnaires stored in the local directory
     for (const name in itemStats) {
       if (itemStats[name].isFile) {
         const path = itemStats[name].path;
         const file = await readQuestionnaireFile(path);
-        const dbRecord = await selectQuestionnaireByPath(path);
-
         let questionnaire = { ...file, path };
 
-        if (dbRecord == null) {
+        // Check if the questionnaire already has a record in the database
+        const record = await isInArray(records, 'path', questionnaire.path)[0];
+
+        if (record == null) {
           questionnaire = Object.assign(questionnaire, await addQuestionnaire(questionnaire));
         } else {
-          questionnaire.id = dbRecord.shortId;
+          questionnaire.id = record.shortId;
         }
 
         // Check if the questionnaire has already been selected
@@ -121,9 +162,7 @@ async function selectQuestionnaires(dir = localDir) {
         // Hide the path from users
         delete questionnaire.path;
 
-        if (!inArray) {
-          questionnaires.push(questionnaire);
-        }
+        if (!isFilled(inArray)) questionnaires.push(questionnaire);
       } else {
         // If the item is a directory, look for questionnaires inside it
         await selectQuestionnaires(`${dir}/${name}`);

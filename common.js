@@ -9,10 +9,11 @@ function isFilled(obj, countKeys = false) {
 }
 
 /**
- * Checks to see if an array contains an object of a given property.
+ * Checks to see if an array contains one or more objects with a given property,
+ * and returns the object(s) if found.
  */
 function isInArray(arr, prop, value) {
-  return arr.some(item => item[prop] === value);
+  return arr.filter(item => item[prop] === value);
 }
 
 module.exports = {

@@ -1,6 +1,6 @@
 'use strict';
 
-import { closeDialog, handleDialogSupport, isFilled, initialiseShareElements, openDialog, preventDefault, shareQuestionnaire } from './modules/browser-common.js';
+import { closeDialog, handleDialogSupport, initialiseShareElements, isFilled, isInArray, openDialog, preventDefault, shareQuestionnaire } from './modules/browser-common.js';
 import { displayStatus, highlight, unhighlight } from './modules/browser-status.js';
 
 const loading = document.querySelector('#loading');
@@ -25,6 +25,13 @@ const shareOutput = document.querySelector('#share-output');
 function displayQuestionnaires(questionnaires) {
   const existing =
     [...new Set(document.querySelectorAll('.summary'))].map(el => el.getAttribute('data-id'));
+
+  for (const id of existing) {
+    // Remove deleted questionnaires so that they are not shown to authors
+    const inArray = isInArray(questionnaires, 'id', id)[0];
+
+    if (inArray == null) document.querySelector(`.summary[data-id=${id}]`).remove();
+  }
 
   // Add content to questionnaire summary template
   for (const q of questionnaires) {
