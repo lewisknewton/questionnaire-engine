@@ -154,6 +154,12 @@ button {
   padding: var(--space-s);
 }
 
+input[type="submit"],
+button.primary {
+  background: var(--primary);
+  color: var(--fg);
+}
+
 button {
   border: none;
   background: var(--secondary);
