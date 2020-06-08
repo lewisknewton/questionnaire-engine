@@ -4,11 +4,12 @@ const fs = require('fs');
 const path = require('path');
 
 const { isFilled, isInArray } = require('./common');
+const config = require('./config.json');
 const queries = require('./database/queries');
 const dbClient = require('./database/db-client');
 
 const qnrs = [];
-const localDir = './questionnaires';
+const { directory: localDir } = config.questionnaires;
 
 /**
  * Generates a short ID for a resource (i.e. questionnaire or response).

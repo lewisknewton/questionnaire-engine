@@ -8,5 +8,8 @@
       "files": 1,
       "fileSize": 5120
     }
+  },
+  "questionnaires": {
+    "directory": "./questionnaires"
   }
 }
