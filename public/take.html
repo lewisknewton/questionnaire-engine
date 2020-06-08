@@ -65,12 +65,9 @@
     </article>
   </template>
 
-  <template id="text-question">
-    <textarea rows="5" placeholder="Please enter your answer."></textarea>
-  </template>
-
-  <template id="number-question">
-    <input type="number" placeholder="e.g. 42">
+  <template id="likert-question">
+    <input id="likert-id" type="radio">
+    <label>Likert scale label</label>
   </template>
 
   <template id="multi-select-question">
@@ -78,9 +75,17 @@
     <label for="multi-select-id">Multi select label</label>
   </template>
 
+  <template id="number-question">
+    <input type="number" placeholder="e.g. 42">
+  </template>
+
   <template id="single-select-question">
     <input id="single-select-id" type="radio">
     <label for="single-select-id">Single select label</label>
+  </template>
+
+  <template id="text-question">
+    <textarea rows="5" placeholder="Please enter your answer."></textarea>
   </template>
 </main>
 

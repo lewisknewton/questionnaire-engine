@@ -23,9 +23,13 @@ let qnr = {};
 const answers = {};
 
 const questionTypes = {
-  'text': {
-    input: 'textarea',
-    events: ['keyup'],
+  'likert': {
+    input: 'input[type="radio"]',
+    events: ['click'],
+  },
+  'multi-select': {
+    input: 'input[type="checkbox"]',
+    events: ['click'],
   },
   'number': {
     input: 'input[type="number"]',
@@ -35,9 +39,9 @@ const questionTypes = {
     input: 'input[type="radio"]',
     events: ['click'],
   },
-  'multi-select': {
-    input: 'input[type="checkbox"]',
-    events: ['click'],
+  'text': {
+    input: 'textarea',
+    events: ['keyup'],
   },
 };
 
@@ -154,8 +158,8 @@ function copyQuestionTemplate(question) {
     questionCopy.textContent = '';
 
     for (let i = 0; i <= question.options.length - 1; i += 1) {
-      // Create ID without whitespace for referencing in code
-      const opaqueId = question.options[i].replace(/\s/g, '_');
+      // Create ID without whitespace or brackets for referencing in code
+      const opaqueId = question.options[i].replace(/[\])[(]/g, '').replace(/\s/g, '_');
 
       const inputCopy = input.cloneNode(false);
       inputCopy.setAttribute('id', `${question.id}_${opaqueId}`);
@@ -166,11 +170,17 @@ function copyQuestionTemplate(question) {
       addInputEventListeners(inputCopy, ...questionTypes[type].events);
 
       const labelCopy = label.cloneNode(false);
-      labelCopy.setAttribute('for', inputCopy.getAttribute('id'));
       labelCopy.textContent = question.options[i];
 
       // Append labels and inputs not already present
-      questionCopy.append(inputCopy, labelCopy);
+      if (type === 'likert') {
+        labelCopy.append(inputCopy);
+        questionCopy.append(labelCopy);
+      } else {
+        labelCopy.setAttribute('for', inputCopy.getAttribute('id'));
+        questionCopy.append(inputCopy, labelCopy);
+      }
+
     }
   } else {
     input.setAttribute('name', question.id);
