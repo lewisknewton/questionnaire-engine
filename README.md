@@ -96,17 +96,27 @@ To add a questionnaire, place its JSON file into the [questionnaires/](questionn
 
 #### Questions
 
-The following question types are available:
+Questions may be defined within the `questions` object of a questionnaire JSON file.
 
-| Input Type      | Property        | Selector                 | Use              | 
-|-----------------|-----------------|--------------------------|------------------|
-| Radio button    | `likert`        | `input[type="radio"]`    | Likert scale     |
-| Checkbox        | `multi-select`  | `input[type="checkbox"]` | Multiple choice  |
-| Number          | `number`        | `input[type="number"]`   | Numerical values |
-| Radio button    | `single-select` | `input[type="radio"]`    | Single choice    |
-| Mulit-line text | `text`          | `textarea`               | Free-form text   |
+All question types require the following properties:
 
-To define questions of these types, use the appropriate *property*.
+* `id`, to uniquely identify them
+* `text`, to describe their content
+* `type`, to define their type
+
+Some question types support additional attributes specific to them (see below).
+
+There are multiple question types are available, as shown in the following table:
+
+| Type Property   | Use              | Input Type      | Selector                 | Additional Attributes |
+|-----------------|------------------|-----------------|--------------------------|-----------------------|
+| `likert`        | Likert scale     | Radio button    | `input[type="radio"]`    | `options`             |
+| `multi-select`  | Multiple choice  | Checkbox        | `input[type="checkbox"]` | `options`             |
+| `number`        | Numerical values | Number          | `input[type="number"]`   |                       |
+| `single-select` | Single choice    | Radio button    | `input[type="radio"]`    | `options`             |
+| `text`          | Free-form text   | Mulit-line text | `textarea`               |                       |
+
+To define questions of these types, use the appropriate *type property*.
 
 The following is an example of a valid `single-select` question, taken from [example.json](questionnaires/example.json):
 
@@ -125,6 +135,8 @@ The following is an example of a valid `single-select` question, taken from [exa
   },
 ],
 ```
+
+This example contains all required attributes, as well as the additional required `options` attribute used for questions with more than one input.
 
 ### Responses
 
