@@ -100,6 +100,9 @@ async function loadQuestionnaires() {
 
   if (res.ok && isFilled(data)) {
     displayQuestionnaires(data);
+
+    const error = document.querySelector('.error');
+    if (error != null) hideElement(error, true, 0);
   } else {
     displayStatus(data.error, 'error', header);
   }
