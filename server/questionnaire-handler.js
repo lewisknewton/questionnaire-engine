@@ -258,7 +258,7 @@ async function addResponse(response) {
       const answer = {
         content: answers[question],
         questionId: question,
-        responseId: insertedResponse.id,
+        responseId: insertedResponse.uniqueId,
       };
 
       if (Array.isArray(answer.content) && isFilled(answer.content)) {
@@ -272,6 +272,9 @@ async function addResponse(response) {
         insertedResponse.answers.push(await addAnswer(answer));
       }
     }
+
+    // Hide the primary key from users
+    delete insertedResponse.uniqueId;
 
     return insertedResponse;
   } catch (err) {
