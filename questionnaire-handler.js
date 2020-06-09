@@ -62,7 +62,7 @@ async function readQuestionnaireFile(path) {
 
     return JSON.parse(file);
   } catch (err) {
-    console.error(err);
+    if (err.code === 'ENOENT') return null;
   }
 }
 
@@ -94,16 +94,57 @@ async function selectQuestionnaireRecords() {
 }
 
 /**
- * Removes the stored record about a questionnaire in the database, using its
- * unique ID.
+ * Removes a questionnaire from the questionnaire array shown to users.
  */
-async function deleteQuestionnaire(id) {
+async function removeQuestionnaire(id) {
+  const existing = await isInArray(qnrs, 'id', id)[0];
+
+  for (let i = 0; i < qnrs.length; i += 1) {
+    if (qnrs[i] === existing) {
+      qnrs.splice(i, 1);
+      i -= 1;
+    }
+  }
+}
+
+/**
+ * Removes the stored records about a questionnaire in the database, using its
+ * unique ID. Also removes related records, including its responses.
+ */
+async function deleteQuestionnaireRecords(id) {
   try {
-    const result = await dbClient.query(queries.deleteQuestionnaireById, [id]);
+    const result = await dbClient.query(queries.deleteQuestionnaire, [id]);
 
     return result.rows[0];
   } catch (err) {
     console.error(err);
+  }
+}
+
+/**
+ * Deletes a questionnaire file stored in the local directory, using its path.
+ */
+async function deleteQuestionnaireFile(path) {
+  try {
+    await fs.promises.unlink(path);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+/**
+ * Removes a questionnaire's stored records in the database and its
+ * related file, using its short ID.
+ */
+async function deleteQuestionnaire(id) {
+  const qnr = await selectQuestionnaireByShortId(id);
+
+  if (isFilled(qnr, true)) {
+    const { id: qnrUniqueId, path } = qnr;
+
+    await removeQuestionnaire(id);
+    await deleteQuestionnaireRecords(qnrUniqueId);
+    await deleteQuestionnaireFile(path);
   }
 }
 
@@ -113,20 +154,12 @@ async function deleteQuestionnaire(id) {
  */
 async function keepUpToDate(records) {
   for (const record of records) {
-    const file = await readQuestionnaireFile(record.path);
+    const { id, shortId, path } = record;
+    const file = await readQuestionnaireFile(path);
 
     if (file == null) {
-      const existing = await isInArray(qnrs, 'id', record.shortId)[0];
-
-      // Remove the questionnaire already shown to users
-      for (let i = 0; i < qnrs.length; i += 1) {
-        if (qnrs[i] === existing) {
-          qnrs.splice(i, 1);
-          i -= 1;
-        }
-      }
-
-      await deleteQuestionnaire(record.id);
+      await removeQuestionnaire(shortId);
+      await deleteQuestionnaireRecords(id);
     }
   }
 }
@@ -139,7 +172,7 @@ async function selectQuestionnaires(dir = localDir) {
     const itemStats = await getStats(dir);
     const records = await selectQuestionnaireRecords();
 
-    keepUpToDate(records);
+    await keepUpToDate(records);
 
     // Add questionnaires stored in the local directory
     for (const name in itemStats) {
@@ -303,6 +336,7 @@ module.exports = {
   generateShortId,
   selectQuestionnaires,
   selectQuestionnaire,
+  deleteQuestionnaire,
   addResponse,
   selectResponses,
 };

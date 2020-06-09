@@ -42,21 +42,49 @@ function displayQuestionnaires(qnrs) {
 
       const name = summary.querySelector('h3');
       const count = summary.querySelector('span');
-      const reviewBtn = summary.querySelector('a.review');
-      const deleteBtn = summary.querySelector('a.delete');
+      const reviewLink = summary.querySelector('a.review');
+      const deleteBtn = summary.querySelector('button.delete');
       const shareBtn = summary.querySelector('button.share');
 
       summary.querySelector(':nth-child(1)').setAttribute('data-id', qnr.id);
       name.textContent = qnr.name ? qnr.name : 'Untitled';
       count.textContent = `Questions: ${qnr.questions ? qnr.questions.length : 0}`;
 
-      reviewBtn.setAttribute('href', `review/${qnr.id}`);
-      deleteBtn.setAttribute('href', `?delete=${qnr.id}`);
+      reviewLink.setAttribute('href', `review/${qnr.id}`);
 
+      deleteBtn.addEventListener('click', () => removeQuestionnaire(qnr.id));
       shareBtn.addEventListener('click', () => shareQuestionnaire(qnr, share, shareLink, shareOutput));
 
       questionnaireList.append(summary);
     }
+  }
+}
+
+/**
+ * Removes a given questionnaire and its responses.
+ */
+async function removeQuestionnaire(id) {
+  const opts = { method: 'DELETE' };
+  const res = await fetch(`/api/questionnaires/${id}`, opts);
+
+  if (res.ok) {
+    // Remove the questionnaire already shown to users
+    hideElement(document.querySelector(`.summary[data-id=${id}]`), true);
+
+    const msg = `The questionnaire of ID '${id}' was deleted successfully.`;
+    displayStatus(msg, 'success', header);
+
+    setTimeout(() => {
+      hideElement(document.querySelector('.success'), true);
+    }, 5000);
+  } else {
+    const data = await res.json();
+
+    displayStatus(data.error, 'error', header);
+
+    setTimeout(() => {
+      hideElement(document.querySelector('.error'), true);
+    }, 5000);
   }
 }
 

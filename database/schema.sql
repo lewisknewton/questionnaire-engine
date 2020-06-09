@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS response (
   time_submitted TIMESTAMP DEFAULT NOW(),
   questionnaire_id uuid NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (questionnaire_id) REFERENCES questionnaire (id)
+  FOREIGN KEY (questionnaire_id) REFERENCES questionnaire (id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS answer (
@@ -28,5 +28,5 @@ CREATE TABLE IF NOT EXISTS answer (
   content TEXT,
   response_id uuid NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (response_id) REFERENCES response (id)
+  FOREIGN KEY (response_id) REFERENCES response (id) ON DELETE CASCADE
 );

@@ -21,6 +21,7 @@
   --shade: #ebebeb;
   --shadow: 0 1rem 1rem var(--shade);
   --danger: #f7695f;
+  --danger-alt: #f5312e;
   --warning: #fa8728;
   --safe: #48ad88;
   --link: #0056b3;
@@ -168,6 +169,15 @@ button {
 
 button:hover {
   background: var(--secondary-alt);
+}
+
+button.delete {
+  background: var(--danger);
+  color: var(--dark);
+}
+
+button.delete:hover {
+  background: var(--danger-alt);
 }
 
 button.primary:hover {

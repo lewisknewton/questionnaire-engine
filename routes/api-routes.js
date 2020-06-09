@@ -94,6 +94,22 @@ function postQuestionnaire(req, res) {
 }
 
 /**
+ * Removes a questionnaire and its associated database records, using its short
+ * ID. Also removes related records, including its responses.
+ */
+async function deleteQuestionnaire(req, res) {
+  const qnrId = req.params.id;
+
+  if (!isFilled(qnrId)) {
+    return res.status(codes.badRequest).json({ error: errors.questionnaireNotSelected });
+  }
+
+  await qh.deleteQuestionnaire(qnrId);
+
+  return res.status(codes.noContent).send();
+}
+
+/**
  * Retrieves all responses for a given questionnaire using its short
  * ID, passed via the request.
  */
@@ -154,6 +170,7 @@ module.exports = {
   getQuestionnaires,
   getQuestionnaire,
   postQuestionnaire,
+  deleteQuestionnaire,
   getResponses,
   postResponse,
 };

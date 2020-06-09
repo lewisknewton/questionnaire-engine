@@ -30,7 +30,7 @@ const queries = {
     FROM    questionnaire
   `,
 
-  deleteQuestionnaireById: `
+  deleteQuestionnaire: `
     DELETE
     FROM      questionnaire
     WHERE     id = $1
