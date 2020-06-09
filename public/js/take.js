@@ -130,13 +130,6 @@ function storeAnswer(evt) {
 }
 
 /**
- * Adds an event listener for any number of events to a given input.
- */
-function addInputEventListeners(input, ...events) {
-  for (const evt of events) input.addEventListener(evt, storeAnswer);
-}
-
-/**
  * Duplicates and populates the template shared by all questions.
  */
 function copyBaseTemplate(question) {
@@ -174,10 +167,9 @@ function copyQuestionTemplate(question) {
       const inputCopy = input.cloneNode(false);
       inputCopy.setAttribute('id', `${question.id}_${opaqueId}`);
       inputCopy.setAttribute('value', opaqueId);
-      inputCopy.setAttribute('name', question.id);
-      inputCopy.setAttribute('aria-describedby', question.id);
+      setAttributes(inputCopy, ['name', 'aria-describedby'], question.id);
 
-      addInputEventListeners(inputCopy, ...questionTypes[type].events);
+      addEventListeners(inputCopy, storeAnswer, false, ...questionTypes[type].events);
 
       const labelCopy = label.cloneNode(false);
       labelCopy.textContent = question.options[i];
@@ -192,10 +184,8 @@ function copyQuestionTemplate(question) {
       }
     }
   } else {
-    input.setAttribute('name', question.id);
-    input.setAttribute('aria-labelledby', question.id);
-
-    addInputEventListeners(input, ...questionTypes[type].events);
+    setAttributes(input, ['name', 'aria-labelledby'], question.id);
+    addEventListeners(input, storeAnswer, false, ...questionTypes[type].events);
   }
 
   return questionCopy;

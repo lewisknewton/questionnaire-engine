@@ -12,8 +12,8 @@ const responsesList = document.querySelector('#responses');
 
 // Individual responses view elements
 const individualPanel = document.querySelector('#individual-panel');
-const prevResponseBtn = document.querySelector('#previous-response');
-const nextResponseBtn = document.querySelector('#next-response');
+const prevBtn = document.querySelector('#previous-response');
+const nextBtn = document.querySelector('#next-response');
 const responseSelector = document.querySelector('#current-response-number');
 const responseNumbers = document.querySelector('#response-numbers');
 
@@ -64,23 +64,21 @@ function focusOnTab(e) {
 function handleUseOfNavigationControls(index) {
   // Control previous (left) navigation
   if (index <= 0) {
-    prevResponseBtn.setAttribute('disabled', true);
+    prevBtn.setAttribute('disabled', true);
   } else {
-    prevResponseBtn.removeAttribute('disabled');
+    prevBtn.removeAttribute('disabled');
   }
 
   // Control next (right) navigation
   if (index >= responses.length - 1) {
-    nextResponseBtn.setAttribute('disabled', true);
+    nextBtn.setAttribute('disabled', true);
   } else {
-    nextResponseBtn.removeAttribute('disabled');
+    nextBtn.removeAttribute('disabled');
   }
 
   // Disable all controls when there is only one response
   if (responses.length === 1) {
-    prevResponseBtn.setAttribute('disabled', true);
-    nextResponseBtn.setAttribute('disabled', true);
-    responseSelector.setAttribute('disabled', true);
+    setCommonAttributes([prevBtn, nextBtn, responseSelector], 'disabled');
   }
 }
 
@@ -106,10 +104,26 @@ function traverseResponses(step) {
 }
 
 /**
+ * Handles number inputs to only show responses within the index range.
+ */
+function handleIndexInput(evt) {
+  let index = evt.target.value - 1;
+
+  // Adjust index when given invalid inputs
+  if (index < 0 || isNaN(index)) {
+    index = 0;
+  } else if (index > responses.length - 1) {
+    index = responses.length - 1;
+  }
+
+  displayResponse(index);
+}
+
+/**
  * Changes the current responses view (aggregated or individual) displayed.
  */
-function switchView(e) {
-  const clicked = e.target;
+function switchView(evt) {
+  const clicked = evt.target;
   const panel = document.querySelector(`section[aria-labelledby="${clicked.id}"]`);
 
   // Deselect the tab of the currently shown view
@@ -207,8 +221,9 @@ async function loadResponses(qnrId) {
         displayResponse(responseSelector.value - 1);
       }
 
-      if (document.querySelector('.error')) hideElement(document.querySelector('.error'), true);
-      if (document.querySelector('.warning')) hideElement(document.querySelector('.warning'), true);
+      for (const msg of ['.error', '.warning']) {
+        if (document.querySelector(msg)) hideElement(document.querySelector(msg), true);
+      }
     }
   } else {
     displayStatus(data.error, 'error', title);
@@ -367,26 +382,14 @@ function handleTabEvents() {
  * responses view.
  */
 function handleIndividualResponsesEvents() {
+  downloadBtn.addEventListener('click', downloadResponses);
+
   // Handle clicks on the navigation controls
-  nextResponseBtn.addEventListener('click', () => traverseResponses(+1));
-  prevResponseBtn.addEventListener('click', () => traverseResponses(-1));
+  nextBtn.addEventListener('click', () => traverseResponses(+1));
+  prevBtn.addEventListener('click', () => traverseResponses(-1));
 
   // Handle manual response number inputs
-  responseSelector.addEventListener('input', (e) => {
-    let index = e.target.value - 1;
-
-    // Adjust index when given invalid inputs
-    if (index < 0 || isNaN(index)) {
-      index = 0;
-    } else if (index > responses.length - 1) {
-      index = responses.length - 1;
-    }
-
-    displayResponse(index);
-  });
-
-  // Handle clicks on the download button
-  downloadBtn.addEventListener('click', () => downloadResponses());
+  responseSelector.addEventListener('input', handleIndexInput);
 }
 
 /**
