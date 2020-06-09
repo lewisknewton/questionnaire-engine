@@ -98,17 +98,17 @@ function postQuestionnaire(req, res) {
  * ID, passed via the request.
  */
 async function getResponses(req, res) {
-  const questionnaireId = req.params.id;
+  const qnrId = req.params.id;
 
-  if (!isFilled(questionnaireId)) {
+  if (!isFilled(qnrId)) {
     return res.status(codes.badRequest).json({ error: errors.questionnaireNotSelected });
   }
 
-  const result = await qh.selectResponses(questionnaireId);
+  const result = await qh.selectResponses(qnrId);
 
   if (!isFilled(result, true)) {
     // The questionnaire does not exist
-    return res.status(codes.notFound).json({ error: errors.questionnaireNotFound(questionnaireId) });
+    return res.status(codes.notFound).json({ error: errors.questionnaireNotFound(qnrId) });
   }
 
   if (result.responses.length === 0) {
@@ -118,7 +118,7 @@ async function getResponses(req, res) {
     }
 
     // The questionnaire exists, but no responses have been given yet
-    return res.json({ ...result, warning: warnings.responsesNotFound(questionnaireId) });
+    return res.json({ ...result, warning: warnings.responsesNotFound(qnrId) });
   }
 
   return res.json(result);
@@ -128,11 +128,11 @@ async function getResponses(req, res) {
  * Stores the user's response for a given questionnaire.
  */
 async function postResponse(req, res) {
-  const questionnaireId = req.params.id;
+  const qnrId = req.params.id;
   const body = req.body;
   const answers = body.answers;
 
-  if (!isFilled(questionnaireId)) {
+  if (!isFilled(qnrId)) {
     return res.status(codes.badRequest).json({ error: errors.questionnaireNotSelected });
   }
 
