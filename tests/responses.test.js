@@ -1,7 +1,7 @@
-/* global afterAll, beforeEach, describe, it, expect */
+/* global afterAll, beforeEach, describe, expect, it, jest */
 
-const { generateShortId } = require('../server/questionnaire-handler');
 const supertest = require('supertest');
+const dbClient = require('../server/database/db-client');
 const { codes, errors, warnings } = require('../server/status');
 let server, request;
 
@@ -13,6 +13,8 @@ beforeEach(() => {
 afterAll(async done => {
   await server.close(done);
 });
+
+jest.setTimeout(15000);
 
 describe('GET Endpoints', () => {
   it('should retrieve all responses for a given questionnaire', async done => {
@@ -49,7 +51,6 @@ describe('GET Endpoints', () => {
               answers: expect.arrayContaining([
                 expect.objectContaining({
                   questionId: expect.any(String),
-                  content: expect.anything(),
                 }),
               ]),
               submitted: expect.any(String),
@@ -64,39 +65,48 @@ describe('GET Endpoints', () => {
 });
 
 describe('POST endpoints', () => {
-  /* it('should save responses', async done => {
+  it('should save responses', async done => {
     // Define test data
     const testQuestionnaires = await request.get('/api/questionnaires');
+    const answers = { api_routes_test: 'test123' };
 
-    const shortId = generateShortId();
-    const answers = { test: 'test123' };
-
-    for (const q in testQuestionnaires) {
-      const expected = {
-        data: { shortId, answers },
-        success: 'Thank you, your response has been saved.',
-      };
-
+    for (const q of testQuestionnaires.body) {
       const res = await request
         .post(`/api/questionnaires/${q}/responses`)
-        .send({ shortId, answers })
+        .send({ questionnaireId: q.id, answers })
         .set('Content-Type', 'application/json');
 
       expect(res.statusCode).toStrictEqual(codes.created);
-      expect(res.body).toMatchObject(expected);
+      expect(res.body).toEqual(expect.objectContaining({
+        result: expect.objectContaining({
+          id: expect.any(String),
+          submitted: expect.any(String),
+          answers: expect.arrayContaining([
+            expect.objectContaining({
+              content: expect.stringMatching(answers['api_routes_test']),
+              questionId: expect.stringMatching('api_routes_test'),
+            }),
+          ]),
+        }),
+        success: expect.any(String),
+      }));
     }
 
     // Delete test rows
-    const query = `DELETE FROM response WHERE data @> '{"shortId": "${shortId}"}'`;
+    const query = `
+      DELETE
+      FROM        response
+      USING       answer
+      WHERE       question_id = 'api_routes_test' 
+                  AND response.id = response_id
+    `;
     await dbClient.query(query);
 
     done();
-  }); */
+  });
 
   it('should reject responses with no answers', async done => {
     const testQuestionnaires = await request.get('/api/questionnaires');
-
-    const shortId = generateShortId();
     const answers = null;
 
     for (const q of testQuestionnaires.body) {
@@ -104,7 +114,7 @@ describe('POST endpoints', () => {
 
       const res = await request
         .post(`/api/questionnaires/${q.shortId}/responses`)
-        .send({ shortId, answers })
+        .send({ questionnaireId: q.id, answers })
         .set('Content-Type', 'application/json');
 
       expect(res.statusCode).toStrictEqual(codes.badRequest);
