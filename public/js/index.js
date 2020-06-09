@@ -11,7 +11,8 @@ const questionnaireSummary = document.querySelector('#questionnaire-summary');
 const uploadBtn = document.querySelector('#add');
 const uploadCloseBtn = document.querySelector('#upload-close');
 const uploadArea = document.querySelector('#upload');
-const uploadInput = document.querySelector('#questionnaire-file');
+const uploadInput = document.querySelector('#upload-file');
+const uploadSubmitBtn = document.querySelector('#upload-submit');
 
 const share = document.querySelector('#share');
 const shareCloseBtn = document.querySelector('#share-close');
@@ -154,18 +155,27 @@ function validated(file) {
  * Checks one or more questionnaire files are valid before uploading.
  */
 function handleFiles(files) {
-  for (const file of files) {
-    if (validated(file)) {
-      addQuestionnaire(file);
-    } else {
-      const msg =
-        `Sorry, '${file.name}' is not a valid questionnaire JSON file. Please try uploading again with a valid file.`;
-      displayStatus(msg, 'error', header);
+  if (isFilled(files)) {
+    for (const file of files) {
+      if (validated(file)) {
+        addQuestionnaire(file);
+      } else {
+        const msg =
+          `Sorry, '${file.name}' is not a valid questionnaire JSON file. Please try uploading again with a valid file.`;
+        displayStatus(msg, 'error', header);
 
-      setTimeout(() => {
-        hideElement(document.querySelector('.error'), true);
-      }, 5000);
+        setTimeout(() => {
+          hideElement(document.querySelector('.error'), true);
+        }, 5000);
+      }
     }
+  } else {
+    const msg = 'Sorry, no files were selected. Please try uploading again.';
+    displayStatus(msg, 'error', header);
+
+    setTimeout(() => {
+      hideElement(document.querySelector('.error', true));
+    }, 5000);
   }
 
   closeDialog(uploadArea);
@@ -196,7 +206,10 @@ function initialiseUploadElements() {
 
   uploadBtn.addEventListener('click', () => openDialog(uploadArea));
   uploadCloseBtn.addEventListener('click', () => closeDialog(uploadArea));
-  uploadInput.addEventListener('change', evt => handleFiles(evt.target.files));
+  uploadSubmitBtn.addEventListener('click', (evt) => {
+    preventDefault(evt);
+    handleFiles(uploadInput.files);
+  });
 }
 
 /**
