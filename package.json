@@ -14,8 +14,8 @@
     "pg": "^8.0.0"
   },
   "scripts": {
-    "start": "node server",
-    "start-dev": "nodemon server",
+    "start": "node app",
+    "start-dev": "nodemon app",
     "setup": "psql -f database/schema.sql",
     "test": "jest --forceExit",
     "lint-js": "eslint **/*.js",

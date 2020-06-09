@@ -48,7 +48,7 @@ For example, to run the application locally you might use something like:
 The default database name is `questionnaire_engine`. If required, this can be replaced in the [schema.sql](database/schema.sql) and [config.json](config.json) files.
 
 ## Server
-The `npm start` command will launch the application using an HTTP server running on port 8080, located in [server.js](server.js).
+The `npm start` command will launch the application using an HTTP server running on port 8080, located in [app.js](app.js).
 
 To access the application, run `npm start` on your PC or running virtual machine and enter the address shown into your browser.
 
@@ -159,7 +159,7 @@ The application uses two types of routes:
 * *API* routes, designed for direct calls
 * *Web* routes, designed to serve client files for normal browser use
 
-Their endpoints are defined in [server.js](server.js). The functions called at these endpoints are defined in [api-routes.js](routes/api-routes.js) and [web-routes.js](routes/web-routes.js), respectively.
+Their endpoints are defined in [app.js](app.js). The functions called at these endpoints are defined in [api-routes.js](routes/api-routes.js) and [web-routes.js](routes/web-routes.js), respectively.
 
 For simplicity and security, resources' short IDs are used in endpoints instead of their unique IDs. See [Security](#security) for more detail.
 

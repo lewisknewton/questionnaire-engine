@@ -3,8 +3,8 @@
 const express = require('express');
 const path = require('path');
 
-const api = require('./routes/api-routes');
-const web = require('./routes/web-routes');
+const api = require('./server/routes/api-routes');
+const web = require('./server/routes/web-routes');
 const apiRouter = express.Router();
 const webRouter = express.Router();
 

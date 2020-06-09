@@ -1,6 +1,6 @@
 'use strict';
 
-const config = require('../config.json');
+const config = require('../../config.json');
 const { isFilled } = require('../common');
 const { codes, errors, warnings } = require('../status');
 
@@ -9,7 +9,7 @@ const multer = require('multer');
 
 // Define where and how to store questionnaire files
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, './questionnaires/'),
+  destination: (req, file, cb) => cb(null, config.questionnaires.directory),
   filename: (req, file, cb) => {
     const { 0: originalName, 1: ext } = file.originalname.split('.');
     const uniqueName = `${originalName}-${Date.now()}`;

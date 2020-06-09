@@ -10,6 +10,6 @@
     }
   },
   "questionnaires": {
-    "directory": "./questionnaires"
+    "directory": "./server/questionnaires"
   }
 }

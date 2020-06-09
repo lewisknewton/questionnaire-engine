@@ -1,12 +1,12 @@
 /* global afterAll, beforeEach, describe, it, expect */
 
-const { generateShortId } = require('../questionnaire-handler');
+const { generateShortId } = require('../server/questionnaire-handler');
 const supertest = require('supertest');
-const { codes, errors, warnings } = require('../status');
+const { codes, errors, warnings } = require('../server/status');
 let server, request;
 
 beforeEach(() => {
-  server = require('../server', { bustCache: true });
+  server = require('../app', { bustCache: true });
   request = supertest(server);
 });
 
