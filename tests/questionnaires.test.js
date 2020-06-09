@@ -1,4 +1,4 @@
-/* global afterAll, beforeEach, describe, it, expect */
+/* global afterAll, beforeEach, describe, expect, it, jest */
 
 const { isFilled } = require('../server/common');
 const supertest = require('supertest');
@@ -13,6 +13,8 @@ beforeEach(() => {
 afterAll(async done => {
   await server.close(done);
 });
+
+jest.setTimeout(15000);
 
 describe('GET Endpoints', () => {
   it('should retrieve all questionnaires', async done => {
