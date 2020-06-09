@@ -161,7 +161,7 @@ The application uses two types of routes:
 
 Their endpoints are defined in [server.js](server.js). The functions called at these endpoints are defined in [api-routes.js](routes/api-routes.js) and [web-routes.js](routes/web-routes.js), respectively.
 
-For simplicity and security, short IDs are used for all endpoints instead of unique IDs.
+For simplicity and security, resources' short IDs are used in endpoints instead of their unique IDs. See [Security](#security) for more detail.
 
 ### API
 
@@ -173,7 +173,7 @@ The following routes may be accessed after prepending `api` e.g. `xx.xxx.xxx.xx/
 | /questionnaires/:id             | Retrieve a given questionnaire.                   |                                                | Removes a questionnaire, including its records and stored file. |
 | /questionnaires/:id/responses   | Retrieve all responses for a given questionnaire. | Save a response for a given questionnaire.     |                                                                 |
 
-Where necessary, details about related resources are included for context. For example, basic questionnaire details are returned alongside responses for clarity.
+Where necessary, details about related resources are included for context. For example, basic questionnaire details are returned alongside responses for clarity and error handling (e.g. when there is something preventing responses from being given).
 
 ### Web
 
