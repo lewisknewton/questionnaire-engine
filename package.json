@@ -16,7 +16,7 @@
   "scripts": {
     "start": "node app",
     "start-dev": "nodemon app",
-    "setup": "psql -f database/schema.sql",
+    "setup": "psql -f server/database/schema.sql",
     "test": "jest --forceExit",
     "lint-js": "eslint **/*.js",
     "lint-css": "stylelint **/*.css",
