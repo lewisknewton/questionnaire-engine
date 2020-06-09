@@ -2,7 +2,7 @@
   "name": "questionnaire-engine",
   "version": "1.0.0",
   "description": "Coursework project for the Web Programming module.",
-  "main": "index.html",
+  "main": "app.js",
   "keywords": [
     "questionnaires",
     "web-programming"

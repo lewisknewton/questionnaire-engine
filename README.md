@@ -8,10 +8,11 @@ For development and testing, the application was run on the University of Portsm
 
 The application consists of the following directories:
 
-* [database/](database/) – containing files for configuring and accessing the PostgreSQL database
 * [public/](public/) – containing front-end files to be served to clients
-* [questionnaires/](questionnaires/) – containing user-provided questionnaire files
-* [routes/](routes/) – containing endpoint definitions for the API and normal browser use
+* [server/](server/)
+  * [database/](server/database/) – containing files for configuring and accessing the PostgreSQL database
+  * [questionnaires/](server/questionnaires/) – containing user-provided questionnaire files
+  * [routes/](server/routes/) – containing endpoint definitions for the API and normal browser use
 * [tests/](tests/) – containing automated test cases
 
 ## Set-up
