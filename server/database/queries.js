@@ -49,8 +49,8 @@ const queries = {
                 $1,
                 $2
     )
-    RETURNING   id,
-                short_id AS "shortId",
+    RETURNING   id AS "uniqueId",
+                short_id AS id,
                 time_submitted AS submitted
   `,
 
