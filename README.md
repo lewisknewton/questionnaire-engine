@@ -167,11 +167,13 @@ For simplicity and security, short IDs are used for all endpoints instead of uni
 
 The following routes may be accessed after prepending `api` e.g. `xx.xxx.xxx.xx/api/questionnaires`.
 
-| Resource                        | GET                                                                                                            | POST                                           |
-|---------------------------------|----------------------------------------------------------------------------------------------------------------|------------------------------------------------|
-| /questionnaires                 | Retrieve all questionnaires.                                                                                   | Save a questionnaire, using a given JSON file. |
-| /questionnaires/:id             | Retrieve a given questionnaire.                                                                                |                                                |
-| /questionnaires/:id/responses   | Retrieve all responses for a given questionnaire, as well as some details about the questionnaire for context. | Save a response for a given questionnaire.     |
+| Resource                        | GET                                               | POST                                           | DELETE                                                          |
+|---------------------------------|---------------------------------------------------|------------------------------------------------|-----------------------------------------------------------------|
+| /questionnaires                 | Retrieve all questionnaires.                      | Save a questionnaire, using a given JSON file. |                                                                 |
+| /questionnaires/:id             | Retrieve a given questionnaire.                   |                                                | Removes a questionnaire, including its records and stored file. |
+| /questionnaires/:id/responses   | Retrieve all responses for a given questionnaire. | Save a response for a given questionnaire.     |                                                                 |
+
+Where necessary, details about related resources are included for context. For example, basic questionnaire details are returned alongside responses for clarity.
 
 ### Web
 
@@ -204,7 +206,7 @@ The UI adapts to the user's preferences by:
 
 ## Security
 
-To avoid exposing their primary keys, alternative short IDs are assigned to questionnaires and responses for sharing and review.
+To avoid exposing their primary keys, short IDs are assigned to questionnaires and responses for sharing and review. These short IDs were not used as primary keys themselves, since they could be regenerated if desired.
 
 Paths to questionnaire files are also hidden to avoid hinting at the server's contents to users on the client-side.
 
