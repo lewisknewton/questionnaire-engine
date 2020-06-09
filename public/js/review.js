@@ -1,6 +1,7 @@
 'use strict';
 
-import { getQuestionnaireId, isFilled, hideElement } from './modules/browser-common.js';
+import { getQuestionnaireId, isFilled } from './modules/browser-common.js';
+import { hideElement, setCommonAttributes } from './modules/browser-ui.js';
 import { displayStatus, getFormattedDate, setPageTitle } from './modules/browser-status.js';
 
 const main = document.querySelector('main');

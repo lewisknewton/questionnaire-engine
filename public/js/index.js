@@ -1,7 +1,10 @@
 'use strict';
 
-import { closeDialog, handleDialogSupport, hideElement, initialiseShareElements, isFilled, isInArray, openDialog, preventDefault, shareQuestionnaire } from './modules/browser-common.js';
 import { displayStatus, highlight, unhighlight } from './modules/browser-status.js';
+import { initialiseShareElements, shareQuestionnaire } from './modules/browser-share.js';
+import { closeDialog, handleDialogSupport, openDialog } from './modules/browser-dialog.js';
+import { hideElement, preventDefault } from './modules/browser-ui.js';
+import { isFilled, isInArray } from './modules/browser-common.js';
 
 const loading = document.querySelector('#loading');
 const header = document.querySelector('header');

@@ -1,7 +1,9 @@
 'use strict';
 
-import { getQuestionnaireId, isFilled, initialiseShareElements, shareQuestionnaire, hideElement } from './modules/browser-common.js';
 import { displayStatus, setPageTitle } from './modules/browser-status.js';
+import { getQuestionnaireId, isFilled } from './modules/browser-common.js';
+import { addEventListeners, hideElement, setAttributes } from './modules/browser-ui.js';
+import { initialiseShareElements, shareQuestionnaire } from './modules/browser-share.js';
 
 const main = document.querySelector('main');
 const loading = document.querySelector('#loading');
