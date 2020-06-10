@@ -171,7 +171,7 @@ Their endpoints are defined in [app.js](app.js). The functions called at these e
 
 For simplicity and security, resources' short IDs are used in endpoints instead of their unique IDs. See [Security](#security) for more detail.
 
-### API
+### API Routes
 
 The following routes may be accessed after prepending `api` e.g. `xx.xxx.xxx.xx/api/questionnaires`.
 
@@ -183,7 +183,7 @@ The following routes may be accessed after prepending `api` e.g. `xx.xxx.xxx.xx/
 
 Where necessary, details about related resources are included for context. For example, basic questionnaire details are returned alongside responses for clarity and error handling (e.g. when there is something preventing responses from being given).
 
-### Web
+### Web Routes
 
 The following routes may be accessed directly in the browser e.g. `xx.xxx.xxx.xx/`.
 
@@ -194,6 +194,10 @@ The following routes may be accessed directly in the browser e.g. `xx.xxx.xxx.xx
 | /review/:id | [review.html](public/review.html) | Display details and responses for a given questionnaire to support analysis. |
 
 These routes allow for more readable URLs, as opposed to using query strings e.g. `/take?id=xxx`.
+
+### Static Files
+
+All HTML files in the [public/](public/) folder will be served as static files. However, some have routes defined for them for handling parameters (see [Web Routes](#web-routes)).
 
 ## Accessibility
 
