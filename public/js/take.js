@@ -25,6 +25,10 @@ let qnr = {};
 const answers = {};
 
 const questionTypes = {
+  'free-text': {
+    input: 'textarea',
+    events: ['keyup'],
+  },
   'likert': {
     input: 'input[type="radio"]',
     events: ['click'],
@@ -42,7 +46,7 @@ const questionTypes = {
     events: ['click'],
   },
   'text': {
-    input: 'textarea',
+    input: 'input[type="text"]',
     events: ['keyup'],
   },
 };
