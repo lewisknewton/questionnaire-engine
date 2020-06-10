@@ -156,6 +156,10 @@ Authors can download responses in one of the following file formats:
 * JSON (`.json`)
 * TSV (`.tsv`)
 
+## Help
+
+A help section providing basic guidance is available at [help.html](public/help.html). This describes how authors can create questionnaires, with examples on how to define their details and questions.
+
 ## Routing
 
 The application uses two types of routes:
