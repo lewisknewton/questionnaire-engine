@@ -271,11 +271,17 @@ details {
   margin-bottom: var(--space-l);
 }
 
-/* Share dialog styles */
+/* Dialog styles */
+#upload[open],
+#upload[aria-hidden="false"],
 #share[open],
 #share[aria-hidden="false"] {
   display: grid;
   gap: var(--space-xs);
+}
+
+#share[open],
+#share[aria-hidden="false"] {
   grid-template-areas:
     "header"
     "share-text"
@@ -298,6 +304,28 @@ details {
 
 #share-copy {
   grid-area: share-copy;
+}
+
+#upload[open],
+#upload[aria-hidden="false"] {
+  grid-template-areas:
+    "header"
+    "upload-text"
+    "upload-file"
+    "upload-submit";
+}
+
+#upload-text {
+  grid-area: upload-text;
+}
+
+#upload-file {
+  grid-area: upload-file;
+}
+
+#upload-submit {
+  width: max-content;
+  grid-area: upload-submit;
 }
 
 /* Status message styles */
@@ -523,6 +551,19 @@ section[role="tabpanel"] {
   #questionnaire-list > h2,
   #add {
     grid-column: auto;
+  }
+
+  #upload[open],
+  #upload[aria-hidden="false"] {
+    grid-template-columns: auto auto;
+    grid-template-areas:
+      "header header"
+      "upload-text upload-text"
+      "upload-file upload-submit";
+  }
+
+  #upload-submit {
+    justify-self: right;
   }
 
   #share[open],
