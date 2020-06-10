@@ -355,20 +355,10 @@ details {
 }
 
 .smooth-hide {
-  animation: fadeShrink 0.25s forwards ease-in-out;
-  transform-origin: center top;
-}
-
-@keyframes fadeShrink {
-  0% {
-    opacity: 1;
-    transform: scaleY(1);
-  }
-
-  100% {
-    opacity: 0;
-    transform: scaleY(0);
-  }
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: all cubic-bezier(0.2, 0.6, 0.4, 1);
 }
 
 /* Element interaction styles */

@@ -38,16 +38,28 @@ export function setCommonAttributes(els, attr, value = true) {
 export function hideElement(el, remove = false, duration = 500) {
   const { matches: reduceMotion } = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  if (!reduceMotion) el.classList.add('smooth-hide');
-
-  setTimeout(() => {
-    el.classList.add('hidden');
-  }, duration / 2);
-
-  if (remove) {
-    setTimeout(() => {
+  const hide = () => {
+    if (remove) {
       el.remove();
-    }, duration);
+    } else {
+      el.classList.add('hidden');
+    }
+  };
+
+  if (el.offsetParent !== null || !el.classList.contains('hidden')) {
+    if (!reduceMotion) {
+      el.style.maxHeight = `${el.offsetHeight}px`;
+
+      setTimeout(() => {
+        el.style.transitionDuration = `${duration / 2000}s`;
+        el.style.maxHeight = '';
+        el.classList.add('smooth-hide');
+
+        setTimeout(hide, duration / 2);
+      }, duration);
+    } else {
+      hide();
+    }
   }
 }
 
