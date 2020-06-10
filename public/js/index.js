@@ -27,21 +27,30 @@ const shareOutput = document.querySelector('#share-output');
  * Displays details about stored questionnaires.
  */
 function displayQuestionnaires(qnrs) {
-  const existing =
+  const existingIds =
     [...new Set(document.querySelectorAll('.summary'))].map(el => el.getAttribute('data-id'));
 
-  for (const id of existing) {
-    // Remove deleted questionnaires so that they are not shown to authors
+  for (const id of existingIds) {
     const inArray = isInArray(qnrs, 'id', id)[0];
+    const existing = document.querySelector(`.summary[data-id=${id}]`);
 
     if (inArray == null) {
-      hideElement(document.querySelector(`.summary[data-id=${id}]`), true);
+      // Remove deleted questionnaires so that they are not shown to authors
+      hideElement(existing, true);
+    } else {
+      // Update questionnaire details if its file has changed
+      const qnr = qnrs[qnrs.indexOf(inArray)];
+      const name = existing.querySelector('h3');
+      const count = existing.querySelector('span');
+
+      name.textContent = qnr.name ? qnr.name : 'Untitled';
+      count.textContent = `Questions: ${qnr.questions ? qnr.questions.length : 0}`;
     }
   }
 
   // Add content to questionnaire summary template
   for (const qnr of qnrs) {
-    if (!existing.includes(qnr.id)) {
+    if (!existingIds.includes(qnr.id)) {
       const summary = questionnaireSummary.content.cloneNode(true);
 
       const name = summary.querySelector('h3');

@@ -165,6 +165,36 @@ async function keepUpToDate(records) {
 }
 
 /**
+ * Checks if all the properties of two questionnaires are identical or different.
+ */
+function isSame(old, current) {
+  if (typeof old === 'object' && typeof current === 'object') {
+    const existingProps = Object.getOwnPropertyNames(old);
+    const incomingProps = Object.getOwnPropertyNames(current);
+
+    if (existingProps.length !== incomingProps.length) return false;
+
+    for (let i = 0; i < existingProps.length; i += 1) {
+      const prop = existingProps[i];
+
+      if (old[prop] !== current[prop]) {
+        if (Array.isArray(old[prop]) && Array.isArray(current[prop])) {
+          if (old[prop].length !== current[prop].length) return false;
+
+          for (const sub in old[prop]) isSame(old[prop][sub], current[prop][sub]);
+        } else {
+          return false;
+        }
+      }
+    }
+  } else {
+    if (old !== current) return false;
+  }
+
+  return true;
+}
+
+/**
  * Retrieves all questionnaires in the local directory.
  */
 async function selectQuestionnaires(dir = localDir) {
@@ -196,7 +226,13 @@ async function selectQuestionnaires(dir = localDir) {
         // Hide the path from users
         delete qnr.path;
 
-        if (!isFilled(inArray)) qnrs.push(qnr);
+        if (isFilled(inArray)) {
+          const old = inArray[0];
+
+          if (!isSame(old, qnr)) qnrs[qnrs.indexOf(old)] = qnr;
+        } else {
+          qnrs.push(qnr);
+        }
       } else {
         // If the item is a directory, look for questionnaires inside it
         await selectQuestionnaires(`${dir}/${name}`);
