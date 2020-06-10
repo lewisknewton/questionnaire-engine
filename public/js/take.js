@@ -25,7 +25,7 @@ let qnr = {};
 const answers = {};
 
 const questionTypes = {
-  'free-text': {
+  'free-form': {
     input: 'textarea',
     events: ['keyup'],
   },
