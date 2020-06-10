@@ -56,6 +56,11 @@
         "Very good (4)",
         "Excellent (5)"
       ]
+    },
+    {
+      "id": "experience",
+      "text": "Please describe your experience with animals in your life so far.",
+      "type": "free-text"
     }
   ]
 }
