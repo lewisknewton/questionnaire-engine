@@ -31,7 +31,6 @@
 
     <input type="file" accept="application/json, .json" multiple name="upload-file" id="upload-file" required>
     <input type="submit" name="upload-submit" id="upload-submit" value="Upload">
-
   </dialog>
 
   <dialog id="share" class="card" aria-labelledby="share-title" aria-describedby="share-text">
@@ -49,31 +48,31 @@
   </dialog>
 
   <a href="/help">Help</a>
-
-  <template id="questionnaire-summary">
-    <article class="summary card">
-      <h3>Questionnaire Name</h3>
-
-      <span>Questions Count</span>
-
-      <footer>
-        <a href="#" class="review">Review</a>
-        <button class="delete">Delete</button>
-
-        <button class="share primary">Share</button>
-      </footer>
-    </article>
-  </template>
-
-  <!-- Status messages -->
-  <template id="error-message">
-    <p class="error">Error message</p>
-  </template>
-
-  <template id="success-message">
-    <p class="success">Success message</p>
-  </template>
 </main>
+
+<template id="questionnaire-summary">
+  <article class="summary card">
+    <h3>Questionnaire Name</h3>
+
+    <span>Questions Count</span>
+
+    <footer>
+      <a href="#" class="review">Review</a>
+      <button class="delete">Delete</button>
+
+      <button class="share primary">Share</button>
+    </footer>
+  </article>
+</template>
+
+<!-- Status messages -->
+<template id="error-message">
+  <p class="error">Error message</p>
+</template>
+
+<template id="success-message">
+  <p class="success">Success message</p>
+</template>
 
 <script type="module" src="js/index.js"></script>
 
