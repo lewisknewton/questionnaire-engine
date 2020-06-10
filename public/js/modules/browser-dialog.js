@@ -22,6 +22,7 @@ export function openDialog(dialog) {
   } else {
     dialog.removeAttribute('aria-hidden');
     dialog.classList.remove('hidden');
+    dialog.classList.add('fallback');
 
     const focusable = dialog.querySelectorAll('a[href], button, input, textarea');
 
@@ -39,6 +40,7 @@ export function closeDialog(dialog) {
     dialog.close();
   } else {
     dialog.setAttribute('aria-hidden', 'true');
+    dialog.classList.remove('fallback');
     dialog.classList.add('hidden');
   }
 }

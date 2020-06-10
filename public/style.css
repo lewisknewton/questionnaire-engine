@@ -84,8 +84,13 @@ main {
   margin: var(--space-l) auto;
 }
 
+dialog.fallback {
+  display: block;
+}
+
 dialog[open],
-dialog[aria-hidden="false"] {
+dialog[aria-hidden="false"],
+dialog.fallback {
   color: inherit;
   position: fixed;
   height: auto;
@@ -274,14 +279,18 @@ details {
 /* Dialog styles */
 #upload[open],
 #upload[aria-hidden="false"],
+#upload.fallback,
 #share[open],
-#share[aria-hidden="false"] {
+#share[aria-hidden="false"],
+#share.fallback {
   display: grid;
+  align-items: center;
   gap: var(--space-xs);
 }
 
 #share[open],
-#share[aria-hidden="false"] {
+#share[aria-hidden="false"],
+#share.fallback {
   grid-template-areas:
     "header"
     "share-text"
@@ -300,14 +309,17 @@ details {
   padding: var(--space-s) var(--space-xs);
   overflow: hidden;
   white-space: nowrap;
+  height: min-content;
 }
 
 #share-copy {
   grid-area: share-copy;
+  width: max-content;
 }
 
 #upload[open],
-#upload[aria-hidden="false"] {
+#upload[aria-hidden="false"],
+#upload.fallback {
   grid-template-areas:
     "header"
     "upload-text"
@@ -554,7 +566,8 @@ section[role="tabpanel"] {
   }
 
   #upload[open],
-  #upload[aria-hidden="false"] {
+  #upload[aria-hidden="false"],
+  #upload.fallback {
     grid-template-columns: auto auto;
     grid-template-areas:
       "header header"
@@ -567,7 +580,8 @@ section[role="tabpanel"] {
   }
 
   #share[open],
-  #share[aria-hidden="false"] {
+  #share[aria-hidden="false"],
+  #share.fallback {
     grid-template-columns: max-content auto;
     grid-template-areas:
       "header header"
