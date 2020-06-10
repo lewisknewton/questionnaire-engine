@@ -223,9 +223,9 @@ function copyTemplates(question) {
  * Displays a given questionnaire's details and questions.
  */
 function displayQuestionnaire() {
-  setPageTitle(qnr.name);
   const questions = qnr.questions;
 
+  setPageTitle(qnr.name);
   main.querySelector('h1').textContent = qnr.name;
   questionsSection.classList.remove('hidden');
   submitBtn.classList.remove('hidden');
