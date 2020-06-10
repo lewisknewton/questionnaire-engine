@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<title>Questionnaire Engine &ndash; Help</title>
+
+<link href="https://fonts.googleapis.com/css?family=Inter:400,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<main>
+  <header>
+    <h1>Help</h1>
+  </header>
+
+  <section id="help">
+    <h2>Questionnaires</h2>
+
+    <p>The application uses JSON files to define the details and structures of questionnaires.</p>
+
+    <h3>Questions</h3>
+
+    <h4>Free-Text Questions</h4>
+
+    <p>Free-text questions will create a textarea field. These are generally useful for
+      alphanumeric answers of any length.</p>
+
+    <figure>
+      <figcaption>
+        Example of a text question.
+      </figcaption>
+
+      <pre>
+        <code>
+{
+  "id": "wex",
+  "text": "How would you describe your experience working in our call centre?",
+  "type": "free-text"
+}
+        </code>
+      </pre>
+    </figure>
+
+    <h4>Likert Scale Questions</h4>
+
+    <p>Likert scale questions will create a single row of radio buttons. These are generally useful for ratings with
+      five to seven points.</p>
+
+    <p>Likert scale questions are defined using an array of options, which will create labels for each radio button from left to right.</p>
+
+    <figure>
+      <figcaption>
+        Example of a likert scale question.
+      </figcaption>
+
+      <pre>
+        <code>
+{
+  "id": "skills",
+  "text": "Please rate your skills on a scale of 1 to 5.",
+  "type": "likert",
+  "options": [
+    "Poor (1)",
+    "Fair (2)",
+    "Good (3)",
+    "Very good (4)",
+    "Excellent (5)"
+  ]
+}
+        </code>
+      </pre>
+    </figure>
+
+    <h4>Number Questions</h4>
+
+    <p>Number questions will create a single number input field. These are generally useful for storing amounts or
+      numbers that can be rounded.</p>
+
+    <figure>
+      <figcaption>
+        Example of a number question.
+      </figcaption>
+
+      <pre>
+        <code>
+{
+  "id": "languages",
+  "text": "How many languages can you speak?",
+  "type": "number"
+}
+        </code>
+      </pre>
+    </figure>
+
+    <h4>Multi-Select Questions</h4>
+
+    <p>Multi-select questions will create rows of checkboxes. These are generally useful for lists of options, of which
+      multiple can be selected.</p>
+
+    <p>Multi-select questions are defined using an array of options, which will create labels for each checkbox from top to bottom.</p>
+
+    <figure>
+      <figcaption>
+        Example of a multi-select question.
+      </figcaption>
+
+      <pre>
+        <code>
+{
+  "id": "features",
+  "text": "Which operating systems have you used before?",
+  "type": "multi-select",
+  "options": [
+    "Windows",
+    "MacOs",
+    "Linux",
+  ]
+}
+        </code>
+      </pre>
+    </figure>
+
+    <h4>Single-Select Questions</h4>
+
+    <p>Single-select questions will create rows of radio buttons. These are generally useful for lists of options, of
+      which only one can be selected.</p>
+
+    <p>Single-select questions are defined using an array of options, which will create labels for each radio button from top to bottom.</p>
+
+    <figure>
+      <figcaption>
+        Example of a single-select question.
+      </figcaption>
+
+      <pre>
+        <code>
+{
+  "id": "fatigue",
+  "text": "Do you suffer with fatigue?",
+  "type": "single-select",
+  "options": [
+    "Yes",
+    "No"
+  ]
+}
+        </code>
+      </pre>
+    </figure>
+
+    <h4>Text Questions</h4>
+
+    <p>Text questions will create a single text input field. These are generally useful for short alphanumeric answers.
+    </p>
+
+    <figure>
+      <figcaption>
+        Example of a text question.
+      </figcaption>
+
+      <pre>
+        <code>
+{
+  "id": "company",
+  "text": "What is your company's name?",
+  "type": "text"
+}
+        </code>
+      </pre>
+    </figure>
+
+    <h3>Adding Questionnaires</h3>
+
+    <p>To add a questionnaire, upload its JSON file on the home page by either:</p>
+
+    <ul>
+      <li>selecting the file on your PC</li>
+      <li>dragging and dropping the file</li>
+    </ul>
+  </section>
+</main>
+
+</html>

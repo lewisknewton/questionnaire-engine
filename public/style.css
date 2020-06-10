@@ -75,8 +75,29 @@ h4 {
 }
 
 p,
-span {
+span,
+ul {
   margin-bottom: var(--space-s);
+}
+
+ul {
+  padding-left: var(--space-l);
+}
+
+code {
+  font-family: monospace;
+  line-height: 1;
+  padding: 0 var(--space-xs);
+  border-radius: var(--space-xs);
+  display: block;
+  color: var(--bg);
+  background: var(--secondary-alt);
+}
+
+code,
+pre {
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 main {
