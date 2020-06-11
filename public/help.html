@@ -45,7 +45,8 @@
         "False"
       ],
       "answer": "True",
-      "points": 2
+      "points": 2,
+      "required": true
     }
   ]
 }
@@ -67,7 +68,7 @@
         <tr>
           <th>Detail</th>
           <th>Property Name</th>
-          <th>Value Type</th>
+          <th>Value</th>
           <th>In File</th>
         </tr>
       </thead>
@@ -76,19 +77,19 @@
         <tr>
           <td>ID</td>
           <td><code>id</code></td>
-          <td>String</td>
+          <td>Short ID (string)</td>
           <td>No (automatically generated)</td>
         </tr>
         <tr>
           <td>Name</td>
           <td><code>name</code></td>
-          <td>String</td>
+          <td>Questionnaire title (string)</td>
           <td>Yes</td>
         </tr>
         <tr>
           <td>Questions</td>
           <td><code>questions</code></td>
-          <td>Array (of question objects)</td>
+          <td>Questions to include (array of question objects)</td>
           <td>Yes</td>
         </tr>
       </tbody>
@@ -114,7 +115,7 @@
         <tr>
           <th>Detail</th>
           <th>Property Name</th>
-          <th>Value Type</th>
+          <th>Value</th>
           <th>In File</th>
           <th>Applies to</th>
         </tr>
@@ -124,28 +125,28 @@
         <tr>
           <td>ID</td>
           <td><code>id</code></td>
-          <td>String</td>
+          <td>Short ID (string)</td>
           <td>Yes</td>
           <td>All questions</td>
         </tr>
         <tr>
           <td>Text</td>
           <td><code>text</code></td>
-          <td>String</td>
+          <td>Question text or title (string)</td>
           <td>Yes</td>
           <td>All questions</td>
         </tr>
         <tr>
           <td>Type</td>
           <td><code>type</code></td>
-          <td>String</td>
+          <td>Question type (string)</td>
           <td>Yes</td>
           <td>All questions</td>
         </tr>
         <tr>
           <td>Options</td>
           <td><code>options</code></td>
-          <td>Array (of strings)</td>
+          <td>List of possible options to select (array of strings)</td>
           <td>Yes</td>
           <td>
             <ul>
@@ -158,19 +159,36 @@
         <tr>
           <td>Answer</td>
           <td><code>answer</code></td>
-          <td>String</td>
+          <td>Question's correct answer (string)</td>
           <td>Yes</td>
           <td>All questions</td>
         </tr>
         <tr>
           <td>Points</td>
           <td><code>points</code></td>
-          <td>Number</td>
+          <td>Number of points assigned to the correct answer (number)</td>
+          <td>Yes</td>
+          <td>All questions</td>
+        </tr>
+        <tr>
+          <td>Required</td>
+          <td><code>required</code></td>
+          <td>Whether the question is required (boolean)</td>
           <td>Yes</td>
           <td>All questions</td>
         </tr>
       </tbody>
     </table>
+
+    <p>The <code>id</code>, <code>text</code>, and <code>type</code> properties are required for all question types. The
+      <code>options</code> property is required for <i>likert scale</i>, <i>multi-select</i>, and <i>single-select</i>
+      questions.</p>
+
+    <p>To make scored questions, such as for quizzes, use the <code>answer</code> property. The question be scored and
+      will default have 1 point available for participants to gain. To optionally assign a different number of available
+      points, use the <code>points</code> property.</p>
+
+    <p>To require participants to answer a specific question, use the <code>required</code> property.</p>
 
     <h4>Free-Form Questions</h4>
 
