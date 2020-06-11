@@ -564,10 +564,19 @@ details {
 }
 
 /* Quiz styles */
+.correct,
+.incorrect {
+  position: relative;
+}
+
 .correct::after,
 .incorrect::after {
   margin-left: var(--space-xs);
   font-weight: 900;
+  font-size: 1.5rem;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .correct::after {
