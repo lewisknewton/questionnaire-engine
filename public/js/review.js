@@ -180,6 +180,7 @@ function displayResponse(index) {
     // Show the correct answer and score if the answer was marked as part of a quiz
     if (related.answer != null) {
       const correct = String(related.answer);
+      const points = related.points != null ? Number(related.points) : 1;
       const same = answer.content === correct;
 
       const correctEl = document.createElement('b');
@@ -190,12 +191,7 @@ function displayResponse(index) {
       correctEl.textContent = 'Correct answer:';
       correctText.textContent = correct;
       pointsEl.textContent = 'Points scored:';
-
-      if (related.points != null) {
-        pointsText.textContent = `${same ? related.points : 0}/${related.points}`;
-      } else {
-        pointsText.textContent = `${same ? 1 : 0}/1`;
-      }
+      pointsText.textContent = `${same ? points : 0}/${points}`;
 
       answerContentEl.setAttribute('title', same ? 'Correct answer' : 'Incorrect answer');
       answerContentEl.classList.add(same ? 'correct' : 'incorrect');
