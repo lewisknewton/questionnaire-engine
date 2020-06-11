@@ -545,6 +545,19 @@ details {
   grid-column-start: span 2;
 }
 
+.invalid {
+  border: var(--medium) solid var(--danger);
+}
+
+.required-inline,
+.required > :nth-child(1)::before {
+  color: var(--danger);
+}
+
+.required > :nth-child(1)::before {
+  content: '* ' / 'Required question';
+}
+
 /* Quiz styles */
 .correct::after,
 .incorrect::after {
@@ -553,12 +566,12 @@ details {
 }
 
 .correct::after {
-  content: "\2713" / 'Correct answer';
+  content: "\2713" / "Correct answer";
   color: var(--safe);
 }
 
 .incorrect::after {
-  content: "\2717" / 'Incorrect answer';
+  content: "\2717" / "Incorrect answer";
   color: var(--danger);
 }
 
