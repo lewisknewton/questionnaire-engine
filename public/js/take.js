@@ -6,6 +6,7 @@ import { addEventListeners, hideElement, setAttributes } from './modules/browser
 import { initialiseShareElements, shareQuestionnaire } from './modules/browser-share.js';
 
 const main = document.querySelector('main');
+const mainHeading = main.querySelector('h1');
 const loading = document.querySelector('#loading');
 
 const qnSection = document.querySelector('#questions');
@@ -52,41 +53,85 @@ const qnTypes = {
 };
 
 /**
+ * Checks if answers are complete and in a valid format.
+ */
+function validateResponse() {
+  const invalid = [];
+
+  for (const qn of qnr.questions) {
+    // Check required questions
+    if (qn.required && answers[qn.id] == null) {
+      if (!invalid.includes(qn.id)) invalid.push(qn.id);
+    }
+
+    // Check number questions
+    if (qn.type === 'number' && isNaN(Number(answers[qn.id]))) {
+      if (!invalid.includes(qn.id)) invalid.push(qn.id);
+    }
+  }
+
+  const valid = invalid.length === 0;
+
+  return { valid, invalid };
+}
+
+/**
+ * Orders answers to retain the original order of the questions.
+ */
+function orderResponse() {
+  const sorted = {};
+
+  for (const qn of qnr.questions) sorted[qn.id] = null;
+  Object.assign(sorted, answers);
+
+  return sorted;
+}
+
+/**
  * Stores all answers given in a questionnaire.
  */
 async function saveResponse() {
-  const sorted = {};
-  const order = qnr.questions.map(qn => qn.id);
+  const { valid, invalid } = validateResponse();
+  const sorted = orderResponse();
 
-  // Retain the original question order in answers
-  for (const id of order) sorted[id] = null;
-  Object.assign(sorted, answers);
+  if (valid) {
+    const payload = { questionnaireId: id, answers: sorted };
 
-  const payload = { questionnaireId: id, answers: sorted };
+    const opts = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    };
 
-  const opts = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
-  };
+    const res = await fetch(`/api/questionnaires/${id}/responses`, opts);
+    const data = await res.json();
 
-  const res = await fetch(`/api/questionnaires/${id}/responses`, opts);
-  const data = await res.json();
+    if (res.ok) {
+      submitBtn.setAttribute('disabled', true);
+      finishedSection.classList.remove('hidden');
 
-  if (res.ok) {
-    submitBtn.setAttribute('disabled', true);
-    finishedSection.classList.remove('hidden');
+      hideElement(mainHeading.nextElementSibling, true);
+      hideElement(submitBtn, true);
+      hideElement(qnSection, true, 750);
 
-    hideElement(submitBtn, true);
-    hideElement(qnSection, true, 750);
-
-    displayStatus(data.success, 'success', main.querySelector('h1'));
-    setTimeout(() => hideElement(document.querySelector('.success'), true), 5000);
+      displayStatus(data.success, 'success', mainHeading);
+      setTimeout(() => hideElement(document.querySelector('.success'), true), 5000);
+    } else {
+      displayStatus(data.error, 'error', mainHeading);
+      setTimeout(() => hideElement(document.querySelector('.error'), true), 5000);
+    }
   } else {
-    displayStatus(data.error, 'error', main.querySelector('h1'));
+    const msg = 'Sorry, your response is invalid. Please ensure you answer all required questions and use the expected format.';
+
+    displayStatus(msg, 'error', mainHeading);
     setTimeout(() => hideElement(document.querySelector('.error'), true), 5000);
+
+    for (const id of invalid) {
+      const invalidQn = document.querySelector(`#${id}`).parentElement;
+      invalidQn.classList.add('invalid');
+    }
   }
 }
 
@@ -95,7 +140,10 @@ async function saveResponse() {
  */
 function storeAnswer(evt) {
   const input = evt.target;
+  const qnBlock = input.parentElement;
   let answer = input.value;
+
+  if (qnBlock.classList.contains('invalid')) qnBlock.classList.remove('invalid');
 
   if (input.type === 'checkbox') {
     // Handle saving of multiple values for multi-select questions
@@ -136,6 +184,11 @@ function copyBaseTemplate(qn) {
   title.textContent = qn.text || '';
   title.setAttribute('id', qn.id);
 
+  if (qn.required) {
+    title.setAttribute('title', 'Required question');
+    baseCopy.querySelector(':nth-child(1)').classList.add('required');
+  }
+
   return baseCopy;
 }
 
@@ -164,6 +217,8 @@ function copyQuestionTemplate(qn) {
       inputCopy.setAttribute('value', qn.options[i]);
       setAttributes(inputCopy, ['name', 'aria-describedby'], qn.id);
 
+      if (qn.required) inputCopy.setAttribute('required', '');
+
       addEventListeners(inputCopy, storeAnswer, false, ...qnTypes[type].events);
 
       const labelCopy = label.cloneNode(false);
@@ -181,6 +236,8 @@ function copyQuestionTemplate(qn) {
   } else {
     setAttributes(input, ['name', 'aria-labelledby'], qn.id);
     addEventListeners(input, storeAnswer, false, ...qnTypes[type].events);
+
+    if (qn.required) input.setAttribute('required', '');
   }
 
   return questionCopy;
@@ -204,7 +261,7 @@ function copyTemplates(qn) {
     const questionNotLoadedError =
       `Sorry, the '${qn.text}' question could not be loaded. Please ensure it is supported and in the correct format.`;
 
-    displayStatus(questionNotLoadedError, 'error', main.querySelector('h1'));
+    displayStatus(questionNotLoadedError, 'error', mainHeading);
   }
 
   return baseCopy;
@@ -217,7 +274,7 @@ function displayQuestionnaire() {
   const qns = qnr.questions;
 
   setPageTitle(qnr.name);
-  main.querySelector('h1').textContent = qnr.name;
+  mainHeading.textContent = qnr.name;
   qnSection.classList.remove('hidden');
   submitBtn.classList.remove('hidden');
 
@@ -249,7 +306,7 @@ async function loadQuestionnaire(id) {
     qnr = data;
     displayQuestionnaire();
   } else {
-    displayStatus(data.error, 'error', main.querySelector('h1'));
+    displayStatus(data.error, 'error', mainHeading);
   }
 }
 
