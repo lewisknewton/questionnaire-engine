@@ -29,7 +29,7 @@ const panels = document.querySelectorAll('section[role="tabpanel"]');
 const tabList = document.querySelector('div[role="tablist"]');
 
 let responses = [];
-let questions = [];
+let qns = [];
 
 /**
  * Sets the focus on the appropriate responses view tab for keyboard navigation.
@@ -175,7 +175,7 @@ function displayResponse(index) {
     const answerContentEl = answerEl.querySelector('span');
 
     // Find the question to which the answer was given
-    const related = questions.filter(qn => qn.id === answer.questionId)[0];
+    const related = qns.filter(qn => qn.id === answer.questionId)[0];
 
     // Show the correct answer and score if the answer was marked as part of a quiz
     if (related.answer != null) {
@@ -262,7 +262,7 @@ async function loadQuestions(qnrId) {
   const res = await fetch(`/api/questionnaires/${qnrId}`);
   const data = await res.json();
 
-  if (res.ok) questions = data.questions;
+  if (res.ok) qns = data.questions;
 }
 
 /**
@@ -304,7 +304,7 @@ function getDownloadOptions() {
  */
 function convertToSeparatedValues(sep) {
   const responseProps = Object.keys(responses[0]).filter(a => a !== 'answers');
-  const originalOrder = questions.map(qn => qn.id);
+  const originalOrder = qns.map(qn => qn.id);
 
   const newLine = '\r\n';
   let data = [responseProps, originalOrder.join(sep)].join(sep) + newLine;
