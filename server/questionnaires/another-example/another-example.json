@@ -6,7 +6,8 @@
       "text": "How many noses do slugs have?",
       "type": "number",
       "answer": 4,
-      "points": 4
+      "points": 4,
+      "required": true
     },
     {
       "id": "ostrich",
@@ -17,7 +18,8 @@
         "Its eye",
         "Its foot"
       ],
-      "answer": "Its eye"
+      "answer": "Its eye",
+      "required": true
     },
     {
       "id": "rhino",
@@ -27,7 +29,8 @@
         "True",
         "False"
       ],
-      "answer": "True"
+      "answer": "True",
+      "required": true
     },
     {
       "id": "otter",
@@ -37,7 +40,8 @@
         "True",
         "False"
       ],
-      "answer": "True"
+      "answer": "True",
+      "required": true
     },
     {
       "id": "fun",
