@@ -85,17 +85,17 @@ Participants can:
 
 The questionnaire engine uses JSON files to define the details and structures of questionnaires. Records of these files are also stored in the database, which include their unique ID, short ID, and file path.
 
-All questionnaires must be stored in the [questionnaires/](questionnaires/) directory as `.JSON` files. Any sub-directories within this directory will be searched recursively to load questionnaires included within them.
+All questionnaires must be stored in the [questionnaires/](server/questionnaires/) directory as `.JSON` files (see [Adding Questionnaires](#adding-questionnaires)). Any sub-directories within this directory will be searched recursively to load questionnaires included within them.
 
 The server will attempt to fetch questionnaires in the background so that new questionnaires are available to authors and participants shortly after their respective files are uploaded. 
 
 Changes made to the questionnaire files will be reflected to authors on the [index.html](public/index.html) and [review.html](public/review.html) pages once fetched. However, to avoid confusion, participants taking questionnaires will not see the new changes unless they refresh the [take.html](public/js/take.js) page.
 
-For testing purposes, the [example.json](questionnaires/example.json) file has been included to provide an example questionnaire. Similar files—[another-example.json](questionnaires/another-example/another-example.json) and [without-questions.json](questionnaires/another-example/without-questions.json)—have also been included within a sub-directory.
+For testing purposes, the [example.json](server/questionnaires/example.json) file has been included to provide an example questionnaire. Similar files—[another-example.json](server/questionnaires/another-example/another-example.json) and [without-questions.json](server/questionnaires/another-example/without-questions.json)—have also been included within a sub-directory.
 
 #### Adding Questionnaires
 
-To add a questionnaire, its JSON file must be placed in the [questionnaires/](questionnaires/) directory, or a sub-directory within this directory.
+To add a questionnaire, its JSON file must be placed in the [questionnaires/](server/questionnaires/) directory, or a sub-directory within this directory.
 
 Authors can add questionnaires via an upload on the [index.html](public/index.html) (home) page. To do this, they need to click on the *Add Questionnaire* button, which will open an upload dialog. The authors can then upload the file(s), either by:
 
@@ -127,7 +127,7 @@ There are multiple question types are available, as shown in the following table
 
 To define questions of these types, use the appropriate *type property*.
 
-The following is an example of a valid `single-select` question, taken from [example.json](questionnaires/example.json):
+The following is an example of a valid `single-select` question, taken from [example.json](server/questionnaires/example.json):
 
 ```json
 "questions": [
