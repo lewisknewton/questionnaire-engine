@@ -1,7 +1,7 @@
 'use strict';
 
 import { getQuestionnaireId, isFilled } from './modules/browser-common.js';
-import { hideElement, setCommonAttributes } from './modules/browser-ui.js';
+import { handleTabEvents, hideElement, setCommonAttributes } from './modules/browser-ui.js';
 import { displayStatus, getFormattedDate, setPageTitle } from './modules/browser-status.js';
 
 const main = document.querySelector('main');
@@ -21,41 +21,8 @@ const responseNumbers = document.querySelector('#response-numbers');
 const responseTemplate = document.querySelector('#response');
 const answerTemplate = document.querySelector('#answer');
 
-// Focus control elements
-let tabFocus = 0;
-const navKeys = ['ArrowLeft', 'ArrowRight'];
-const tabs = document.querySelectorAll('button[role="tab"]');
-const panels = document.querySelectorAll('section[role="tabpanel"]');
-const tabList = document.querySelector('div[role="tablist"]');
-
 let responses = [];
 let qns = [];
-
-/**
- * Sets the focus on the appropriate responses view tab for keyboard navigation.
- */
-function focusOnTab(e) {
-  if (navKeys.includes(e.key)) {
-    // Remove focus on the current tab
-    tabs[tabFocus].setAttribute('tabindex', -1);
-
-    if (e.key === navKeys[0]) {
-      tabFocus -= 1;
-
-      // Move to the last tab if on the first tab
-      if (tabFocus < 0) tabFocus = tabs.length - 1;
-    } else if (e.key === navKeys[1]) {
-      tabFocus += 1;
-
-      // Move to the first tab if on the last tab
-      if (tabFocus >= tabFocus.length) tabFocus = 0;
-    }
-
-    // Focus on the new tab
-    tabs[tabFocus].setAttribute('tabindex', 0);
-    tabs[tabFocus].focus();
-  }
-}
 
 /**
  * Enables or disables the previous or next buttons for showing individual
@@ -117,28 +84,6 @@ function handleIndexInput(evt) {
   }
 
   displayResponse(index);
-}
-
-/**
- * Changes the current responses view (aggregated or individual) displayed.
- */
-function switchView(evt) {
-  const clicked = evt.target;
-  const panel = document.querySelector(`section[aria-labelledby="${clicked.id}"]`);
-
-  // Deselect the tab of the currently shown view
-  for (const tab of tabs) {
-    if (tab.getAttribute('aria-selected')) tab.setAttribute('aria-selected', false);
-  }
-
-  // Hide the currently shown view
-  for (const panel of panels) {
-    if (panel.getAttribute('hidden') == null) panel.setAttribute('hidden', true);
-  }
-
-  // Show the relevant view
-  clicked.setAttribute('aria-selected', true);
-  panel.removeAttribute('hidden');
 }
 
 /**
@@ -385,18 +330,6 @@ function downloadResponses() {
 
   // Remove reference to the URL reference
   URL.revokeObjectURL(url);
-}
-
-/**
- * Attaches event listeners and handlers to the tab elements, allowing them to
- * be navigated through clicking or via the keyboard.
- */
-function handleTabEvents() {
-  // Handle clicks
-  for (const tab of tabs) tab.addEventListener('click', switchView);
-
-  // Handle keyboard navigation
-  tabList.addEventListener('keydown', focusOnTab);
 }
 
 /**
