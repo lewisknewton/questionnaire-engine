@@ -234,6 +234,13 @@ function displayQuestionnaire() {
   for (const qn of qns) {
     const qnBlock = copyTemplates(qn);
 
+    if (qn.answer != null) {
+      const pointsCount = document.createElement('p');
+      pointsCount.textContent = `Points: ${isFilled(qn.points) ? qn.points : 1}`;
+
+      qnBlock.querySelector(':nth-child(1)').append(pointsCount);
+    }
+
     qnSection.append(qnBlock);
   }
 }

@@ -177,6 +177,32 @@ function displayResponse(index) {
     // Find the question to which the answer was given
     const related = questions.filter(qn => qn.id === answer.questionId)[0];
 
+    // Show the correct answer and score if the answer was marked as part of a quiz
+    if (related.answer != null) {
+      const correct = String(related.answer);
+      const same = answer.content === correct;
+
+      const correctEl = document.createElement('b');
+      const correctText = document.createElement('span');
+      const pointsEl = document.createElement('b');
+      const pointsText = document.createElement('span');
+
+      correctEl.textContent = 'Correct answer:';
+      correctText.textContent = correct;
+      pointsEl.textContent = 'Points scored:';
+
+      if (related.points != null) {
+        pointsText.textContent = `${same ? related.points : 0}/${related.points}`;
+      } else {
+        pointsText.textContent = `${same ? 1 : 0}/1`;
+      }
+
+      answerContentEl.setAttribute('title', same ? 'Correct answer' : 'Incorrect answer');
+      answerContentEl.classList.add(same ? 'correct' : 'incorrect');
+
+      answerEl.append(correctEl, correctText, pointsEl, pointsText);
+    }
+
     answerTitleEl.textContent = `${related.text} (${answer.questionId})`;
     answerContentEl.textContent = `${Array.isArray(answer.content) ? answer.content.join(', ') : answer.content || '(Unanswered)'}`;
 
