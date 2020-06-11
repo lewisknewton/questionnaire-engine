@@ -14,7 +14,7 @@ afterAll(async done => {
   await server.close(done);
 });
 
-jest.setTimeout(15000);
+jest.setTimeout(30000);
 
 describe('GET Endpoints', () => {
   it('should retrieve all questionnaires', async done => {
