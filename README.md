@@ -74,12 +74,14 @@ Authors can:
 
 * add questionnaires
 * share questionnaires
+* delete questionnaires
 * view responses
 * download responses
 
 Participants can:
 
 * take questionnaires
+* share questionnaires
 
 ### Questionnaires
 
