@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS questionnaire_engine;
+DROP DATABASE IF EXISTS up891791_questionnaire_engine;
 
-CREATE DATABASE questionnaire_engine;
-\c questionnaire_engine;
+CREATE DATABASE up891791_questionnaire_engine;
+\c up891791_questionnaire_engine;
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 

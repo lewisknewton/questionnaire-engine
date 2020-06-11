@@ -46,7 +46,7 @@ For example, to run the application locally you might use something like:
 }
 ```
 
-The default database name is `questionnaire_engine`. If required, this can be replaced in the [schema.sql](database/schema.sql) and [config.json](config.json) files.
+The default database name is `up891791_questionnaire_engine`. If required, this can be replaced in the [schema.sql](database/schema.sql) and [config.json](config.json) files.
 
 ## Server
 The `npm start` command will launch the application using an HTTP server running on port 8080, located in [app.js](app.js).

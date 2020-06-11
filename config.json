@@ -1,7 +1,7 @@
 {
   "database": {
     "host": "/var/run/postgresql",
-    "database": "questionnaire_engine"
+    "database": "up891791_questionnaire_engine"
   },
   "multer": {
     "limits": {
