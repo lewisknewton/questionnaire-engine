@@ -197,6 +197,10 @@ table ul {
   margin-bottom: 0;
 }
 
+.table-container {
+  overflow-x: auto;
+}
+
 /* Input styles */
 input[type="number"],
 input[type="text"] {
