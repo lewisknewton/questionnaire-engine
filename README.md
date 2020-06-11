@@ -241,6 +241,8 @@ Where possible, the application uses native elements. However, in the few places
 
 Recommendations were followed to make controls that are not yet standard as part of HTML more accessible. For example, a fallback was used for dialogs and keyboard navigation was configured for tabs.
 
+Semantic HTML is also used throughout where possible, with less descriptive elements such as `<div>` being avoided except in scenarios where there are no suitable alternatives.
+
 ### Styling
 
 The colours used throughout conform to, at minimum, WCAG 2.0 Level AA. However, most satisfy WCAG 2.0 Level AAA. Button and other input sizes were also kept consistent for easy access.
