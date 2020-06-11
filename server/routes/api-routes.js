@@ -5,6 +5,7 @@ const { isFilled } = require('../common');
 const { codes, errors, warnings } = require('../status');
 
 const qh = require('../questionnaire-handler');
+const rh = require('../responses-handler');
 const multer = require('multer');
 
 // Define where and how to store questionnaire files
@@ -120,7 +121,7 @@ async function getResponses(req, res) {
     return res.status(codes.badRequest).json({ error: errors.questionnaireNotSelected });
   }
 
-  const result = await qh.selectResponses(qnrId);
+  const result = await rh.selectResponses(qnrId);
 
   if (!isFilled(result, true)) {
     // The questionnaire does not exist
@@ -156,7 +157,7 @@ async function postResponse(req, res) {
     return res.status(codes.badRequest).json({ error: errors.responseNoAnswers });
   }
 
-  const result = await qh.addResponse(body);
+  const result = await rh.addResponse(body);
 
   if (!isFilled(result, true)) {
     return res.status(codes.internalServerErr).json({ error: errors.responseNotSaved });

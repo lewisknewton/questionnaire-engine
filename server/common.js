@@ -1,6 +1,13 @@
 'use strict';
 
 /**
+ * Generates a short ID for a resource (i.e. questionnaire or response).
+ */
+function generateShortId() {
+  return Number(new Date()).toString(36);
+}
+
+/**
  * Checks to see if an object (including arrays and strings) exists and has at
  * least one item (or character). Allows counting the number of keys or values.
  */
@@ -17,6 +24,7 @@ function isInArray(arr, prop, value) {
 }
 
 module.exports = {
+  generateShortId,
   isFilled,
   isInArray,
 };
