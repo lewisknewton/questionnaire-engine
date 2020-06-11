@@ -170,7 +170,9 @@ The following is an example of a valid `single-select` question, taken from [exa
 },
 ```
 
-This example contains all required attributes, as well as the additional required `options` attribute used for questions with more than one input.
+This example contains all required attributes, as well as the additional required `options` attribute used for questions with more than one input (multi- and single-select questions).
+
+To make participants required to answer a question, give the question the `required` attribute and set it to `true`.
 
 ### Responses
 
