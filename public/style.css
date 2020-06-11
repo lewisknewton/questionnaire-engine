@@ -632,6 +632,10 @@ section[role="tabpanel"] {
   margin-top: var(--space-l);
 }
 
+.answers > h4 ~ span {
+  white-space: pre-wrap;
+}
+
 /* Motion styles */
 @media (prefers-reduced-motion) {
   html {
