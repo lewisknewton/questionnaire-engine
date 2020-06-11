@@ -14,8 +14,8 @@ const responsesList = document.querySelector('#responses');
 const individualPanel = document.querySelector('#individual-panel');
 const prevBtn = document.querySelector('#previous-response');
 const nextBtn = document.querySelector('#next-response');
-const responseSelector = document.querySelector('#current-response-number');
-const responseNumbers = document.querySelector('#response-numbers');
+const shownResponse = document.querySelector('#current-response-number');
+const responseNums = document.querySelector('#response-numbers');
 
 // Reproducible templates
 const responseTemplate = document.querySelector('#response');
@@ -44,9 +44,7 @@ function handleUseOfNavigationControls(index) {
   }
 
   // Disable all controls when there is only one response
-  if (responses.length === 1) {
-    setCommonAttributes([prevBtn, nextBtn, responseSelector], 'disabled');
-  }
+  if (responses.length === 1) setCommonAttributes([prevBtn, nextBtn, shownResponse], 'disabled');
 }
 
 /**
@@ -96,7 +94,7 @@ function displayResponse(index) {
   if (existing != null) existing.remove();
 
   // Keep number input up-to-date
-  responseSelector.value = index + 1;
+  shownResponse.value = index + 1;
 
   const response = responses[index];
   const answers = response.answers;
@@ -152,8 +150,19 @@ function displayResponse(index) {
 
   individualPanel.append(responseEl);
 
-  // Enable or disable the appropriate navigation control(s)
   handleUseOfNavigationControls(index);
+}
+
+/**
+ * Shows basic information about individual responses.
+ */
+function setIndividualResponseDetails() {
+  const maxResponses = individualPanel.querySelector('h3 > span#max-responses');
+
+  shownResponse.value = shownResponse.value || 1;
+  shownResponse.setAttribute('max', responses.length);
+
+  for (const el of [responseNums, maxResponses]) el.textContent = `of ${responses.length}`;
 }
 
 /**
@@ -164,7 +173,6 @@ async function loadResponses(qnrId) {
   const data = await res.json();
 
   const title = main.querySelector('h1');
-  const responseTitleMax = individualPanel.querySelector('h3 > span#max-responses');
 
   if (res.ok) {
     if (title.textContent !== data.name) title.textContent = data.name;
@@ -175,21 +183,20 @@ async function loadResponses(qnrId) {
     } else {
       responses = data.responses;
 
-      responseSelector.value = responseSelector.value || 1;
-      responseSelector.setAttribute('max', responses.length);
-      for (const el of [responseNumbers, responseTitleMax]) el.textContent = `of ${responses.length}`;
+      setIndividualResponseDetails();
 
-      // Enable or disable the appropriate navigation control(s)
-      handleUseOfNavigationControls(responseSelector.value - 1);
+      handleUseOfNavigationControls(shownResponse.value - 1);
 
       // Display the current response
       if (document.querySelector('.response') == null) {
         responsesList.classList.remove('hidden');
-        displayResponse(responseSelector.value - 1);
+        displayResponse(shownResponse.value - 1);
       }
 
       for (const msg of ['.error', '.warning']) {
-        if (document.querySelector(msg)) hideElement(document.querySelector(msg), true);
+        const status = document.querySelector(msg);
+
+        if (status) hideElement(status, true);
       }
     }
   } else {
@@ -344,7 +351,7 @@ function handleIndividualResponsesEvents() {
   prevBtn.addEventListener('click', () => traverseResponses(-1));
 
   // Handle manual response number inputs
-  responseSelector.addEventListener('input', handleIndexInput);
+  shownResponse.addEventListener('input', handleIndexInput);
 }
 
 /**
