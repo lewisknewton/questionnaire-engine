@@ -4,7 +4,9 @@
     {
       "id": "slug",
       "text": "How many noses do slugs have?",
-      "type": "number"
+      "type": "number",
+      "answer": 4,
+      "points": 4
     },
     {
       "id": "ostrich",
@@ -14,16 +16,18 @@
         "Its beak",
         "Its eye",
         "Its foot"
-      ]
+      ],
+      "answer": "Its eye"
     },
     {
       "id": "rhino",
-      "text": "True or false: Rhino horns are made of hair.",
+      "text": "True or false: Rhino horns are made of the same substance as hair.",
       "type": "single-select",
       "options": [
         "True",
         "False"
-      ]
+      ],
+      "answer": "True"
     },
     {
       "id": "otter",
@@ -32,7 +36,8 @@
       "options": [
         "True",
         "False"
-      ]
+      ],
+      "answer": "True"
     },
     {
       "id": "fun",
