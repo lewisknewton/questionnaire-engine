@@ -560,7 +560,8 @@ details {
 }
 
 .required > :nth-child(1)::before {
-  content: '* ' / 'Required question';
+  content: "* ";
+  content: "* " / "Required question";
 }
 
 /* Quiz styles */
@@ -580,12 +581,14 @@ details {
 }
 
 .correct::after {
-  content: "\2713" / "Correct answer";
+  content: "\2713";
+  content: "\2713"/ "Correct answer";
   color: var(--safe);
 }
 
 .incorrect::after {
-  content: "\2717" / "Incorrect answer";
+  content: "\2717";
+  content: "\2717"/ "Incorrect answer";
   color: var(--danger);
 }
 
