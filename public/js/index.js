@@ -85,19 +85,14 @@ async function removeQuestionnaire(id) {
     hideElement(document.querySelector(`.summary[data-id=${id}]`), true);
 
     const msg = `The questionnaire of ID '${id}' was deleted successfully.`;
-    displayStatus(msg, 'success', header);
 
-    setTimeout(() => {
-      hideElement(document.querySelector('.success'), true);
-    }, 5000);
+    displayStatus(msg, 'success', header);
+    setTimeout(() => hideElement(document.querySelector('.success'), true), 5000);
   } else {
     const data = await res.json();
 
     displayStatus(data.error, 'error', header);
-
-    setTimeout(() => {
-      hideElement(document.querySelector('.error'), true);
-    }, 5000);
+    setTimeout(() => hideElement(document.querySelector('.error'), true), 5000);
   }
 }
 
@@ -140,16 +135,10 @@ async function addQuestionnaire(file) {
 
   if (res.ok) {
     displayStatus(data.success, 'success', header);
-
-    setTimeout(() => {
-      hideElement(document.querySelector('.success'), true);
-    }, 5000);
+    setTimeout(() => hideElement(document.querySelector('.success'), true), 5000);
   } else {
     displayStatus(data.error, 'error', header);
-
-    setTimeout(() => {
-      hideElement(document.querySelector('.error'), true);
-    }, 5000);
+    setTimeout(() => hideElement(document.querySelector('.error'), true), 5000);
   }
 }
 
@@ -177,20 +166,16 @@ function handleFiles(files) {
       } else {
         const msg =
           `Sorry, '${file.name}' is not a valid questionnaire JSON file. Please try uploading again with a valid file.`;
-        displayStatus(msg, 'error', header);
 
-        setTimeout(() => {
-          hideElement(document.querySelector('.error'), true);
-        }, 5000);
+        displayStatus(msg, 'error', header);
+        setTimeout(() => hideElement(document.querySelector('.error'), true), 5000);
       }
     }
   } else {
     const msg = 'Sorry, no files were selected. Please try uploading again.';
-    displayStatus(msg, 'error', header);
 
-    setTimeout(() => {
-      hideElement(document.querySelector('.error', true));
-    }, 5000);
+    displayStatus(msg, 'error', header);
+    setTimeout(() => hideElement(document.querySelector('.error', true)), 5000);
   }
 
   closeDialog(uploadArea);

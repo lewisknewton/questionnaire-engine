@@ -80,19 +80,13 @@ async function saveResponse() {
     finishedSection.classList.remove('hidden');
 
     hideElement(submitBtn, true);
-    hideElement(qnSection, true, 1000);
+    hideElement(qnSection, true, 750);
 
     displayStatus(data.success, 'success', main.querySelector('h1'));
-
-    setTimeout(() => {
-      hideElement(document.querySelector('.success'), true);
-    }, 5000);
+    setTimeout(() => hideElement(document.querySelector('.success'), true), 5000);
   } else {
     displayStatus(data.error, 'error', main.querySelector('h1'));
-
-    setTimeout(() => {
-      hideElement(document.querySelector('.error'), true);
-    }, 5000);
+    setTimeout(() => hideElement(document.querySelector('.error'), true), 5000);
   }
 }
 

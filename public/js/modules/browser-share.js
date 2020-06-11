@@ -21,10 +21,7 @@ export function copyShareLink(shareLink, shareOutput) {
   document.execCommand('copy');
 
   shareOutput.value = 'Link copied.';
-
-  setTimeout(() => {
-    shareOutput.value = '';
-  }, 3000);
+  setTimeout(() => { shareOutput.value = ''; }, 3000);
 }
 
 /**
