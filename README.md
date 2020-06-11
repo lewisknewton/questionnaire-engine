@@ -83,7 +83,7 @@ Participants can:
 
 ### Questionnaires
 
-The questionnaire engine uses JSON files to define the details and structures of questionnaires. Records of these files are also stored in the database, which include their unique ID, short ID, and file path.
+The questionnaire engine uses JSON files to define the details and structures of questionnaires. Records of these files are also stored in the database, which include their unique ID, short ID, and file path. The short ID is used to view questionnaires, either on the [review.html](public/review.html) page as an author or the [take.html](public/take.html) page as a participant.
 
 All questionnaires must be stored in the [questionnaires/](server/questionnaires/) directory as `.JSON` files (see [Adding Questionnaires](#adding-questionnaires)). Any sub-directories within this directory will be searched recursively to load questionnaires included within them.
 
