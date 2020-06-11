@@ -95,7 +95,12 @@ For testing purposes, the [example.json](questionnaires/example.json) file has b
 
 #### Adding Questionnaires
 
-To add a questionnaire, place its JSON file into the [questionnaires/](questionnaires/) directory, or a sub-directory within this directory.
+To add a questionnaire, its JSON file must be placed in the [questionnaires/](questionnaires/) directory, or a sub-directory within this directory.
+
+Authors can add questionnaires via an upload on the [index.html](public/index.html) (home) page. To do this, they need to click on the *Add Questionnaire* button, which will open an upload dialog. The authors can then upload the file(s), either by:
+
+* dragging and dropping the file(s) into the upload dialog
+* selecting the file(s) on their device, using the file input and upload button
 
 #### Questions
 
