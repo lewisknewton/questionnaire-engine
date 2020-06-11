@@ -101,10 +101,7 @@ async function saveResponse() {
  */
 function storeAnswer(evt) {
   const input = evt.target;
-
-  // Extract formatted answer (without separators)
-  const formatAnswer = el => el.value.replace(/_/g, ' ');
-  let answer = formatAnswer(input);
+  let answer = input.value;
 
   if (input.type === 'checkbox') {
     // Handle saving of multiple values for multi-select questions
@@ -112,7 +109,7 @@ function storeAnswer(evt) {
     const checkboxes = input.parentElement.querySelectorAll('input');
 
     for (const checkbox of checkboxes) {
-      answer = formatAnswer(checkbox);
+      answer = checkbox.value;
 
       if (checkbox.checked) {
         checked.push(answer);
@@ -170,7 +167,7 @@ function copyQuestionTemplate(qn) {
 
       const inputCopy = input.cloneNode(false);
       inputCopy.setAttribute('id', `${qn.id}_${opaqueId}`);
-      inputCopy.setAttribute('value', opaqueId);
+      inputCopy.setAttribute('value', qn.options[i]);
       setAttributes(inputCopy, ['name', 'aria-describedby'], qn.id);
 
       addEventListeners(inputCopy, storeAnswer, false, ...qnTypes[type].events);
