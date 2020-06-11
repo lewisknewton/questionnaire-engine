@@ -53,13 +53,13 @@ describe('GET Endpoints', () => {
   it('should retrieve existent questionnaires by ID', async done => {
     const testQuestionnaires = await request.get('/api/questionnaires');
 
-    for (const q of testQuestionnaires.body) {
-      const res = await request.get(`/api/questionnaires/${q.id}`);
+    for (const qnr of testQuestionnaires.body) {
+      const res = await request.get(`/api/questionnaires/${qnr.id}`);
       const questions = res.body.questions;
 
       if (isFilled(questions)) {
         expect(res.statusCode).toStrictEqual(codes.ok);
-        expect(res.body).toMatchObject(q);
+        expect(res.body).toMatchObject(qnr);
       }
     }
 
@@ -78,7 +78,7 @@ describe('GET Endpoints', () => {
     done();
   });
 
-  it('should not retrieve empty questionnaire IDs', async done => {
+  it('should not retrieve questionnaires when no ID is given', async done => {
     const nonExistent = null;
     const expected = { error: errors.questionnaireNotSelected };
 
@@ -93,8 +93,8 @@ describe('GET Endpoints', () => {
   it('should not display questionnaires with no questions', async done => {
     const testQuestionnaires = await request.get('/api/questionnaires');
 
-    for (const q of testQuestionnaires.body) {
-      const res = await request.get(`/api/questionnaires/${q.id}`);
+    for (const qnr of testQuestionnaires.body) {
+      const res = await request.get(`/api/questionnaires/${qnr.id}`);
       const questions = res.body.questions;
 
       const expected = { ...res.body, error: errors.questionnaireNoQuestions };

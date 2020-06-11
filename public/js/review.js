@@ -175,7 +175,7 @@ function displayResponse(index) {
     const answerContentEl = answerEl.querySelector('span');
 
     // Find the question to which the answer was given
-    const related = questions.filter(q => q.id === answer.questionId)[0];
+    const related = questions.filter(qn => qn.id === answer.questionId)[0];
 
     answerTitleEl.textContent = `${related.text} (${answer.questionId})`;
     answerContentEl.textContent = `${Array.isArray(answer.content) ? answer.content.join(', ') : answer.content || '(Unanswered)'}`;
@@ -282,7 +282,7 @@ function getDownloadOptions() {
  */
 function convertToSeparatedValues(sep) {
   const responseProps = Object.keys(responses[0]).filter(a => a !== 'answers');
-  const originalOrder = questions.map(question => question.id);
+  const originalOrder = questions.map(qn => qn.id);
 
   const newLine = '\r\n';
   let data = [responseProps, originalOrder.join(sep)].join(sep) + newLine;
@@ -295,14 +295,14 @@ function convertToSeparatedValues(sep) {
       if (prop !== 'answers') row += `${response[prop]}${sep}`;
     }
 
-    for (const question of originalOrder) {
+    for (const qn of originalOrder) {
       // Compare question IDs to those questions actually answered
       const answered = response.answers.map(answer => answer.questionId);
 
       for (const answer of response.answers) {
-        if (answer.questionId !== question) {
+        if (answer.questionId !== qn) {
           // Skip the answered question for now to retain the correct order
-          if (answered.includes(question)) continue;
+          if (answered.includes(qn)) continue;
 
           // Add empty records for unanswered questions
           row += sep;

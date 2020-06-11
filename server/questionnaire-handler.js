@@ -289,11 +289,11 @@ async function addResponse(response) {
     const insertedResponse = result.rows[0];
     insertedResponse.answers = [];
 
-    for (const question in answers) {
+    for (const qn in answers) {
       // Insert all answers in the response
       const answer = {
-        content: answers[question],
-        questionId: question,
+        content: answers[qn],
+        questionId: qn,
         responseId: insertedResponse.uniqueId,
       };
 
@@ -334,15 +334,15 @@ async function selectResponses(qnrId) {
     const responses = isFilled(result.rows) ? result.rows : [];
 
     const { name, questions } = await readQuestionnaireFile(path);
-    const order = questions.map(question => question.id);
+    const order = questions.map(qn => qn.id);
 
     for (const response of responses) {
       const sortable = [];
 
       for (const answer of response.answers) {
         const type = questions
-          .filter(question => question.id === answer.questionId)
-          .map(question => question.type)[0];
+          .filter(qn => qn.id === answer.questionId)
+          .map(qn => qn.type)[0];
 
         if (answer.content.length === 1) {
           // Replace nulls with empty arrays for multi-select questions

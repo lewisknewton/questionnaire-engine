@@ -20,8 +20,8 @@ describe('GET Endpoints', () => {
   it('should retrieve all responses for a given questionnaire', async done => {
     const testQuestionnaires = await request.get('/api/questionnaires');
 
-    for (const q of testQuestionnaires.body) {
-      const res = await request.get(`/api/questionnaires/${q.id}/responses`);
+    for (const qnr of testQuestionnaires.body) {
+      const res = await request.get(`/api/questionnaires/${qnr.id}/responses`);
 
       if (res.body.responses.length === 0) {
         if (!res.body.hasQuestions) {
@@ -32,7 +32,7 @@ describe('GET Endpoints', () => {
           expect(res.body).toMatchObject(expected);
         } else {
           // Responses have not been provided for the given questionnaire
-          const expected = { warning: warnings.responsesNotFound(q.id) };
+          const expected = { warning: warnings.responsesNotFound(qnr.id) };
 
           expect(res.statusCode).toStrictEqual(codes.ok);
           expect(res.body).toMatchObject(expected);
@@ -70,10 +70,10 @@ describe('POST endpoints', () => {
     const testQuestionnaires = await request.get('/api/questionnaires');
     const answers = { api_routes_test: 'test123' };
 
-    for (const q of testQuestionnaires.body) {
+    for (const qnr of testQuestionnaires.body) {
       const res = await request
-        .post(`/api/questionnaires/${q}/responses`)
-        .send({ questionnaireId: q.id, answers })
+        .post(`/api/questionnaires/${qnr}/responses`)
+        .send({ questionnaireId: qnr.id, answers })
         .set('Content-Type', 'application/json');
 
       expect(res.statusCode).toStrictEqual(codes.created);
@@ -109,12 +109,12 @@ describe('POST endpoints', () => {
     const testQuestionnaires = await request.get('/api/questionnaires');
     const answers = null;
 
-    for (const q of testQuestionnaires.body) {
+    for (const qnr of testQuestionnaires.body) {
       const expected = { error: errors.responseNoAnswers };
 
       const res = await request
-        .post(`/api/questionnaires/${q.shortId}/responses`)
-        .send({ questionnaireId: q.id, answers })
+        .post(`/api/questionnaires/${qnr.shortId}/responses`)
+        .send({ questionnaireId: qnr.id, answers })
         .set('Content-Type', 'application/json');
 
       expect(res.statusCode).toStrictEqual(codes.badRequest);

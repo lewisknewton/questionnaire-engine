@@ -31,15 +31,15 @@ export function copyShareLink(shareLink, shareOutput) {
  * Shares a link to the questionnaire, either via native sharing options for
  * mobile users or through alternative sharing options for other devices.
  */
-export async function shareQuestionnaire(q, share, shareLink, shareOutput) {
+export async function shareQuestionnaire(qnr, share, shareLink, shareOutput) {
   const url = window.location;
 
-  const shareText = `Share the link to the ${q.name} questionnaire:`;
-  const shareUrl = url.pathname.includes(`take/${q.id}`) ? url.href : `${url.href}take/${q.id}`;
+  const shareText = `Share the link to the ${qnr.name} questionnaire:`;
+  const shareUrl = url.pathname.includes(`take/${qnr.id}`) ? url.href : `${url.href}take/${qnr.id}`;
 
   if (navigator.share) {
     const data = {
-      title: q.name,
+      title: qnr.name,
       text: shareText,
       url: shareUrl,
     };

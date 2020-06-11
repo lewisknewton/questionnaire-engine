@@ -8,7 +8,7 @@ import { initialiseShareElements, shareQuestionnaire } from './modules/browser-s
 const main = document.querySelector('main');
 const loading = document.querySelector('#loading');
 
-const questionsSection = document.querySelector('#questions');
+const qnSection = document.querySelector('#questions');
 const submitBtn = document.querySelector('#submit');
 
 const finishedSection = document.querySelector('#finished');
@@ -24,7 +24,7 @@ let id = '';
 let qnr = {};
 const answers = {};
 
-const questionTypes = {
+const qnTypes = {
   'free-form': {
     input: 'textarea',
     events: ['keyup'],
@@ -56,7 +56,7 @@ const questionTypes = {
  */
 async function saveResponse() {
   const sorted = {};
-  const order = qnr.questions.map(question => question.id);
+  const order = qnr.questions.map(qn => qn.id);
 
   // Retain the original question order in answers
   for (const id of order) sorted[id] = null;
@@ -80,7 +80,7 @@ async function saveResponse() {
     finishedSection.classList.remove('hidden');
 
     hideElement(submitBtn, true);
-    hideElement(questionsSection, true, 1000);
+    hideElement(qnSection, true, 1000);
 
     displayStatus(data.success, 'success', main.querySelector('h1'));
 
@@ -136,14 +136,14 @@ function storeAnswer(evt) {
 /**
  * Duplicates and populates the template shared by all questions.
  */
-function copyBaseTemplate(question) {
+function copyBaseTemplate(qn) {
   const baseTemplate = document.querySelector('#question-base');
   const baseCopy = baseTemplate.content.cloneNode(true);
   const title = baseCopy.querySelector('h3');
 
   // Fill copied question with relevant details
-  title.textContent = question.text || '';
-  title.setAttribute('id', question.id);
+  title.textContent = qn.text || '';
+  title.setAttribute('id', qn.id);
 
   return baseCopy;
 }
@@ -151,32 +151,32 @@ function copyBaseTemplate(question) {
 /**
  * Duplicates and populates the template for a specific question.
  */
-function copyQuestionTemplate(question) {
-  const type = question.type;
+function copyQuestionTemplate(qn) {
+  const type = qn.type;
   const questionTemplate = document.querySelector(`#${type}-question`);
   const questionCopy = questionTemplate.content.cloneNode(true);
 
-  const input = questionCopy.querySelector(questionTypes[type].input);
+  const input = questionCopy.querySelector(qnTypes[type].input);
   const label = questionCopy.querySelector('label');
 
   // Add inputs for multi-select questions
-  if (question.options) {
+  if (qn.options) {
     // Remove placeholder input and label
     questionCopy.textContent = '';
 
-    for (let i = 0; i <= question.options.length - 1; i += 1) {
+    for (let i = 0; i <= qn.options.length - 1; i += 1) {
       // Create ID without whitespace or brackets for referencing in code
-      const opaqueId = question.options[i].replace(/[\])[(]/g, '').replace(/\s/g, '_');
+      const opaqueId = qn.options[i].replace(/[\])[(]/g, '').replace(/\s/g, '_');
 
       const inputCopy = input.cloneNode(false);
-      inputCopy.setAttribute('id', `${question.id}_${opaqueId}`);
+      inputCopy.setAttribute('id', `${qn.id}_${opaqueId}`);
       inputCopy.setAttribute('value', opaqueId);
-      setAttributes(inputCopy, ['name', 'aria-describedby'], question.id);
+      setAttributes(inputCopy, ['name', 'aria-describedby'], qn.id);
 
-      addEventListeners(inputCopy, storeAnswer, false, ...questionTypes[type].events);
+      addEventListeners(inputCopy, storeAnswer, false, ...qnTypes[type].events);
 
       const labelCopy = label.cloneNode(false);
-      labelCopy.textContent = question.options[i];
+      labelCopy.textContent = qn.options[i];
 
       // Append labels and inputs not already present
       if (type === 'likert') {
@@ -188,8 +188,8 @@ function copyQuestionTemplate(question) {
       }
     }
   } else {
-    setAttributes(input, ['name', 'aria-labelledby'], question.id);
-    addEventListeners(input, storeAnswer, false, ...questionTypes[type].events);
+    setAttributes(input, ['name', 'aria-labelledby'], qn.id);
+    addEventListeners(input, storeAnswer, false, ...qnTypes[type].events);
   }
 
   return questionCopy;
@@ -198,20 +198,20 @@ function copyQuestionTemplate(question) {
 /**
  * Duplicates and populates the templates for each question.
  */
-function copyTemplates(question) {
-  const baseCopy = copyBaseTemplate(question);
+function copyTemplates(qn) {
+  const baseCopy = copyBaseTemplate(qn);
 
-  if (question.type in questionTypes) {
-    const questionCopy = copyQuestionTemplate(question);
+  if (qn.type in qnTypes) {
+    const questionCopy = copyQuestionTemplate(qn);
     const questionBlock = baseCopy.querySelector(':nth-child(1)');
 
     // Include question details
     questionBlock.append(questionCopy);
-    questionBlock.classList.add(`${question.type}-question`);
+    questionBlock.classList.add(`${qn.type}-question`);
   } else {
     baseCopy.textContent = '';
     const questionNotLoadedError =
-      `Sorry, the '${question.text}' question could not be loaded. Please ensure it is supported and in the correct format.`;
+      `Sorry, the '${qn.text}' question could not be loaded. Please ensure it is supported and in the correct format.`;
 
     displayStatus(questionNotLoadedError, 'error', main.querySelector('h1'));
   }
@@ -223,18 +223,18 @@ function copyTemplates(question) {
  * Displays a given questionnaire's details and questions.
  */
 function displayQuestionnaire() {
-  const questions = qnr.questions;
+  const qns = qnr.questions;
 
   setPageTitle(qnr.name);
   main.querySelector('h1').textContent = qnr.name;
-  questionsSection.classList.remove('hidden');
+  qnSection.classList.remove('hidden');
   submitBtn.classList.remove('hidden');
 
   // Display question blocks
-  for (const question of questions) {
-    const questionBlock = copyTemplates(question);
+  for (const qn of qns) {
+    const qnBlock = copyTemplates(qn);
 
-    questionsSection.append(questionBlock);
+    qnSection.append(qnBlock);
   }
 }
 
