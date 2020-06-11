@@ -235,15 +235,25 @@ All HTML files in the [public/](public/) folder will be served as static files. 
 
 ## Accessibility
 
+### Elements
+
 Where possible, the application uses native elements. However, in the few places this was not possible due to certain layouts and dynamic content, additional accessibility information was provided using ARIA.
 
 Recommendations were followed to make controls that are not yet standard as part of HTML more accessible. For example, a fallback was used for dialogs and keyboard navigation was configured for tabs.
 
-The colours used throughout conform to, at minimum, WCAG 2.0 Level AA. However, most satisfy WCAG 2.0 Level AAA. 
+### Styling
 
-Button and other input sizes were also kept consistent for easy access.
+The colours used throughout conform to, at minimum, WCAG 2.0 Level AA. However, most satisfy WCAG 2.0 Level AAA. Button and other input sizes were also kept consistent for easy access.
+
+Where icons or symbols are used, alternative text is provided for users with screen readers. Titles are also defined where their meanings are not immediately obvious.
 
 ## Usability
+
+### Background Refresh
+
+To limit the need for page refreshing, the application uses polling to regularly fetch data in the background and update the front-end shown to users. See [Questionnaires](#questionnaires) and [Responses](#responses) for more detail.
+
+### User Preferences
 
 The UI adapts to the user's preferences by:
 
@@ -269,7 +279,7 @@ Two scripts, `lint-js` and `lint-css`, were defined to lint all files of the res
 
 During development, [Jest](https://jestjs.io/) was used as the testing framework for the JavaScript files, along with the [SuperTest](https://www.npmjs.com/package/supertest) library. All test cases are in the [tests/](tests/) directory and can be run using the `npm test` command.
 
-## Icons
+## FontAwesome Icons
 
 The application uses [FontAwesome](https://fontawesome.com/) SVG icons, found in the [img/](public/img) directory. These are licenced under [CC BY 4.0 Licence](https://creativecommons.org/licenses/by/4.0/).
 
