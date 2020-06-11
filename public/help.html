@@ -22,24 +22,35 @@
       manually.</p>
 
     <figure>
+      <figcaption>
+        Example of a questionnaire.
+      </figcaption>
+
       <pre>
         <code>
 {
-  "name": "Psychoanalysis",
+  "name": "Psychology Introduction",
   "questions": [
     {
       "id": "transference",
       "text": "How would you define the term 'transference'?",
       "type": "free-form"
+    },
+    {
+      "id": "instincts",
+      "text": "True or false: our instincts determine how we behave.",
+      "type": "single-select",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": "True",
+      "points": 2
     }
   ]
 }
         </code>
       </pre>
-
-      <figcaption>
-        Example of a questionnaire.
-      </figcaption>
     </figure>
 
     <p>There are also additional properties and values that are not kept in the files themselves, but instead
@@ -97,7 +108,7 @@
     </ul>
 
     <table>
-      <caption>Properties and values used in questionnaires.</caption>
+      <caption>Properties and values used in questions.</caption>
 
       <thead>
         <tr>
@@ -143,6 +154,20 @@
               <li>Single-select questions</li>
             </ul>
           </td>
+        </tr>
+        <tr>
+          <td>Answer</td>
+          <td><code>answer</code></td>
+          <td>String</td>
+          <td>Yes</td>
+          <td>All questions</td>
+        </tr>
+        <tr>
+          <td>Points</td>
+          <td><code>points</code></td>
+          <td>Number</td>
+          <td>Yes</td>
+          <td>All questions</td>
         </tr>
       </tbody>
     </table>
@@ -300,7 +325,8 @@
 
     <h3>Adding Questionnaires</h3>
 
-    <p>To add a questionnaire, click the <i>Add Questionnaire</i> button on the <a href="/">home page</a>. This will open an upload dialog. You can then upload your questionnaire file(s) by either:</p>
+    <p>To add a questionnaire, click the <i>Add Questionnaire</i> button on the <a href="/">home page</a>. This will
+      open an upload dialog. You can then upload your questionnaire file(s) by either:</p>
 
     <ul>
       <li>dragging and dropping the file(s) into the upload dialog</li>

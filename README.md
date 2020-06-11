@@ -157,19 +157,17 @@ To define questions of these types, use the appropriate *type property*.
 The following is an example of a valid `single-select` question, taken from [example.json](server/questionnaires/example.json):
 
 ```json
-"questions": [
-  {
-    "id": "lord",
-    "text": "Which is the best lord?",
-    "type": "single-select",
-    "options": [
-      "Lord of the Rings",
-      "Lord of the Flies",
-      "Lord of the Dance",
-      "Lorde"
-    ]
-  },
-],
+{
+  "id": "lord",
+  "text": "Which is the best lord?",
+  "type": "single-select",
+  "options": [
+    "Lord of the Rings",
+    "Lord of the Flies",
+    "Lord of the Dance",
+    "Lorde"
+  ]
+},
 ```
 
 This example contains all required attributes, as well as the additional required `options` attribute used for questions with more than one input.
