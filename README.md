@@ -93,6 +93,33 @@ Changes made to the questionnaire files will be reflected to authors on the [ind
 
 For testing purposes, the [example.json](server/questionnaires/example.json) file has been included to provide an example questionnaire. Similar files—[another-example.json](server/questionnaires/another-example/another-example.json) and [without-questions.json](server/questionnaires/another-example/without-questions.json)—have also been included within a sub-directory.
 
+#### Types
+
+Questionnaires can be used to solely collect responses, or they can be made into quizzes to score the answers given by participants.
+
+To make a quiz, add the `answer` property to at least one question in the questionnaire file, with the value being the correct answer for that question. By default, questions with the `answer` property will be scored out of 1, although you can specify a different number of points available using the `points` property.
+
+Without these properties, the questionnaire will be treated as standard, with no scoring.
+
+The following is an example of a valid scored question, taken from [another-example.json](server/questionnaires/another-example/another-example.json):
+
+```json
+{
+  "id": "ostrich",
+  "text": "What is bigger than an ostrich's brain?",
+  "type": "single-select",
+  "options": [
+    "Its beak",
+    "Its eye",
+    "Its foot"
+  ],
+  "answer": "Its eye"
+},
+```
+
+> **NOTE**: The `answer` property expects string or number values. When read, its value will be converted to a string.
+> **NOTE**: The `points` property expects a number value. When read, its value will be converted to a number.
+
 #### Adding Questionnaires
 
 To add a questionnaire, its JSON file must be placed in the [questionnaires/](server/questionnaires/) directory, or a sub-directory within this directory.
