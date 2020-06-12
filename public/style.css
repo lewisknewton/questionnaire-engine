@@ -643,13 +643,18 @@ section[role="tabpanel"] {
 
 .response {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+}
+}
+
+.response > span {
+  grid-column-start: span 2;
 }
 
 .answers {
   display: grid;
   grid-template-columns: auto 1fr;
   column-gap: var(--space-s);
+  margin-top: var(--space-l);
 }
 
 .answers,
@@ -668,6 +673,8 @@ section[role="tabpanel"] {
   color: var(--bg);
   background: var(--secondary-alt);
   white-space: pre-wrap;
+  grid-column-start: span 2;
+  margin-top: var(--space-xs);
 }
 
 .answer > span {
@@ -728,6 +735,19 @@ section[role="tabpanel"] {
   #questionnaire-list > h2,
   #add {
     grid-column: auto;
+  }
+
+  .response {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .response > span,
+  .answer {
+    grid-column-start: auto;
+  }
+
+  .answer {
+    margin-top: 0;
   }
 
   #upload[open],
