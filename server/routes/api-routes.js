@@ -5,7 +5,7 @@ const { isFilled } = require('../common');
 const { codes, errors, warnings } = require('../status');
 
 const qh = require('../questionnaire-handler');
-const rh = require('../responses-handler');
+const rh = require('../response-handler');
 const multer = require('multer');
 
 // Define where and how to store questionnaire files
