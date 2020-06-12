@@ -623,6 +623,7 @@ section[role="tabpanel"] {
 /* Individual response styles */
 #individual-nav {
   margin-bottom: var(--space-l);
+  text-align: center;
 }
 
 #previous-response {
@@ -735,6 +736,10 @@ section[role="tabpanel"] {
   #questionnaire-list > h2,
   #add {
     grid-column: auto;
+  }
+
+  #individual-nav {
+    text-align: initial;
   }
 
   .response {
