@@ -59,13 +59,15 @@ function validateResponse() {
   const invalid = [];
 
   for (const qn of qnr.questions) {
+    const answer = answers[qn.id];
+
     // Check required questions
-    if (qn.required && answers[qn.id] == null) {
+    if (qn.required && answer == null) {
       if (!invalid.includes(qn.id)) invalid.push(qn.id);
     }
 
     // Check number questions
-    if (qn.type === 'number' && isNaN(Number(answers[qn.id]))) {
+    if (qn.type === 'number' && answer != null && isNaN(Number(answer))) {
       if (!invalid.includes(qn.id)) invalid.push(qn.id);
     }
   }
