@@ -156,7 +156,7 @@ function displayResponse(index) {
 /**
  * Shows basic information about individual responses.
  */
-function setIndividualResponseDetails() {
+function displayResponseDetails() {
   const maxResponses = individualPanel.querySelector('h3 > span#max-responses');
 
   shownResponse.value = shownResponse.value || 1;
@@ -183,7 +183,7 @@ async function loadResponses(qnrId) {
     } else {
       responses = data.responses;
 
-      setIndividualResponseDetails();
+      displayResponseDetails();
 
       handleUseOfNavigationControls(shownResponse.value - 1);
 
@@ -327,7 +327,7 @@ function downloadResponses() {
   const blob = convertResponses(format);
   const url = URL.createObjectURL(blob);
 
-  // Create a hidden, temporary anchor to download the file using the correct details
+  // Create a temporary anchor to download the file using the correct details
   const tempAnchor = document.createElement('a');
   tempAnchor.setAttribute('download', `responses.${format}`);
   tempAnchor.setAttribute('href', url);
@@ -345,12 +345,9 @@ function downloadResponses() {
  */
 function handleIndividualResponsesEvents() {
   downloadBtn.addEventListener('click', downloadResponses);
-
-  // Handle clicks on the navigation controls
   nextBtn.addEventListener('click', () => traverseResponses(+1));
   prevBtn.addEventListener('click', () => traverseResponses(-1));
 
-  // Handle manual response number inputs
   shownResponse.addEventListener('input', handleIndexInput);
 }
 
