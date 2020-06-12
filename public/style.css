@@ -657,12 +657,29 @@ section[role="tabpanel"] {
   grid-column-start: span 2;
 }
 
-.answers > h4 ~ h4 {
+.answers > h4 ~ h4,
+.question {
   margin-top: var(--space-l);
 }
 
-.answers > h4 ~ span {
+.answer {
+  padding: var(--space-xs) var(--space-s);
+  border-radius: var(--space-xs);
+  color: var(--bg);
+  background: var(--secondary-alt);
   white-space: pre-wrap;
+}
+
+.answer > span {
+  font-style: italic;
+}
+
+.question > p {
+  margin-bottom: var(--space-xs);
+}
+
+.question > span + p {
+  margin-top: var(--space-s);
 }
 
 /* Motion styles */

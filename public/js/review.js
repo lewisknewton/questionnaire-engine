@@ -1,7 +1,7 @@
 'use strict';
 
 import { getQuestionnaireId, isFilled } from './modules/browser-common.js';
-import { handleTabEvents, hideElement, setCommonAttributes } from './modules/browser-ui.js';
+import { handleTabEvents, hideElement, setAttributes, setCommonAttributes } from './modules/browser-ui.js';
 import { displayStatus, getFormattedDate, setPageTitle } from './modules/browser-status.js';
 
 const main = document.querySelector('main');
@@ -9,6 +9,8 @@ const loading = document.querySelector('#loading');
 const downloadBtn = document.querySelector('#download');
 
 const responsesList = document.querySelector('#responses');
+
+const aggregatedPanel = document.querySelector('#aggregated-panel');
 
 // Individual responses view elements
 const individualPanel = document.querySelector('#individual-panel');
@@ -20,6 +22,7 @@ const responseNums = document.querySelector('#response-numbers');
 // Reproducible templates
 const responseTemplate = document.querySelector('#response');
 const answerTemplate = document.querySelector('#answer');
+const qnTemplate = document.querySelector('#aggregated-question');
 
 let responses = [];
 let qns = [];
@@ -143,7 +146,8 @@ function displayResponse(index) {
     }
 
     answerTitleEl.textContent = `${related.text} (${answer.questionId})`;
-    answerContentEl.textContent = `${Array.isArray(answer.content) ? answer.content.join(', ') : answer.content || '(Unanswered)'}`;
+    answerContentEl.textContent = Array.isArray(answer.content) ? answer.content.join(', ') : answer.content || '(Unanswered)';
+    answerContentEl.classList.add('answer');
 
     responseEl.querySelector('section.answers').append(answerEl);
   }
@@ -151,6 +155,63 @@ function displayResponse(index) {
   individualPanel.append(responseEl);
 
   handleUseOfNavigationControls(index);
+}
+
+/**
+ * Displays aggregated answers from all the responses of the given questionnaire.
+ */
+function displayAggregated() {
+  // Collate all answers (excluding empty answers)
+  const answers = responses
+    .flatMap(response => response.answers)
+    .filter(answer => answer.content != null);
+
+  for (const qn of qns) {
+    const shown = aggregatedPanel.querySelector(`article.question[data-id=${qn.id}`);
+
+    const qnEl = qnTemplate.content.cloneNode(true).querySelector(':nth-child(1)');
+    const qnHeading = qnEl.querySelector('h4');
+    const qnCount = qnEl.querySelector('b ~ span');
+
+    // Find answers for the current question
+    const related = answers.filter(answer => answer.questionId === qn.id);
+    const existing = {};
+
+    for (const answer of related) {
+      if (qn.type === 'multi-select') {
+        if (Array.isArray(answer.content)) {
+          answer.content = answer.content.join(', ');
+        }
+      }
+
+      // Count duplicate answers
+      existing[answer.content] = (existing[answer.content] || 0) + 1;
+    }
+
+    qnEl.setAttribute('data-id', qn.id);
+    qnHeading.textContent = `${qn.text} (${qn.id})`;
+    qnCount.textContent = related.length;
+
+    for (const answer in existing) {
+      const count = existing[answer];
+
+      const qnAnswer = document.createElement('p');
+      qnAnswer.classList.add('answer');
+      qnAnswer.textContent = answer;
+
+      if (count > 1) {
+        const countEl = document.createElement('span');
+        countEl.textContent = ` (${count})`;
+        setAttributes(countEl, ['aria-label', 'title'], `Answered by ${count} participants`);
+
+        qnAnswer.append(countEl);
+      }
+
+      qnEl.append(qnAnswer);
+    }
+
+    if (shown == null) aggregatedPanel.append(qnEl);
+  }
 }
 
 /**
@@ -183,6 +244,7 @@ async function loadResponses(qnrId) {
     } else {
       responses = data.responses;
 
+      displayAggregated();
       displayResponseDetails();
 
       handleUseOfNavigationControls(shownResponse.value - 1);
