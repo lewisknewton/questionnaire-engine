@@ -52,7 +52,6 @@ body {
 
 a {
   color: var(--link);
-  text-underline-position: under;
 }
 
 a:active {
