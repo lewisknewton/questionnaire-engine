@@ -676,10 +676,23 @@ section[role="tabpanel"] {
   white-space: pre-wrap;
   grid-column-start: span 2;
   margin-top: var(--space-xs);
+  position: relative;
 }
 
 .answer > span {
-  font-style: italic;
+  color: var(--fg);
+  background: var(--bg);
+  padding: var(--space-xs);
+  border-radius: var(--space-xs);
+  height: 2rem;
+  min-width: 2rem;
+  display: inline-block;
+  line-height: 1;
+  text-align: center;
+  position: absolute;
+  right: var(--space-xs);
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .question > p {

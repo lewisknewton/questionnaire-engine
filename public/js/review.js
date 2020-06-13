@@ -1,6 +1,6 @@
 'use strict';
 
-import { getQuestionnaireId, isFilled } from './modules/browser-common.js';
+import { getImmediateTextContent, getQuestionnaireId, isFilled } from './modules/browser-common.js';
 import { handleTabEvents, hideElement, setAttributes, setCommonAttributes } from './modules/browser-ui.js';
 import { displayStatus, getFormattedDate, setPageTitle } from './modules/browser-status.js';
 
@@ -167,15 +167,34 @@ function displayAggregated() {
     .filter(answer => answer.content != null);
 
   for (const qn of qns) {
-    const shown = aggregatedPanel.querySelector(`article.question[data-id=${qn.id}`);
-
-    const qnEl = qnTemplate.content.cloneNode(true).querySelector(':nth-child(1)');
-    const qnHeading = qnEl.querySelector('h4');
-    const qnCount = qnEl.querySelector('b ~ span');
-
     // Find answers for the current question
     const related = answers.filter(answer => answer.questionId === qn.id);
     const existing = {};
+
+    let qnEl = aggregatedPanel.querySelector(`article.question[id=${qn.id}`);
+    let qnCount;
+    let qnAnswers;
+    let qnAnswersContents = [];
+
+    if (qnEl != null) {
+      qnCount = qnEl.querySelector('b ~ span');
+      qnAnswers = qnEl.querySelectorAll('.answer');
+      qnAnswersContents = [...qnAnswers].map(el => getImmediateTextContent(el));
+    } else {
+      qnEl = qnTemplate.content.cloneNode(true).querySelector(':nth-child(1)');
+      qnCount = qnEl.querySelector('b ~ span');
+
+      const qnHeading = qnEl.querySelector('h4');
+
+      qnEl.setAttribute('id', qn.id);
+      qnHeading.textContent = `${qn.text} (${qn.id})`;
+
+      aggregatedPanel.append(qnEl);
+    }
+
+    if (qnCount.textContent !== related.length) {
+      qnCount.textContent = related.length;
+    }
 
     for (const answer of related) {
       if (qn.type === 'multi-select') {
@@ -188,29 +207,30 @@ function displayAggregated() {
       existing[answer.content] = (existing[answer.content] || 0) + 1;
     }
 
-    qnEl.setAttribute('data-id', qn.id);
-    qnHeading.textContent = `${qn.text} (${qn.id})`;
-    qnCount.textContent = related.length;
-
     for (const answer in existing) {
       const count = existing[answer];
+      let countEl;
+      let qnAnswer;
 
-      const qnAnswer = document.createElement('p');
-      qnAnswer.classList.add('answer');
-      qnAnswer.textContent = answer;
+      if (qnAnswersContents.includes(answer)) {
+        qnAnswer = qnAnswers[qnAnswersContents.indexOf(answer)];
+        countEl = qnAnswer.querySelector('span');
+      } else {
+        qnAnswer = document.createElement('p');
+        qnAnswer.classList.add('answer');
+        qnAnswer.textContent = answer;
+      }
 
-      if (count > 1) {
-        const countEl = document.createElement('span');
-        countEl.textContent = ` (${count})`;
+      if (!qnAnswersContents.includes(answer) || countEl == null) {
+        countEl = document.createElement('span');
         setAttributes(countEl, ['aria-label', 'title'], `Answered by ${count} participants`);
-
-        qnAnswer.append(countEl);
       }
 
       qnEl.append(qnAnswer);
-    }
+      if (count > 1) qnAnswer.append(countEl);
 
-    if (shown == null) aggregatedPanel.append(qnEl);
+      countEl.textContent = count;
+    }
   }
 }
 
