@@ -11,7 +11,6 @@ const downloadBtn = document.querySelector('#download');
 const deleteAllBtn = document.querySelector('#delete-all');
 
 const responsesList = document.querySelector('#responses');
-
 const aggregatedPanel = document.querySelector('#aggregated-panel');
 
 // Individual responses view elements
@@ -102,66 +101,68 @@ function displayResponse(index) {
   // Keep number input up-to-date
   shownResponse.value = index + 1;
 
-  const response = responses[index];
-  const answers = response.answers;
-  const submitted = getFormattedDate(new Date(response.submitted));
+  if (responses.length > 0) {
+    const response = responses[index];
+    const answers = response.answers;
+    const submitted = getFormattedDate(new Date(response.submitted));
 
-  const responseEl = responseTemplate.content.cloneNode(true);
-  const responseContainer = responseEl.querySelector(':nth-child(1)');
-  const currentEl = individualPanel.querySelector('h3 > span#current-response');
-  const idEl = responseEl.querySelector('b ~ span');
-  const submittedEl = responseEl.querySelector('time');
-  const deleteBtn = responseEl.querySelector('.delete');
+    const responseEl = responseTemplate.content.cloneNode(true);
+    const responseContainer = responseEl.querySelector(':nth-child(1)');
+    const currentEl = individualPanel.querySelector('h3 > span#current-response');
+    const idEl = responseEl.querySelector('b ~ span');
+    const submittedEl = responseEl.querySelector('time');
+    const deleteBtn = responseEl.querySelector('.delete');
 
-  responseContainer.setAttribute('data-index', index);
-  responseContainer.setAttribute('id', response.id);
-  currentEl.textContent = `Response ${index + 1}`;
-  idEl.textContent = `${response.id}`;
-  submittedEl.textContent = submitted;
-  submittedEl.setAttribute('datetime', submitted);
-  deleteBtn.addEventListener('click', () => removeResponse(response.id));
+    responseContainer.setAttribute('data-index', index);
+    responseContainer.setAttribute('id', response.id);
+    currentEl.textContent = `Response ${index + 1}`;
+    idEl.textContent = `${response.id}`;
+    submittedEl.textContent = submitted;
+    submittedEl.setAttribute('datetime', submitted);
+    deleteBtn.addEventListener('click', () => removeResponse(response.id));
 
-  // Add answers
-  for (const answer of answers) {
-    const answerEl = answerTemplate.content.cloneNode(true);
-    const answerTitleEl = answerEl.querySelector('h4');
-    const answerContentEl = answerEl.querySelector('span');
+    // Add answers
+    for (const answer of answers) {
+      const answerEl = answerTemplate.content.cloneNode(true);
+      const answerTitleEl = answerEl.querySelector('h4');
+      const answerContentEl = answerEl.querySelector('span');
 
-    // Find the question to which the answer was given
-    const related = qns.filter(qn => qn.id === answer.questionId)[0];
+      // Find the question to which the answer was given
+      const related = qns.filter(qn => qn.id === answer.questionId)[0];
 
-    // Show the correct answer and score if the answer was marked as part of a quiz
-    if (related.answer != null) {
-      const correct = String(related.answer);
-      const points = related.points != null ? Number(related.points) : 1;
-      const same = answer.content === correct;
+      // Show the correct answer and score if the answer was marked as part of a quiz
+      if (related.answer != null) {
+        const correct = String(related.answer);
+        const points = related.points != null ? Number(related.points) : 1;
+        const same = answer.content === correct;
 
-      const correctEl = document.createElement('b');
-      const correctText = document.createElement('span');
-      const pointsEl = document.createElement('b');
-      const pointsText = document.createElement('span');
+        const correctEl = document.createElement('b');
+        const correctText = document.createElement('span');
+        const pointsEl = document.createElement('b');
+        const pointsText = document.createElement('span');
 
-      correctEl.textContent = 'Correct answer:';
-      correctText.textContent = correct;
-      pointsEl.textContent = 'Points scored:';
-      pointsText.textContent = `${same ? points : 0}/${points}`;
+        correctEl.textContent = 'Correct answer:';
+        correctText.textContent = correct;
+        pointsEl.textContent = 'Points scored:';
+        pointsText.textContent = `${same ? points : 0}/${points}`;
 
-      answerContentEl.setAttribute('title', same ? 'Correct answer' : 'Incorrect answer');
-      answerContentEl.classList.add(same ? 'correct' : 'incorrect');
+        answerContentEl.setAttribute('title', same ? 'Correct answer' : 'Incorrect answer');
+        answerContentEl.classList.add(same ? 'correct' : 'incorrect');
 
-      answerEl.append(correctEl, correctText, pointsEl, pointsText);
+        answerEl.append(correctEl, correctText, pointsEl, pointsText);
+      }
+
+      answerTitleEl.textContent = `${related.text} (${answer.questionId})`;
+      answerContentEl.textContent = Array.isArray(answer.content) ? answer.content.join(', ') : answer.content || '(Unanswered)';
+      answerContentEl.classList.add('answer');
+
+      responseEl.querySelector('section.answers').append(answerEl);
     }
 
-    answerTitleEl.textContent = `${related.text} (${answer.questionId})`;
-    answerContentEl.textContent = Array.isArray(answer.content) ? answer.content.join(', ') : answer.content || '(Unanswered)';
-    answerContentEl.classList.add('answer');
+    individualPanel.append(responseEl);
 
-    responseEl.querySelector('section.answers').append(answerEl);
+    handleUseOfNavigationControls(index);
   }
-
-  individualPanel.append(responseEl);
-
-  handleUseOfNavigationControls(index);
 }
 
 /**
@@ -189,9 +190,8 @@ function displayAggregated() {
       qnAnswersContents = [...qnAnswers].map(el => getImmediateTextContent(el));
     } else {
       qnEl = qnTemplate.content.cloneNode(true).querySelector(':nth-child(1)');
-      qnCount = qnEl.querySelector('b ~ span');
-
       const qnHeading = qnEl.querySelector('h4');
+      qnCount = qnEl.querySelector('b ~ span');
 
       qnEl.setAttribute('id', qn.id);
       qnHeading.textContent = `${qn.text} (${qn.id})`;
@@ -251,67 +251,6 @@ function displayResponseDetails() {
   shownResponse.setAttribute('max', responses.length);
 
   for (const el of [responseNums, maxResponses]) el.textContent = `of ${responses.length}`;
-}
-
-/**
- * Retrieves the responses for a given questionnaire, using its ID.
- */
-async function loadResponses() {
-  const res = await fetch(`/api/questionnaires/${qnrId}/responses`);
-  const data = await res.json();
-
-  if (res.ok) {
-    if (title.textContent !== data.name) title.textContent = data.name;
-    setPageTitle(data.name);
-
-    if (data.warning) {
-      displayStatus(data.warning, 'warning', title);
-    } else {
-      responses = data.responses;
-
-      displayAggregated();
-      displayResponseDetails();
-
-      handleUseOfNavigationControls(shownResponse.value - 1);
-
-      // Display the current response
-      if (document.querySelector('.response') == null) {
-        responsesList.classList.remove('hidden');
-        displayResponse(shownResponse.value - 1);
-      }
-
-      for (const msg of ['.error', '.warning']) {
-        const status = document.querySelector(msg);
-
-        if (status) hideElement(status, true);
-      }
-    }
-  } else {
-    displayStatus(data.error, 'error', title);
-  }
-
-  // Poll for new responses every 5 seconds
-  setTimeout(loadResponses, 5000);
-}
-
-/**
- * Retrieves the questions for a given questionnaire, using its ID.
- */
-async function loadQuestions() {
-  const res = await fetch(`/api/questionnaires/${qnrId}`);
-  const data = await res.json();
-
-  if (res.ok) qns = data.questions;
-}
-
-/**
- * Retrieves a given questionnaire's details and responses.
- */
-async function loadData() {
-  await loadQuestions();
-  await loadResponses();
-
-  hideElement(loading);
 }
 
 /**
@@ -445,10 +384,13 @@ function resetResponseElements() {
   hideElement(responsesList);
 
   const qnBlocks = aggregatedPanel.querySelectorAll('.question');
-  const responseBlocks = individualPanel.querySelectorAll('.response');
+  const responseBlock = individualPanel.querySelector('.response');
 
-  for (const qnBlock of qnBlocks) qnBlock.remove();
-  for (const responseBlock of responseBlocks) responseBlock.remove();
+  if (isFilled(qnBlocks)) for (const qnBlock of qnBlocks) qnBlock.remove();
+  if (responseBlock != null) {
+    const newIndex = shownResponse.value > 1 ? shownResponse.value - 1 : 1;
+    displayResponse(newIndex - 1);
+  }
 }
 
 /**
@@ -461,6 +403,7 @@ async function removeResponses() {
   let status;
 
   if (res.ok) {
+    loadResponses();
     resetResponseElements();
 
     const msg = `All responses for questionnaire of ID '${qnrId}' were deleted successfully.`;
@@ -487,6 +430,11 @@ async function removeResponse(id) {
   let status;
 
   if (res.ok) {
+    loadResponses();
+
+    const newIndex = shownResponse.value > 1 ? shownResponse.value - 1 : 1;
+    displayResponse(newIndex - 1);
+
     const msg = `The response of ID '${id}' was deleted successfully.`;
     status = 'success';
 
@@ -499,6 +447,78 @@ async function removeResponse(id) {
   }
 
   setTimeout(() => hideElement(document.querySelector(`.${status}`), true), 5000);
+}
+
+/**
+ * Retrieves the responses for a given questionnaire, using its ID.
+ */
+async function loadResponses() {
+  const res = await fetch(`/api/questionnaires/${qnrId}/responses`);
+  const data = await res.json();
+
+  // Find any response that is already shown
+  const shown = individualPanel.querySelector('.response');
+
+  if (res.ok) {
+    if (title.textContent !== data.name) title.textContent = data.name;
+    setPageTitle(data.name);
+
+    if (data.warning) {
+      // No responses exist
+      displayStatus(data.warning, 'warning', title);
+
+      for (const response in responses) delete responses[response];
+      responses = [];
+
+      resetResponseElements();
+    } else {
+      responses = data.responses;
+
+      displayAggregated();
+      displayResponseDetails();
+
+      handleUseOfNavigationControls(shownResponse.value - 1);
+
+      // Display the current response
+      if (shown == null) {
+        responsesList.classList.remove('smooth-hide', 'hidden');
+        displayResponse(shownResponse.value - 1);
+      }
+
+      for (const msg of ['.error', '.warning']) {
+        const status = document.querySelector(msg);
+
+        if (status) hideElement(status, true);
+      }
+    }
+  } else {
+    displayStatus(data.error, 'error', title);
+  }
+
+  console.log(responses);
+
+  // Poll for new responses every 5 seconds
+  setTimeout(loadResponses, 5000);
+}
+
+/**
+ * Retrieves the questions for a given questionnaire, using its ID.
+ */
+async function loadQuestions() {
+  const res = await fetch(`/api/questionnaires/${qnrId}`);
+  const data = await res.json();
+
+  if (res.ok) qns = data.questions;
+}
+
+/**
+ * Retrieves a given questionnaire's details and responses.
+ */
+async function loadData() {
+  await loadQuestions();
+  await loadResponses();
+
+  hideElement(loading);
 }
 
 /**
