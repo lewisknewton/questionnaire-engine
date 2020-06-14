@@ -9,7 +9,6 @@ CREATE TABLE IF NOT EXISTS questionnaire (
   id uuid DEFAULT uuid_generate_v4(),
   short_id VARCHAR(8),
   file_path TEXT UNIQUE NOT NULL,
-  author_email VARCHAR(255),
   PRIMARY KEY (id)
 );
 
