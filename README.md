@@ -234,7 +234,7 @@ Their endpoints are defined in [app.js](app.js). The functions called at these e
 
 ### API Routes
 
-The following routes may be accessed after prepending `api` e.g. `xx.xxx.xxx.xx/api/questionnaires`.
+The following routes may be accessed after prepending `api` e.g. `http://q-engine.com/api/questionnaires`.
 
 | Resource                              | GET                                               | POST                                           | DELETE                                                          |
 |---------------------------------------|---------------------------------------------------|------------------------------------------------|-----------------------------------------------------------------|
@@ -260,7 +260,7 @@ When viewed via the client files, additional success, error, and warning message
 
 ### Web Routes
 
-The following routes may be accessed directly in the browser e.g. `xx.xxx.xxx.xx/`.
+The following routes may be accessed directly in the browser e.g. `http://q-engine.com/`.
 
 | Path        | Page                              | Purpose                                                                      |
 |-------------|-----------------------------------|------------------------------------------------------------------------------|
@@ -268,7 +268,7 @@ The following routes may be accessed directly in the browser e.g. `xx.xxx.xxx.xx
 | /take/:id   | [take.html](public/js/take.js)    | Display, and records responses for, a given questionnaire.                   |
 | /review/:id | [review.html](public/review.html) | Display details and responses for a given questionnaire to support analysis. |
 
-The parameter used in some routes, `:id`, represents *questionnaire* short IDs. This allows for more readable URLs, as opposed to using query strings e.g. `/take?id=xxx`.
+The parameter used in some routes, `:id`, represents *questionnaire* short IDs. This allows for more readable URLs, as opposed to using query strings e.g. `http://q-engine.com/take?id=xxx`.
 
 ### Static Files
 
