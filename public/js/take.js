@@ -277,8 +277,7 @@ function displayQuestionnaire() {
 
   setPageTitle(qnr.name);
   mainHeading.textContent = qnr.name;
-  qnSection.classList.remove('hidden');
-  submitBtn.classList.remove('hidden');
+  for (const el of [qnSection, submitBtn]) el.classList.remove('hidden');
 
   // Display question blocks
   for (const qn of qns) {
