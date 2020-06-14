@@ -1,8 +1,10 @@
 /* global afterAll, beforeEach, describe, expect, it, jest */
 
-const supertest = require('supertest');
 const dbClient = require('../server/database/db-client');
 const { codes, errors, warnings } = require('../server/status');
+
+const supertest = require('supertest');
+
 let server, request;
 
 beforeEach(() => {

@@ -1,8 +1,10 @@
 /* global afterAll, beforeEach, describe, expect, it, jest */
 
 const { isFilled } = require('../server/common');
-const supertest = require('supertest');
 const { codes, errors } = require('../server/status');
+
+const supertest = require('supertest');
+
 let server, request;
 
 beforeEach(() => {
