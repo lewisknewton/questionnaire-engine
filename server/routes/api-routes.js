@@ -186,7 +186,7 @@ async function deleteResponses(req, res) {
  * Removes a response, along with its related answers.
  */
 async function deleteResponse(req, res) {
-  const id = req.params.r_id;
+  const id = req.params.rId;
 
   if (!isFilled(id)) {
     return res.status(codes.badRequest).json({ error: errors.responseNotSelected });
