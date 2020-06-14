@@ -114,10 +114,12 @@ function displayResponse(index) {
   const deleteBtn = responseEl.querySelector('.delete');
 
   responseContainer.setAttribute('data-index', index);
+  responseContainer.setAttribute('id', response.id);
   currentEl.textContent = `Response ${index + 1}`;
   idEl.textContent = `${response.id}`;
   submittedEl.textContent = submitted;
   submittedEl.setAttribute('datetime', submitted);
+  deleteBtn.addEventListener('click', () => removeResponse(response.id));
 
   // Add answers
   for (const answer of answers) {
@@ -462,6 +464,30 @@ async function removeResponses() {
     resetResponseElements();
 
     const msg = `All responses for questionnaire of ID '${qnrId}' were deleted successfully.`;
+    status = 'success';
+
+    displayStatus(msg, status, title);
+  } else {
+    const data = await res.json();
+    status = 'error';
+
+    displayStatus(data.error, status, title);
+  }
+
+  setTimeout(() => hideElement(document.querySelector(`.${status}`), true), 5000);
+}
+
+/**
+ * Remove's a given response.
+ */
+async function removeResponse(id) {
+  const opts = { method: 'DELETE' };
+  const res = await fetch(`/api/questionnaires/${qnrId}/responses/${id}`, opts);
+
+  let status;
+
+  if (res.ok) {
+    const msg = `The response of ID '${id}' was deleted successfully.`;
     status = 'success';
 
     displayStatus(msg, status, title);

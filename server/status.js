@@ -30,6 +30,8 @@ const errors = {
     'Sorry, no answers have been provided. Please re-attempt the questionnaire and try submitting again.',
   responseNotSaved:
     'Sorry, your response could not be saved at this time. Please try submitting again.',
+  responseNotSelected:
+    'Sorry, no response was selected. Please try again using the ID of the response.',
 };
 
 // Custom warning messages

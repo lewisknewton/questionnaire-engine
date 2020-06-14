@@ -75,10 +75,42 @@ const queries = {
     ORDER BY    submitted
   `,
 
+  selectResponseByShortId: `
+    SELECT      id,
+                short_id AS "shortId",
+                time_submitted AS submitted,
+                JSON_AGG(answers) AS answers
+    FROM (
+                SELECT    response_id,
+                          JSON_BUILD_OBJECT(
+                            'questionId', question_id,
+                            'content', JSON_AGG(content)
+                          ) AS answers
+                FROM      answer
+                GROUP BY  response_id,
+                          question_id
+    ) answers_sub
+    RIGHT JOIN  response
+    ON          response.id = answers_sub.response_id
+    WHERE       short_id = $1
+    GROUP BY    response.id
+    ORDER BY    submitted
+  `,
+
   deleteResponses: `
     DELETE
     FROM      response
     WHERE     questionnaire_id = $1
+    RETURNING id,
+              short_id AS "shortId",
+              time_submitted AS submitted,
+              questionnaire_id AS "questionnaireId"
+  `,
+
+  deleteResponse: `
+    DELETE
+    FROM      response
+    WHERE     id = $1
     RETURNING id,
               short_id AS "shortId",
               time_submitted AS submitted,

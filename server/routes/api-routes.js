@@ -182,6 +182,21 @@ async function deleteResponses(req, res) {
   return res.status(codes.noContent).send();
 }
 
+/**
+ * Removes a response, along with its related answers.
+ */
+async function deleteResponse(req, res) {
+  const id = req.params.r_id;
+
+  if (!isFilled(id)) {
+    return res.status(codes.badRequest).json({ error: errors.responseNotSelected });
+  }
+
+  await rh.deleteResponse(id);
+
+  return res.status(codes.noContent).send();
+}
+
 module.exports = {
   getQuestionnaires,
   getQuestionnaire,
@@ -190,4 +205,5 @@ module.exports = {
   getResponses,
   postResponse,
   deleteResponses,
+  deleteResponse,
 };

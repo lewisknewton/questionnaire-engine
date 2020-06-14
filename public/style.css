@@ -645,6 +645,11 @@ section[role="tabpanel"] {
 .response {
   display: grid;
 }
+
+.response > .delete {
+  grid-column-start: span 2;
+  width: max-content;
+  justify-self: center;
 }
 
 .response > span {
@@ -757,6 +762,10 @@ section[role="tabpanel"] {
 
   .response {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .response > .delete {
+    justify-self: initial;
   }
 
   .response > span,

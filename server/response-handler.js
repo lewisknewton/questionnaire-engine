@@ -118,6 +118,19 @@ async function selectResponses(qnrId) {
 }
 
 /**
+ * Selects a response using its short ID.
+ */
+async function selectResponseByShortId(id) {
+  try {
+    const result = await dbClient.query(queries.selectResponseByShortId, [id]);
+
+    return result.rows[0];
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+/**
  * Removes responses' stored records in the database and their related answers,
  * using their related questionnaire's short ID.
  */
@@ -137,8 +150,29 @@ async function deleteResponses(qnrId) {
   }
 }
 
+/**
+ * Removes a response's stored record in the database and its related answers,
+ * using its short ID.
+ */
+async function deleteResponse(id) {
+  const response = await selectResponseByShortId(id);
+
+  if (isFilled(response, true)) {
+    const { id: uniqueId } = response;
+
+    try {
+      const result = await dbClient.query(queries.deleteResponse, [uniqueId]);
+
+      return result.rows[0];
+    } catch (err) {
+      console.error(err);
+    }
+  }
+}
+
 module.exports = {
   addResponse,
   selectResponses,
   deleteResponses,
+  deleteResponse,
 };
