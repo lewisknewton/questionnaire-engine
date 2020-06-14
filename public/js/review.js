@@ -27,6 +27,7 @@ const answerTemplate = document.querySelector('#answer');
 const qnTemplate = document.querySelector('#aggregated-question');
 
 let responses = [];
+let qnrId = '';
 let qns = [];
 
 /**
@@ -106,11 +107,13 @@ function displayResponse(index) {
   const submitted = getFormattedDate(new Date(response.submitted));
 
   const responseEl = responseTemplate.content.cloneNode(true);
+  const responseContainer = responseEl.querySelector(':nth-child(1)');
   const currentEl = individualPanel.querySelector('h3 > span#current-response');
   const idEl = responseEl.querySelector('b ~ span');
   const submittedEl = responseEl.querySelector('time');
+  const deleteBtn = responseEl.querySelector('.delete');
 
-  responseEl.querySelector(':nth-child(1)').setAttribute('data-index', index);
+  responseContainer.setAttribute('data-index', index);
   currentEl.textContent = `Response ${index + 1}`;
   idEl.textContent = `${response.id}`;
   submittedEl.textContent = submitted;
@@ -173,7 +176,7 @@ function displayAggregated() {
     const related = answers.filter(answer => answer.questionId === qn.id);
     const existing = {};
 
-    let qnEl = aggregatedPanel.querySelector(`article.question[id=${qn.id}`);
+    let qnEl = aggregatedPanel.querySelector(`article.question#${qn.id}`);
     let qnCount;
     let qnAnswers;
     let qnAnswersContents = [];
@@ -251,11 +254,9 @@ function displayResponseDetails() {
 /**
  * Retrieves the responses for a given questionnaire, using its ID.
  */
-async function loadResponses(qnrId) {
+async function loadResponses() {
   const res = await fetch(`/api/questionnaires/${qnrId}/responses`);
   const data = await res.json();
-
-  const title = main.querySelector('h1');
 
   if (res.ok) {
     if (title.textContent !== data.name) title.textContent = data.name;
@@ -288,13 +289,13 @@ async function loadResponses(qnrId) {
   }
 
   // Poll for new responses every 5 seconds
-  setTimeout(loadResponses, 5000, qnrId);
+  setTimeout(loadResponses, 5000);
 }
 
 /**
  * Retrieves the questions for a given questionnaire, using its ID.
  */
-async function loadQuestions(qnrId) {
+async function loadQuestions() {
   const res = await fetch(`/api/questionnaires/${qnrId}`);
   const data = await res.json();
 
@@ -304,9 +305,9 @@ async function loadQuestions(qnrId) {
 /**
  * Retrieves a given questionnaire's details and responses.
  */
-async function loadData(qnrId) {
-  await loadQuestions(qnrId);
-  await loadResponses(qnrId);
+async function loadData() {
+  await loadQuestions();
+  await loadResponses();
 
   hideElement(loading);
 }
@@ -451,7 +452,7 @@ function resetResponseElements() {
 /**
  * Removes a given questionnaire's responses.
  */
-async function removeResponses(qnrId) {
+async function removeResponses() {
   const opts = { method: 'DELETE' };
   const res = await fetch(`/api/questionnaires/${qnrId}/responses`, opts);
 
@@ -479,14 +480,14 @@ async function removeResponses(qnrId) {
  */
 function init() {
   // Load the responses and questionnaire detials, getting the questionnaire ID after `review/`
-  const qnrId = getQuestionnaireId('review');
-  loadData(qnrId);
+  qnrId = getQuestionnaireId('review');
+  loadData();
 
   // Add event listeners and handlers
   handleTabEvents();
   handleIndividualResponsesEvents();
 
-  deleteAllBtn.addEventListener('click', () => removeResponses(qnrId));
+  deleteAllBtn.addEventListener('click', () => removeResponses());
 }
 
 window.addEventListener('load', init);
