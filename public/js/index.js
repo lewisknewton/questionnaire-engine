@@ -169,7 +169,7 @@ function handleFiles(files) {
         addQuestionnaire(file);
       } else {
         const msg =
-          `Sorry, '${file.name}' is not a valid questionnaire JSON file. Please try uploading again with a valid file.`;
+          `Sorry, '${file.name}' is not a valid questionnaire file. Please try uploading again with a valid file.`;
 
         displayStatus(msg, 'error', header);
         setTimeout(() => hideElement(document.querySelector('.error'), true), 5000);
