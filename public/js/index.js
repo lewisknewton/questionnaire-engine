@@ -80,20 +80,24 @@ async function removeQuestionnaire(id) {
   const opts = { method: 'DELETE' };
   const res = await fetch(`/api/questionnaires/${id}`, opts);
 
+  let status;
+
   if (res.ok) {
     // Remove the questionnaire already shown to users
     hideElement(document.querySelector(`.summary[data-id=${id}]`), true);
 
     const msg = `The questionnaire of ID '${id}' was deleted successfully.`;
+    status = 'success';
 
-    displayStatus(msg, 'success', header);
-    setTimeout(() => hideElement(document.querySelector('.success'), true), 5000);
+    displayStatus(msg, status, header);
   } else {
     const data = await res.json();
+    status = 'error';
 
-    displayStatus(data.error, 'error', header);
-    setTimeout(() => hideElement(document.querySelector('.error'), true), 5000);
+    displayStatus(data.error, status, header);
   }
+
+  setTimeout(() => hideElement(document.querySelector(`.${status}`), true), 5000);
 }
 
 /**
