@@ -58,7 +58,7 @@ Some key terms used throughout the application are defined as follows:
 | Term        | Definition                                                                                    |
 |-------------|-----------------------------------------------------------------------------------------------|
 | Answer      | The value a user gives to a question.                                                         |
-| Author      | A user who creates questionnaires.                                                            |
+| Author      | A user who creates and manages questionnaires.                                                |
 | ID          | The unique ID (UUID4) of a questionnaire or response, used as their primary keys.             |
 | Participant | A user who takes a questionnaire, providing answers that form a response.                     |
 | Response    | The collection of answers a participant gives when taking a questionnaire.                    |
