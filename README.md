@@ -194,7 +194,7 @@ Authors can share any questionnaire shown on the [index.html](public/index.html)
 
 ### Responses
 
-When a participant takes a questionnaire, their answers are collated to form a response for that questionnaire. This response is stored in the database, and the questionnaire author can then view the response on the [review.html](public/review.html) page, using the ID of the questionnaire.
+When a participant takes a questionnaire, their answers are collated to form a response for that questionnaire. This response is stored in the database, and the questionnaire author can then view the response on the [review.html](public/review.html) page, using the ID of the questionnaire e.g. `http://q-engine.com/review/xxx`.
 
 The server will attempt to fetch responses in the background so that new responses are shown to authors shortly after they are recorded.
 
