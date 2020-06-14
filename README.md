@@ -76,6 +76,7 @@ Authors can:
 * share questionnaires
 * delete questionnaires
 * view responses
+* delete responses (together or individually)
 * download responses
 
 Participants can:
