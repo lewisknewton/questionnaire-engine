@@ -221,6 +221,17 @@ The parameters used in these routes, `:id:` and `:r_id`, represent *questionnair
 
 Where necessary, details about related resources are included for context. For example, basic questionnaire details are returned alongside responses for clarity and error handling (e.g. when there is something preventing responses from being given).
 
+#### Statuses
+
+The success or failure of each request to these endpoints is provided in the form of common status codes and custom messages. In general: 
+
+* successful *GET* requests return the requested resource
+* unsuccessful *GET*, *POST*, or *DELETE* requests return an error or warning messsage
+
+These status codes and error and warning messages can be found and configured in [status.js](server/status.js).
+
+When viewed via the client files, additional success, error, and warning messages are occassionally shown to give context to general users. These can be found in their respective script files in the [js/](public/js/) directory.
+
 ### Web Routes
 
 The following routes may be accessed directly in the browser e.g. `xx.xxx.xxx.xx/`.
