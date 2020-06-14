@@ -320,7 +320,7 @@ During development, the following linters were used:
 * [ESLint](https://eslint.org/) (extending [eslint-config-portsoc](https://github.com/portsoc/eslint-config-portsoc)) for JavaScript
 * [stylelint](https://stylelint.io/) for CSS
 
-Two scripts, `lint-js` and `lint-css`, were defined to lint all files of the respective types. Another script, `lint`, was created to run both and is used by running `npm run lint`.
+Two commands, `lint-js` and `lint-css`, were defined to lint all files of the respective types. Another command, `lint`, was created to run both and is used by running `npm run lint`.
 
 ## Testing
 
