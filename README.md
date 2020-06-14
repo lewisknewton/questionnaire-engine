@@ -290,6 +290,12 @@ Where icons or symbols are used, alternative text is provided for users with scr
 
 ## Usability
 
+### Simplicity
+
+Since the application has a broad potential audience, naming has been kept as simple as possible throughout. This applies to both page content and URLs, which do not use fragments or query strings to be easier for novice users to use (see [Web Routes](#web-routes)).
+
+Similarly, to promote recognition over recall, minimal navigation items were used, and input styles do not deviate far from their browser defaults. Icons are also used sparingly where they are likely familar (see [FontAwesome Icons](#fontawesome-icons)).
+
 ### Background Refresh
 
 To limit the need for page refreshing, the application uses polling to periodically fetch data in the background and update the front-end shown to users. See [Questionnaires](#questionnaires) and [Responses](#responses) for more detail.
