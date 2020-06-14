@@ -75,6 +75,16 @@ const queries = {
     ORDER BY    submitted
   `,
 
+  deleteResponses: `
+    DELETE
+    FROM      response
+    WHERE     questionnaire_id = $1
+    RETURNING id,
+              short_id AS "shortId",
+              time_submitted AS submitted,
+              questionnaire_id AS "questionnaireId"
+  `,
+
   // Answers
   addAnswer: `
     INSERT INTO answer (

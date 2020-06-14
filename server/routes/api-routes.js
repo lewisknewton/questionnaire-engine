@@ -167,6 +167,21 @@ async function postResponse(req, res) {
     .json({ success: 'Thank you, your response has been saved.', result });
 }
 
+/**
+ * Removes a questionnaire's responses, along with their related answers.
+ */
+async function deleteResponses(req, res) {
+  const qnrId = req.params.id;
+
+  if (!isFilled(qnrId)) {
+    return res.status(codes.badRequest).json({ error: errors.questionnaireNotSelected });
+  }
+
+  await rh.deleteResponses(qnrId);
+
+  return res.status(codes.noContent).send();
+}
+
 module.exports = {
   getQuestionnaires,
   getQuestionnaire,
@@ -174,4 +189,5 @@ module.exports = {
   deleteQuestionnaire,
   getResponses,
   postResponse,
+  deleteResponses,
 };

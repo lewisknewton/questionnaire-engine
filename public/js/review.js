@@ -5,8 +5,10 @@ import { handleTabEvents, hideElement, setAttributes, setCommonAttributes } from
 import { displayStatus, getFormattedDate, setPageTitle } from './modules/browser-status.js';
 
 const main = document.querySelector('main');
+const title = main.querySelector('h1');
 const loading = document.querySelector('#loading');
 const downloadBtn = document.querySelector('#download');
+const deleteAllBtn = document.querySelector('#delete-all');
 
 const responsesList = document.querySelector('#responses');
 
@@ -434,6 +436,45 @@ function handleIndividualResponsesEvents() {
 }
 
 /**
+ * Hides and removes all responses shown to users.
+ */
+function resetResponseElements() {
+  hideElement(responsesList);
+
+  const qnBlocks = aggregatedPanel.querySelectorAll('.question');
+  const responseBlocks = individualPanel.querySelectorAll('.response');
+
+  for (const qnBlock of qnBlocks) qnBlock.remove();
+  for (const responseBlock of responseBlocks) responseBlock.remove();
+}
+
+/**
+ * Removes a given questionnaire's responses.
+ */
+async function removeResponses(qnrId) {
+  const opts = { method: 'DELETE' };
+  const res = await fetch(`/api/questionnaires/${qnrId}/responses`, opts);
+
+  let status;
+
+  if (res.ok) {
+    resetResponseElements();
+
+    const msg = `All responses for questionnaire of ID '${qnrId}' were deleted successfully.`;
+    status = 'success';
+
+    displayStatus(msg, status, title);
+  } else {
+    const data = await res.json();
+    status = 'error';
+
+    displayStatus(data.error, status, title);
+  }
+
+  setTimeout(() => hideElement(document.querySelector(`.${status}`), true), 5000);
+}
+
+/**
  * Initialises the web page.
  */
 function init() {
@@ -444,6 +485,8 @@ function init() {
   // Add event listeners and handlers
   handleTabEvents();
   handleIndividualResponsesEvents();
+
+  deleteAllBtn.addEventListener('click', () => removeResponses(qnrId));
 }
 
 window.addEventListener('load', init);

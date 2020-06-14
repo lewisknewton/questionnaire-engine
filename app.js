@@ -22,6 +22,7 @@ apiRouter.delete('/questionnaires/:id', api.deleteQuestionnaire);
 
 apiRouter.get('/questionnaires/:id/responses', api.getResponses);
 apiRouter.post('/questionnaires/:id/responses', express.json(), api.postResponse);
+apiRouter.delete('/questionnaires/:id/responses', api.deleteResponses);
 
 // Define default routes (serving client files)
 webRouter.get('/take/:id', web.takeQuestionnaire);

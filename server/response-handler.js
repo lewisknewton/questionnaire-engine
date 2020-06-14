@@ -117,7 +117,28 @@ async function selectResponses(qnrId) {
   }
 }
 
+/**
+ * Removes responses' stored records in the database and their related answers,
+ * using their related questionnaire's short ID.
+ */
+async function deleteResponses(qnrId) {
+  const qnr = await selectQuestionnaireByShortId(qnrId);
+
+  if (isFilled(qnr, true)) {
+    const { id: qnrUniqueId } = qnr;
+
+    try {
+      const result = await dbClient.query(queries.deleteResponses, [qnrUniqueId]);
+
+      return result.rows[0];
+    } catch (err) {
+      console.error(err);
+    }
+  }
+}
+
 module.exports = {
   addResponse,
   selectResponses,
+  deleteResponses,
 };
