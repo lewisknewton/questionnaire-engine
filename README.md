@@ -149,7 +149,7 @@ There are multiple question types are available, as shown in the following table
 | Type Property   | Use              | Input Type      | Selector                 | Additional Attributes |
 |-----------------|------------------|-----------------|--------------------------|-----------------------|
 | `free-form`     | Free-form text   | Multi-line text | `textarea`               |                       |
-| `likert`        | Likert scale     | Radio button    | `input[type="radio"]`    | `options`             |
+| `likert`        | Likert scales    | Radio button    | `input[type="radio"]`    | `options`             |
 | `multi-select`  | Multiple choice  | Checkbox        | `input[type="checkbox"]` | `options`             |
 | `number`        | Numerical values | Number          | `input[type="number"]`   |                       |
 | `single-select` | Single choice    | Radio button    | `input[type="radio"]`    | `options`             |
