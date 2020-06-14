@@ -210,11 +210,14 @@ For simplicity and security, resources' short IDs are used in endpoints instead 
 
 The following routes may be accessed after prepending `api` e.g. `xx.xxx.xxx.xx/api/questionnaires`.
 
-| Resource                        | GET                                               | POST                                           | DELETE                                                          |
-|---------------------------------|---------------------------------------------------|------------------------------------------------|-----------------------------------------------------------------|
-| /questionnaires                 | Retrieve all questionnaires.                      | Save a questionnaire, using a given JSON file. |                                                                 |
-| /questionnaires/:id             | Retrieve a given questionnaire.                   |                                                | Removes a questionnaire, including its records and stored file. |
-| /questionnaires/:id/responses   | Retrieve all responses for a given questionnaire. | Save a response for a given questionnaire.     |                                                                 |
+| Resource                              | GET                                               | POST                                           | DELETE                                                          |
+|---------------------------------------|---------------------------------------------------|------------------------------------------------|-----------------------------------------------------------------|
+| `/questionnaires`                     | Retrieve all questionnaires.                      | Save a questionnaire, using a given JSON file. |                                                                 |
+| `/questionnaires/:id`                 | Retrieve a given questionnaire.                   |                                                | Removes a questionnaire, including its records and stored file. |
+| `/questionnaires/:id/responses`       | Retrieve all responses for a given questionnaire. | Save a response for a given questionnaire.     | Deletes all responses for a given questionnaire.                |
+| `/questionnaires/:id/responses/:r_id` |                                                   |                                                | Deletes a given response.                                       |
+
+The parameters used in these routes, `:id:` and `:r_id`, represent *questionnaire* and *response* short IDs, respectively.
 
 Where necessary, details about related resources are included for context. For example, basic questionnaire details are returned alongside responses for clarity and error handling (e.g. when there is something preventing responses from being given).
 
