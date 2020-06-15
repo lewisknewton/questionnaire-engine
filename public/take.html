@@ -36,21 +36,22 @@
 
     <button class="share primary">Share</button>
   </section>
-
-  <dialog id="share" class="card" aria-labelledby="share-title" aria-describedby="share-text">
-    <header>
-      <h4 id="share-title">Share</h4>
-      <button id="share-close" class="close">Close</button>
-    </header>
-
-    <p id="share-text">Share questionnaire text</p>
-
-    <textarea id="share-link" rows="1" readonly aria-labelledby="share-text">URL</textarea>
-    <button id="share-copy" class="primary">Copy Link</button>
-
-    <output id="share-output" aria-live="polite"></output>
-  </dialog>
 </main>
+
+<!-- Share dialog -->
+<dialog id="share" class="card" aria-labelledby="share-title" aria-describedby="share-text">
+  <header>
+    <h4 id="share-title">Share</h4>
+    <button id="share-close" class="close">Close</button>
+  </header>
+
+  <p id="share-text">Share questionnaire text</p>
+
+  <textarea id="share-link" rows="1" readonly aria-labelledby="share-text">URL</textarea>
+  <button id="share-copy" class="primary">Copy Link</button>
+
+  <output id="share-output" aria-live="polite"></output>
+</dialog>
 
 <!-- Status messages -->
 <template id="error-message">
