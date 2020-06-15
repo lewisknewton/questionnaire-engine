@@ -47,7 +47,7 @@ body {
   font-size: 100%;
   line-height: 1.5;
   color: var(--fg);
-  background: var(--bg);
+  background-color: var(--bg);
 }
 
 a {
@@ -93,7 +93,7 @@ code {
   padding: 0.2rem 0.4rem;
   border-radius: var(--space-xs);
   color: var(--bg);
-  background: var(--secondary-alt);
+  background-color: var(--secondary-alt);
 }
 
 code,
@@ -164,7 +164,7 @@ dialog header {
   border: var(--border);
   border-radius: var(--space-xs);
   margin-bottom: var(--space-l);
-  background: var(--card);
+  background-color: var(--card);
   box-shadow: var(--shadow);
 }
 
@@ -180,16 +180,16 @@ td {
 }
 
 th {
-  background: var(--secondary);
+  background-color: var(--secondary);
   color: var(--bg);
 }
 
 td {
-  background: var(--card);
+  background-color: var(--card);
 }
 
 tr:nth-of-type(even) > td {
-  background: var(--shade);
+  background-color: var(--shade);
 }
 
 table ul {
@@ -211,7 +211,7 @@ input[type="text"],
 textarea {
   color: inherit;
   border: var(--border);
-  background: var(--input);
+  background-color: var(--input);
 }
 
 input[type="number"]::placeholder,
@@ -237,31 +237,31 @@ button {
 
 input[type="submit"],
 button.primary {
-  background: var(--primary);
+  background-color: var(--primary);
   color: var(--dark);
 }
 
 button {
   border: none;
-  background: var(--secondary);
+  background-color: var(--secondary);
   color: var(--bg);
 }
 
 button:hover {
-  background: var(--secondary-alt);
+  background-color: var(--secondary-alt);
 }
 
 button.delete {
-  background: var(--danger);
+  background-color: var(--danger);
   color: var(--dark);
 }
 
 button.delete:hover {
-  background: var(--danger-alt);
+  background-color: var(--danger-alt);
 }
 
 button.primary:hover {
-  background: var(--primary-alt);
+  background-color: var(--primary-alt);
 }
 
 button:active {
@@ -417,15 +417,15 @@ details {
 
 /* Status message styles */
 .error {
-  background: var(--danger);
+  background-color: var(--danger);
 }
 
 .warning {
-  background: var(--warning);
+  background-color: var(--warning);
 }
 
 .success {
-  background: var(--safe);
+  background-color: var(--safe);
 }
 
 .error,
@@ -594,7 +594,7 @@ details {
 /* Tab styles */
 button[role="tab"] {
   border: var(--border);
-  background: var(--card);
+  background-color: var(--card);
   color: var(--fg);
   border-bottom: var(--thin) solid transparent;
   border-bottom-left-radius: 0;
@@ -606,14 +606,14 @@ button[role="tab"][aria-selected="true"]::after {
   content: "";
   width: 100%;
   height: var(--thin);
-  background: var(--card);
+  background-color: var(--card);
   position: absolute;
   bottom: calc(-2 * var(--thin));
   left: 0;
 }
 
 button[role="tab"][aria-selected="false"] {
-  background: var(--bg);
+  background-color: var(--bg);
 }
 
 section[role="tabpanel"] {
@@ -677,7 +677,7 @@ section[role="tabpanel"] {
   padding: var(--space-xs) var(--space-s);
   border-radius: var(--space-xs);
   color: var(--bg);
-  background: var(--secondary-alt);
+  background-color: var(--secondary-alt);
   white-space: pre-wrap;
   grid-column-start: span 2;
   margin-top: var(--space-xs);
@@ -686,7 +686,7 @@ section[role="tabpanel"] {
 
 .answer > span {
   color: var(--fg);
-  background: var(--bg);
+  background-color: var(--bg);
   padding: var(--space-xs);
   border-radius: var(--space-xs);
   height: 2rem;
