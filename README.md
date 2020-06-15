@@ -4,6 +4,12 @@ A questionnaire engine coursework project for the Web Programming module (2019-2
 
 For development and testing, the application was run on the University of Portsmouth's [Virtual Machine Service](https://uop-1-server-per-student-prod.appspot.com/instance/get).
 
+## Requirements
+
+[Node.js](https://nodejs.org/en/) is required for the application to install its dependencies in [package.json](package.json) and run its server setup, defined in [app.js](app.js).
+
+The application does provide some fallbacks for certain features to provide as much support as possible, although it is recommended that you use a modern browser, such as Chrome or Firefox.
+
 ## Directory Structure
 
 The application consists of the following directories:
@@ -14,6 +20,8 @@ The application consists of the following directories:
   * [questionnaires/](server/questionnaires/) – contains user-provided questionnaire files
   * [routes/](server/routes/) – contains endpoint definitions for the API and normal browser use
 * [tests/](tests/) – contains automated test cases
+
+Where it was logical to do so, code has been modularised (split into separate files) to group related functionality together and improve overall maintainability.
 
 ## Set-up
 
@@ -75,7 +83,7 @@ Authors can:
 * delete questionnaires
 * view responses
 * download responses
-* delete responses (together or individually)
+* delete responses (all at once or individually)
 * access basic guidance on how to do the above
 
 Participants can:
@@ -102,7 +110,9 @@ Authors can add questionnaires via an upload on the [index.html](public/index.ht
 * dragging and dropping the file(s) into the upload dialog
 * selecting the file(s) on their device, using the file input and upload button
 
-At minimum, a questionnaire file should include a `name` with which to identify it.
+At minimum, it is recommended that questionnaire files include a `name` with which to identify them. However, if this is omitted, they will simply be referred to as 'Untitled Questionnaire'.
+
+If a questionnaire file's `questions` array is omitted or left empty, the questionnaire cannot be taken.
 
 ##### Questions Types
 
@@ -215,6 +225,8 @@ The application supports the following structured file formats:
 * JSON (`.json`)
 * TSV (`.tsv`)
 
+The default file format is JSON (`.json`). To change the file format, authors can simply expand the *Download Options* dropdown and select their desired option.
+
 #### Deleting Responses
 
 On the [review.html](public/review.html) page, authors can delete responses they do not wish to keep. They can delete all responses at once by clicking the *Delete Responses* button, or an individual response by clicking its respective *Delete* button on the individual view.
@@ -260,7 +272,7 @@ When viewed via the client files, additional success, error, and warning message
 
 ### Web Routes
 
-The following routes may be accessed directly in the browser e.g. `http://q-engine.com/`.
+The following routes may be accessed directly in the browser e.g. at `http://q-engine.com/`.
 
 | Path        | Page                              | Purpose                                                                      |
 |-------------|-----------------------------------|------------------------------------------------------------------------------|
@@ -268,7 +280,7 @@ The following routes may be accessed directly in the browser e.g. `http://q-engi
 | /take/:id   | [take.html](public/js/take.js)    | Display, and records responses for, a given questionnaire.                   |
 | /review/:id | [review.html](public/review.html) | Display details and responses for a given questionnaire to support analysis. |
 
-The parameter used in some routes, `:id`, represents *questionnaire* short IDs. This allows for more readable URLs, as opposed to using query strings e.g. `http://q-engine.com/take?id=xxx`.
+The parameter used in some routes, `:id`, represents *questionnaire* short IDs. This allows for more readable URLs, as opposed to using query strings e.g. `http://q-engine.com/take?id=xxx`, `http://q-engine.com/review?id=xxx`.
 
 ### Static Files
 
