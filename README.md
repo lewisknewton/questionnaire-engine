@@ -319,11 +319,17 @@ The UI adapts to the user's preferences by:
 * showing all or limited animations, depending on their `prefers-reduced-motion` feature
 * showing a *light* or *dark* colour scheme, depending on their `prefers-color-scheme` feature
 
+### Responsive Design
+
+The application has been designed to run on a variety of devices, including mobiles, tablets, and desktops. This is achieved via media queries to change the positioning and appearance of elements to suit different screen resolutions, as well as using default controls where possible (e.g. native sharing, as described in [Sharing Questionnaires](#sharing-questionnaires)).
+
 ## Security
 
 To avoid exposing their primary keys, short IDs are assigned to questionnaires and responses for sharing and review. These short IDs were not used as primary keys themselves, since they could be regenerated if desired.
 
 Paths to questionnaire files are also hidden to avoid hinting at the server's contents to users on the client-side.
+
+At present, there is no authentication available. In the future, it would be useful to limit the visibility of private questionnaires only to their authors.
 
 ## Linting
 
