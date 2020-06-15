@@ -8,6 +8,7 @@ import { initialiseShareElements, shareQuestionnaire } from './modules/browser-s
 const main = document.querySelector('main');
 const mainHeading = main.querySelector('h1');
 const loading = document.querySelector('#loading');
+const requiredMsg = document.querySelector('header p');
 
 const qnSection = document.querySelector('#questions');
 const submitBtn = document.querySelector('#submit');
@@ -277,7 +278,7 @@ function displayQuestionnaire() {
 
   setPageTitle(qnr.name);
   mainHeading.textContent = qnr.name;
-  for (const el of [qnSection, submitBtn]) el.classList.remove('hidden');
+  for (const el of [qnSection, requiredMsg, submitBtn]) el.classList.remove('hidden');
 
   // Display question blocks
   for (const qn of qns) {
