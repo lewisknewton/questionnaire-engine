@@ -128,7 +128,6 @@ section[role="tabpanel"] {
   background-color: var(--secondary-alt);
   white-space: pre-wrap;
   grid-column-start: span 2;
-  margin-top: var(--space-xs);
   position: relative;
 }
 
@@ -148,12 +147,14 @@ section[role="tabpanel"] {
   transform: translateY(-50%);
 }
 
-.question > p {
-  margin-bottom: var(--space-xs);
+.question {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
 }
 
-.question > span + p {
-  margin-top: var(--space-s);
+.question > .answer {
+  margin-bottom: var(--space-xs);
 }
 
 @media only screen and (min-width: 700px) {

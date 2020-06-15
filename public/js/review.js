@@ -177,25 +177,24 @@ function displayAggregated() {
     const existing = {};
 
     let qnEl = aggregatedPanel.querySelector(`article.question#${qn.id}`);
-    let qnCount;
     let qnAnswers;
     let qnAnswersContents = [];
 
     // Define and display question details
     if (qnEl != null) {
-      qnCount = qnEl.querySelector('b ~ span');
       qnAnswers = qnEl.querySelectorAll('.answer');
       qnAnswersContents = [...qnAnswers].map(el => getImmediateTextContent(el));
     } else {
       qnEl = qnTemplate.content.cloneNode(true).querySelector(':nth-child(1)');
       const qnHeading = qnEl.querySelector('h4');
-      qnCount = qnEl.querySelector('b ~ span');
 
       qnEl.setAttribute('id', qn.id);
       qnHeading.textContent = `${qn.text} (${qn.id})`;
 
       aggregatedPanel.append(qnEl);
     }
+
+    const qnCount = qnEl.querySelector('.count');
 
     if (qnCount.textContent !== related.length) {
       qnCount.textContent = related.length;
@@ -213,8 +212,30 @@ function displayAggregated() {
       existing[answer.content] = (existing[answer.content] || 0) + 1;
     }
 
+    let correctCount = qnEl.querySelector('.correct-count');
+
+    // Show percentage of correct answers for scored questions
+    if (qn.answer) {
+      const correct = existing[qn.answer] || 0;
+      const percentage = (correct / related.length * 100).toFixed(2);
+
+      if (correctCount == null) {
+        const correctContainer = document.createElement('p');
+        const correctLabel = document.createElement('b');
+        correctCount = document.createElement('span');
+
+        correctLabel.textContent = 'Correct answers: ';
+        correctCount.classList.add('correct-count');
+
+        correctContainer.append(correctLabel, correctCount);
+        qnEl.append(correctContainer);
+      }
+
+      correctCount.textContent = `${correct}/${related.length} (${percentage}%)`;
+    }
+
     for (const answer in existing) {
-      const count = existing[answer];
+      const answerCount = existing[answer];
       let countEl;
       let qnAnswer;
 
@@ -223,7 +244,7 @@ function displayAggregated() {
         qnAnswer = qnAnswers[qnAnswersContents.indexOf(answer)];
         countEl = qnAnswer.querySelector('span');
 
-        if (countEl != null && count === 1) countEl.remove();
+        if (countEl != null && answerCount === 1) countEl.remove();
       } else {
         qnAnswer = document.createElement('p');
         qnAnswer.classList.add('answer');
@@ -232,12 +253,12 @@ function displayAggregated() {
 
       if (!qnAnswersContents.includes(answer) || countEl == null) {
         countEl = document.createElement('span');
-        setAttributes(countEl, ['aria-label', 'title'], `Answered by ${count} participants`);
+        setAttributes(countEl, ['aria-label', 'title'], `Answered by ${answerCount} participants`);
 
-        if (count > 1) qnAnswer.append(countEl);
+        if (answerCount > 1) qnAnswer.append(countEl);
       }
 
-      countEl.textContent = count;
+      countEl.textContent = answerCount;
       qnEl.append(qnAnswer);
     }
 
