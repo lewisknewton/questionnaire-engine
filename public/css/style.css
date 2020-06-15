@@ -265,6 +265,7 @@ dialog.fallback {
   left: 50%;
   transform: translate(-50%, -50%);
   max-width: var(--main-w);
+  box-shadow: 0 0 3rem var(--dark);
 }
 
 dialog.fallback {
