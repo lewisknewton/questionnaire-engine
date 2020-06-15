@@ -70,6 +70,7 @@ Common UI Styles
   border: var(--medium) solid var(--primary);
 }
 
+/* Desktop and tablet styles */
 @media only screen and (min-width: 700px) {
   .error,
   .warning,

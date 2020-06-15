@@ -192,6 +192,7 @@ section[role="tabpanel"] {
   width: max-content;
 }
 
+/* Desktop and tablet styles */
 @media only screen and (min-width: 700px) {
   #actions {
     grid-template-areas:
