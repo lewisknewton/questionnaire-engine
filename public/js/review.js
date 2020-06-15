@@ -3,12 +3,26 @@
 import { getImmediateTextContent, getQuestionnaireId, isFilled } from './modules/browser-common.js';
 import { handleTabEvents, hideElement, setAttributes, setCommonAttributes } from './modules/browser-ui.js';
 import { displayStatus, getFormattedDate, setPageTitle } from './modules/browser-status.js';
+import { closeDialog, handleDialogSupport, openDialog } from './modules/browser-dialog.js';
 
 const main = document.querySelector('main');
 const title = main.querySelector('h1');
 const loading = document.querySelector('#loading');
 const downloadBtn = document.querySelector('#download');
-const deleteAllBtn = document.querySelector('#delete-all');
+
+// Deletion elements
+const deleteAllDialog = document.querySelector('#delete-all');
+const deleteAllCloseBtn = document.querySelector('#delete-all-close');
+const deleteAllCancelBtn = document.querySelector('#delete-all-cancel');
+const deleteAllConfirmBtn = document.querySelector('#delete-all-confirm');
+
+const deleteSingleDialog = document.querySelector('#delete-single');
+const deleteSingleCloseBtn = document.querySelector('#delete-single-close');
+const deleteSingleCancelBtn = document.querySelector('#delete-single-cancel');
+const deleteSingleConfirmBtn = document.querySelector('#delete-single-confirm');
+
+const deleteAllBtn = document.querySelector('#delete-all-btn');
+let _singleRemove;
 
 const responsesList = document.querySelector('#responses');
 const aggregatedPanel = document.querySelector('#aggregated-panel');
@@ -95,6 +109,9 @@ function handleIndexInput(evt) {
 function displayResponse(index) {
   resetShownResponse();
 
+  // Stop other responses being deleted when clicking the confirm button
+  deleteSingleConfirmBtn.removeEventListener('click', _singleRemove);
+
   // Keep number input up-to-date
   shownResponse.value = index + 1;
 
@@ -116,7 +133,12 @@ function displayResponse(index) {
     idEl.textContent = `${response.id}`;
     submittedEl.textContent = submitted;
     submittedEl.setAttribute('datetime', submitted);
-    deleteBtn.addEventListener('click', () => removeResponse(response.id));
+
+    // Set function for deleting the current response
+    _singleRemove = () => removeResponse(response.id);
+
+    deleteBtn.addEventListener('click', () => openDialog(deleteSingleDialog));
+    deleteSingleConfirmBtn.addEventListener('click', _singleRemove);
 
     // Add answers
     for (const answer of answers) {
@@ -440,6 +462,8 @@ async function removeResponses() {
   const opts = { method: 'DELETE' };
   const res = await fetch(`/api/questionnaires/${qnrId}/responses`, opts);
 
+  closeDialog(deleteAllDialog);
+
   let status;
 
   if (res.ok) {
@@ -467,18 +491,16 @@ async function removeResponse(id) {
   const opts = { method: 'DELETE' };
   const res = await fetch(`/api/questionnaires/${qnrId}/responses/${id}`, opts);
 
+  closeDialog(deleteSingleDialog);
+
   let status;
 
   if (res.ok) {
-    loadResponses();
+    await loadResponses();
 
+    // Show the previous available response, or the first if only one exists
     const newIndex = shownResponse.value > 1 ? shownResponse.value - 1 : 1;
-
-    if (newIndex === 1 && responses.length === 1) {
-      resetShownResponse();
-    } else {
-      displayResponse(newIndex - 1);
-    }
+    displayResponse(newIndex - 1);
 
     const msg = `The response of ID '${id}' was deleted successfully.`;
     status = 'success';
@@ -492,6 +514,26 @@ async function removeResponse(id) {
   }
 
   setTimeout(() => hideElement(document.querySelector(`.${status}`), true), 5000);
+}
+
+/**
+ * Prepares the delete dialogs and their related elements for
+ * handling response deletions.
+ */
+function initialiseDeletionElements() {
+  for (const el of [deleteAllDialog, deleteSingleDialog]) handleDialogSupport(el);
+
+  for (const el of [deleteAllCloseBtn, deleteAllCancelBtn]) {
+    el.addEventListener('click', () => closeDialog(deleteAllDialog));
+  }
+
+  deleteAllConfirmBtn.addEventListener('click', removeResponses);
+
+  for (const el of [deleteSingleCloseBtn, deleteSingleCancelBtn]) {
+    el.addEventListener('click', () => closeDialog(deleteSingleDialog));
+  }
+
+  deleteAllBtn.addEventListener('click', () => openDialog(deleteAllDialog));
 }
 
 /**
@@ -576,7 +618,7 @@ function init() {
   handleTabEvents();
   handleIndividualResponsesEvents();
 
-  deleteAllBtn.addEventListener('click', () => removeResponses());
+  initialiseDeletionElements();
 }
 
 window.addEventListener('load', init);

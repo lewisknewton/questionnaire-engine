@@ -50,7 +50,7 @@
       </details>
 
       <button id="download">Download Responses</button>
-      <button id="delete-all" class="delete">Delete Responses</button>
+      <button id="delete-all-btn" class="delete">Delete Responses</button>
     </section>
 
     <div role="tablist" aria-label="Response Views Tabs">
@@ -92,6 +92,31 @@
 
   <a href="/">Go Home</a>
 </main>
+
+<!-- Delete Dialogs -->
+<dialog id="delete-all" class="card" aria-labelledby="delete-title" aria-describedby="delete-all-text">
+  <header>
+    <h4 id="delete-all-title">Delete All Responses</h4>
+    <button id="delete-all-close" class="close">Close</button>
+  </header>
+
+  <p id="delete-all-text">This will delete all responses for this questionnaire. Once these responses have been deleted, they cannot be recovered. Are you sure?</p>
+
+  <button id="delete-all-cancel">Cancel Deletion</button>
+  <input type="submit" name="delete-all-confirm" id="delete-all-confirm" class="delete" value="Confirm Deletion">
+</dialog>
+
+<dialog id="delete-single" class="card" aria-labelledby="delete-title" aria-describedby="delete-single-text">
+  <header>
+    <h4 id="delete-single-title">Delete Response</h4>
+    <button id="delete-single-close" class="close">Close</button>
+  </header>
+
+  <p id="delete-single-text">This will delete the response. Once this response is has been deleted, it cannot be recovered. Are you sure?</p>
+
+  <button id="delete-single-cancel">Cancel Deletion</button>
+  <input type="submit" name="delete-single-confirm" id="delete-single-confirm" class="delete" value="Confirm Deletion">
+</dialog>
 
 <!-- Status messages -->
 <template id="error-message">

@@ -142,7 +142,7 @@ input[type="submit"] {
 
 input[type="submit"],
 button {
-  border: var(--border);
+  border: none;
   padding: var(--space-s);
 }
 
@@ -153,7 +153,6 @@ button.primary {
 }
 
 button {
-  border: none;
   background-color: var(--secondary);
   color: var(--bg);
 }
@@ -162,20 +161,24 @@ button:hover {
   background-color: var(--secondary-alt);
 }
 
-button.delete {
+button.delete,
+input[type="submit"].delete {
   background-color: var(--danger);
   color: var(--dark);
 }
 
-button.delete::before {
+button.delete::before,
+input[type="submit"].delete::before {
   background-image: url("../img/minus-circle.svg");
 }
 
-button.delete:hover {
+button.delete:hover,
+input[type="submit"].delete:hover {
   background-color: var(--danger-alt);
 }
 
-button.primary:hover {
+button.primary:hover,
+input[type="submit"].primary:hover {
   background-color: var(--primary-alt);
 }
 
