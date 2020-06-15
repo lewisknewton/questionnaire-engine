@@ -5,6 +5,7 @@
 
 <link href="https://fonts.googleapis.com/css?family=Inter:400,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/ui.css">
 <link rel="stylesheet" href="/css/help.css">
 <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/img/favicon.png" type="image/png">
@@ -15,7 +16,7 @@
     <h1>Help</h1>
   </header>
 
-  <section id="help">
+  <section id="questionnaires-help">
     <h2>Questionnaires</h2>
 
     <p>The application uses JSON files to define the details and structures of questionnaires. This section details how
@@ -99,6 +100,11 @@
         </tbody>
       </table>
     </div>
+
+    <p>At minimum, it is recommended that questionnaire files include a <code>name</code> property with which to
+      identify them. However, if this is omitted, they will simply be referred to as 'Untitled Questionnaire'.</p>
+
+    <p>If the <code>questions</code> array is omitted or left empty, the questionnaire cannot be taken.</p>
 
     <h3>Questions</h3>
 
@@ -191,7 +197,8 @@
       <code>options</code> property is required for <i>likert scale</i>, <i>multi-select</i>, and <i>single-select</i>
       questions.</p>
 
-    <p>To make scored questions, such as for quizzes, use the <code>answer</code> property. The question be scored and
+    <p>To make scored questions, such as for quizzes, use the <code>answer</code> property. The question will be scored
+      and
       will default have 1 point available for participants to gain. To optionally assign a different number of available
       points, use the <code>points</code> property.</p>
 
@@ -357,6 +364,84 @@
       <li>dragging and dropping the file(s) into the upload dialog</li>
       <li>selecting the file(s) on your device, using the file input and upload button</li>
     </ul>
+
+    <h3>Deleting Questionnaires</h3>
+
+    <p>You can delete your questionnaires by clicking their respective <i>Delete</i> button shown on the <a
+        href="/">home
+        page</a>.</p>
+
+    <p class="warning">
+      Please note that questionnaires cannot be recovered once they have been deleted. It is recommended that you
+      back up your questionnaire files in case you need to revert back to them.
+    </p>
+
+    <h3>Sharing Questionnaires</h3>
+
+    <p>You can share links to your questionnaires to recruit participants and gather responses. To share a
+      questionnaire, simply click its respective <i>Share</i> button on the <a href="/">home
+        page</a>.</p>
+
+    <p>When sharing, you may see one of two dialogs depending on your browser and device:</p>
+
+    <ul>
+      <li>native sharing dialog (typically on mobiles)</li>
+      <li>default sharing dialog</li>
+    </ul>
+
+    <p>Both will allow you to copy a link to your questionnaire, although the former may give you other options such as
+      sending via email or through a messaging application (but this is device-specific).</p>
+
+    <p>Participants can also share your questionnaires after taking them, making it even easier to gather more
+      responses.</p>
+  </section>
+
+  <section id="responses-help">
+    <h2>Responses</h2>
+
+    <p>When a participant takes one of your questionnaires, their answers are collated to form a response for that
+      questionnaire. This response is stored, and you can then view the response.</p>
+
+    <p>To view a response, go to /review/<i>ID</i>, where <i>ID</i> is the short ID of the questionnaire for which you
+      want to view responses.</p>
+
+    <p>Alternatively, you can click on the <i>Review</i> link of your questionnaires on the <a href="/">home page</a>
+    </p>
+
+    <h3>Viewing Responses</h3>
+
+    <p>When on the review page, you will be able to view the responses recorded for your questionnaire via two tab
+      pabels:</p>
+
+    <ul>
+      <li>The <i>Aggregrated</i> view, showing a summary of all responses by question</li>
+      <li>The <i>Individual</i> view, showing responses one-by-one</li>
+    </ul>
+
+    <h3>Downloading Responses</h3>
+
+    <p>When on the review page, you will be able to download responses by clicking the <i>Download Responses</i> button.
+      At present, the following structured file formats are available:</p>
+
+    <ul>
+      <li>CSV (.csv)</li>
+      <li>JSON (.json)</li>
+      <li>TSV (.tsv)</li>
+    </ul>
+
+    <p>The default file format is JSON. To change the file format, simply expand the <i>Download Options</i> dropdown
+      and click your desired option.</p>
+
+    <h3>Deleting Responses</h3>
+
+    <p>When on the review page, you can delete responses for your questionnaire that you do not wish to keep. You can
+      delete all responses at once by clicking the <i>Delete Responses</i> button, or individually by clicking their
+      respective <i>Delete</i> buttons on the individual view.</p>
+
+    <p class="warning">
+      Please note that responses cannot be recovered once they have been deleted. It is recommended that you
+      back up your responses in case you need to access them again.
+    </p>
   </section>
 
   <a href="/">Go Home</a>
