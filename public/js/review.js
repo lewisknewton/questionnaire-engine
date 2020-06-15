@@ -364,7 +364,21 @@ function convertToSeparatedValues(sep) {
           row += sep;
           break;
         } else {
-          row += `${Array.isArray(answer.content) ? answer.content.join('; ') : answer.content || ''}${sep}`;
+          let toInsert = answer.content;
+          const sepReplace = new RegExp(sep, 'g');
+
+          if (answer.content == null) {
+            toInsert = '';
+          } else {
+            if (Array.isArray(answer.content)) {
+              toInsert = toInsert.join('; ');
+            }
+
+            toInsert = toInsert.replace(sepReplace, ';');
+            toInsert = toInsert.replace(/\r?\n|\r/g, '\\n');
+          }
+
+          row += `${toInsert}${sep}`;
         }
       }
     }
@@ -388,6 +402,7 @@ function convertResponses(format) {
     type = 'text/csv';
   } else if (format === 'json') {
     data = JSON.stringify(responses);
+    console.log(data);
     type = 'application/json';
   } else if (format === 'tsv') {
     data = convertToSeparatedValues('\t');
