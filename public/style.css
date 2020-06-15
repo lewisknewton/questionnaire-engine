@@ -301,6 +301,9 @@ button.delete::before,
   display: inline-block;
   background-size: cover;
   background-repeat: no-repeat;
+  bottom: 0.1rem;
+  vertical-align: middle;
+  position: relative;
 }
 
 textarea {
@@ -418,7 +421,6 @@ details {
 
 #share-copy {
   grid-area: share-copy;
-  width: max-content;
 }
 
 #upload[open],
@@ -829,5 +831,9 @@ section[role="tabpanel"] {
       "share-text share-text"
       "share-output share-output"
       "share-link share-copy";
+  }
+
+  #share-copy {
+    width: max-content;
   }
 }
