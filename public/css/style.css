@@ -1,0 +1,357 @@
+/*
+Core Styles (Shared Across Pages)
+====================
+*/
+
+* {
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #f0f0f0;
+  --fg: black;
+  --card: white;
+  --input: var(--card);
+  --accent: #acacac;
+  --primary: #00a6ff;
+  --primary-alt: #1f87ff;
+  --primary-shade: #0086ce;
+  --secondary: #4f4f4f;
+  --secondary-alt: #303030;
+  --light: #fff;
+  --dark: #000;
+  --shade: #ebebeb;
+  --shadow: 0 1rem 1rem var(--shade);
+  --danger: #f7695f;
+  --danger-alt: #f5312e;
+  --warning: #fa8728;
+  --safe: #48ad88;
+  --link: #0056b3;
+  --link-active: #ff1f44;
+  --link-visited: #7828c8;
+  --main-w: 95%;
+  --space-xs: 0.5rem;
+  --space-s: 1rem;
+  --space-m: 1.25rem;
+  --space-l: 1.5rem;
+  --thin: 0.05rem;
+  --medium: 0.1rem;
+  --border: var(--thin) solid var(--accent);
+  --button-shadow: inset 0 0.5rem 0.5rem rgb(0, 0, 0, 0.2);
+}
+
+/* Base element styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-size: 100%;
+  line-height: 1.5;
+  color: var(--fg);
+  background-color: var(--bg);
+}
+
+a {
+  color: var(--link);
+}
+
+a:active {
+  color: var(--link-active);
+}
+
+a:visited {
+  color: var(--link-visited);
+}
+
+h1,
+h2,
+h3 {
+  margin-bottom: var(--space-m);
+}
+
+h4 {
+  margin-bottom: var(--space-xs);
+  border-bottom: var(--border);
+}
+
+p,
+span,
+ul {
+  margin-bottom: var(--space-s);
+}
+
+ul {
+  padding-left: var(--space-l);
+}
+
+main {
+  width: var(--main-w);
+  margin: var(--space-l) auto;
+}
+
+.close {
+  padding: var(--space-xs);
+  border-radius: var(--space-xs);
+}
+
+.card {
+  padding: var(--space-s) var(--space-s) var(--space-s);
+  border: var(--border);
+  border-radius: var(--space-xs);
+  margin-bottom: var(--space-l);
+  background-color: var(--card);
+  box-shadow: var(--shadow);
+}
+
+/* Input styles */
+input[type="number"],
+input[type="text"] {
+  padding: var(--space-xs);
+}
+
+input[type="number"],
+input[type="text"],
+textarea {
+  color: inherit;
+  border: var(--border);
+  background-color: var(--input);
+}
+
+input[type="number"]::placeholder,
+input[type="text"]::placeholder,
+textarea::placeholder {
+  color: var(--accent);
+}
+
+input[type="number"],
+input[type="text"],
+input[type="submit"],
+textarea,
+button {
+  font-size: inherit;
+  border-radius: var(--space-xs);
+}
+
+input[type="submit"] {
+  width: 100%;
+}
+
+input[type="submit"],
+button {
+  border: var(--border);
+  padding: var(--space-s);
+}
+
+input[type="submit"],
+button.primary {
+  background-color: var(--primary);
+  color: var(--dark);
+}
+
+button {
+  border: none;
+  background-color: var(--secondary);
+  color: var(--bg);
+}
+
+button:hover {
+  background-color: var(--secondary-alt);
+}
+
+button.delete {
+  background-color: var(--danger);
+  color: var(--dark);
+}
+
+button.delete::before {
+  background-image: url("../img/minus-circle.svg");
+}
+
+button.delete:hover {
+  background-color: var(--danger-alt);
+}
+
+button.primary:hover {
+  background-color: var(--primary-alt);
+}
+
+button:active {
+  box-shadow: var(--button-shadow);
+  transform: translateY(0.05rem);
+}
+
+button:disabled {
+  opacity: 50%;
+  cursor: not-allowed;
+}
+
+#add::before {
+  background-image: url("../img/upload.svg");
+}
+
+#download::before {
+  background-image: url("../img/download.svg");
+}
+
+.share::before {
+  background-image: url("../img/share.svg");
+}
+
+button.delete::before,
+#add::before,
+#download::before,
+.share::before {
+  content: "";
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+  display: inline-block;
+  background-size: cover;
+  background-repeat: no-repeat;
+  bottom: 0.1rem;
+  vertical-align: middle;
+  position: relative;
+}
+
+textarea {
+  width: 100%;
+  max-width: 100%;
+  resize: vertical;
+  padding: var(--space-s);
+}
+
+legend {
+  padding: 0 var(--space-xs) 0 var(--space-xs);
+}
+
+fieldset {
+  border-radius: var(--space-xs);
+  border: var(--border);
+  padding: var(--space-xs) var(--space-s);
+  margin-bottom: var(--space-xs);
+}
+
+fieldset > label {
+  display: grid;
+  column-gap: var(--space-s);
+  grid-template-columns: auto 1fr;
+  align-items: center;
+}
+
+details {
+  margin-bottom: var(--space-m);
+}
+
+/* Dialog styles */
+dialog[open],
+dialog[aria-hidden="false"],
+dialog.fallback {
+  display: grid;
+  align-items: center;
+  gap: var(--space-xs);
+  color: inherit;
+  position: fixed;
+  height: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: var(--main-w);
+}
+
+dialog.fallback {
+  display: block;
+}
+
+dialog header {
+  display: flex;
+  justify-content: space-between;
+  grid-area: header;
+  margin-bottom: var(--space-xs);
+}
+
+dialog header h4 {
+  border: none;
+}
+
+/* Share dialog styles */
+#share[open],
+#share[aria-hidden="false"],
+#share.fallback {
+  grid-template-areas:
+    "header"
+    "share-text"
+    "share-output"
+    "share-link"
+    "share-copy";
+}
+
+#share-text {
+  grid-area: share-text;
+}
+
+#share-link {
+  resize: none;
+  grid-area: share-link;
+  padding: var(--space-s) var(--space-xs);
+  overflow: hidden;
+  white-space: nowrap;
+  height: min-content;
+}
+
+#share-copy {
+  grid-area: share-copy;
+}
+
+/* Motion styles */
+@media (prefers-reduced-motion) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #323232;
+    --fg: white;
+    --card: #404040;
+    --input: #525252;
+    --accent: #777;
+    --shade: #2e2e2e;
+    --link: #bee1ff;
+    --link-active: #ffc7d2;
+    --link-visited: #e5d1f5;
+    --secondary: #fff;
+    --secondary-alt: #c2c2c2;
+  }
+}
+
+/* Desktop and tablet styles */
+@media only screen and (min-width: 700px) {
+  :root {
+    --main-w: 44em;
+  }
+
+  input[type="submit"] {
+    width: auto;
+  }
+
+  #share[open],
+  #share[aria-hidden="false"],
+  #share.fallback {
+    grid-template-columns: max-content auto;
+    grid-template-areas:
+      "header header"
+      "share-text share-text"
+      "share-output share-output"
+      "share-link share-copy";
+  }
+
+  #share-copy {
+    width: max-content;
+  }
+}

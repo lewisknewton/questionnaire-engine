@@ -1,0 +1,75 @@
+/*
+Help Page Styles
+====================
+*/
+
+table {
+  border: var(--border);
+  border-collapse: collapse;
+}
+
+table ul {
+  margin-bottom: 0;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+th,
+td {
+  padding: var(--space-xs);
+  border: var(--border);
+}
+
+th {
+  background-color: var(--secondary);
+  color: var(--bg);
+}
+
+td {
+  background-color: var(--card);
+}
+
+tr:nth-of-type(even) > td {
+  background-color: var(--shade);
+}
+
+table,
+figure {
+  margin-bottom: var(--space-l);
+}
+
+figcaption {
+  text-align: center;
+}
+
+caption {
+  margin-bottom: var(--space-m);
+}
+
+figcaption,
+caption {
+  font-style: italic;
+}
+
+code {
+  font-family: monospace;
+  padding: 0.2rem 0.4rem;
+  border-radius: var(--space-xs);
+  color: var(--bg);
+  background-color: var(--secondary-alt);
+}
+
+code,
+pre {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+pre > code {
+  padding: var(--space-xs);
+  line-height: 1;
+  padding: 0 var(--space-xs);
+  display: block;
+}

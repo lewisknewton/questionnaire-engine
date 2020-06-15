@@ -1,0 +1,99 @@
+/*
+Home and Summary Styles
+====================
+*/
+
+#questionnaire-list {
+  display: grid;
+}
+
+#add {
+  margin: 0 auto var(--space-m);
+}
+
+#questionnaire-list h2,
+#add,
+.summary {
+  grid-column-start: span 2;
+}
+
+.summary h3 {
+  padding-bottom: var(--space-xs);
+  border-bottom: var(--border);
+}
+
+.summary > footer {
+  display: flex;
+  align-items: center;
+}
+
+.summary > a {
+  justify-self: left;
+}
+
+.summary .review {
+  margin-right: var(--space-l);
+}
+
+.summary a,
+.summary button {
+  width: max-content;
+  margin-top: var(--space-m);
+}
+
+.share {
+  margin-left: auto;
+}
+
+.summary > span {
+  margin-bottom: var(--space-l);
+}
+
+/* Upload area styles */
+#upload[open],
+#upload[aria-hidden="false"],
+#upload.fallback {
+  grid-template-areas:
+    "header"
+    "upload-text"
+    "upload-file"
+    "upload-submit";
+}
+
+#upload-text {
+  grid-area: upload-text;
+}
+
+#upload-file {
+  grid-area: upload-file;
+}
+
+#upload-submit {
+  width: max-content;
+  grid-area: upload-submit;
+}
+
+@media only screen and (min-width: 700px) {
+  #questionnaire-list {
+    grid-template-columns: auto max-content;
+  }
+
+  #questionnaire-list > h2,
+  #add {
+    grid-column: auto;
+  }
+
+  #upload[open],
+  #upload[aria-hidden="false"],
+  #upload.fallback {
+    grid-template-columns: auto auto;
+    grid-template-areas:
+      "header header"
+      "upload-text upload-text"
+      "upload-file upload-submit";
+  }
+
+  #upload-submit {
+    justify-self: right;
+  }
+}
