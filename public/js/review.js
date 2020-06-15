@@ -93,10 +93,7 @@ function handleIndexInput(evt) {
  * Displays a response of the given questionnaire.
  */
 function displayResponse(index) {
-  const existing = individualPanel.querySelector('article.response');
-
-  // Remove any response already shown
-  if (existing != null) existing.remove();
+  resetShownResponse();
 
   // Keep number input up-to-date
   shownResponse.value = index + 1;
@@ -184,6 +181,7 @@ function displayAggregated() {
     let qnAnswers;
     let qnAnswersContents = [];
 
+    // Define and display question details
     if (qnEl != null) {
       qnCount = qnEl.querySelector('b ~ span');
       qnAnswers = qnEl.querySelectorAll('.answer');
@@ -205,6 +203,7 @@ function displayAggregated() {
 
     for (const answer of related) {
       if (qn.type === 'multi-select') {
+        // List multiple answers
         if (Array.isArray(answer.content)) {
           answer.content = answer.content.join(', ');
         }
@@ -219,9 +218,12 @@ function displayAggregated() {
       let countEl;
       let qnAnswer;
 
+      // Define and display answers (with the number of duplicate answers)
       if (qnAnswersContents.includes(answer)) {
         qnAnswer = qnAnswers[qnAnswersContents.indexOf(answer)];
         countEl = qnAnswer.querySelector('span');
+
+        if (countEl != null && count === 1) countEl.remove();
       } else {
         qnAnswer = document.createElement('p');
         qnAnswer.classList.add('answer');
@@ -231,12 +233,19 @@ function displayAggregated() {
       if (!qnAnswersContents.includes(answer) || countEl == null) {
         countEl = document.createElement('span');
         setAttributes(countEl, ['aria-label', 'title'], `Answered by ${count} participants`);
+
+        if (count > 1) qnAnswer.append(countEl);
       }
 
-      qnEl.append(qnAnswer);
-      if (count > 1) qnAnswer.append(countEl);
-
       countEl.textContent = count;
+      qnEl.append(qnAnswer);
+    }
+
+    // Remove answers from deleted responses
+    for (const shownAnswer of qnAnswersContents) {
+      if (!Object.keys(existing).includes(shownAnswer)) {
+        qnAnswers[qnAnswersContents.indexOf(shownAnswer)].remove();
+      }
     }
   }
 }
@@ -387,9 +396,18 @@ function resetResponseElements() {
   const responseBlock = individualPanel.querySelector('.response');
 
   if (isFilled(qnBlocks)) for (const qnBlock of qnBlocks) qnBlock.remove();
-  if (responseBlock != null) {
-    const newIndex = shownResponse.value > 1 ? shownResponse.value - 1 : 1;
-    displayResponse(newIndex - 1);
+  if (responseBlock != null) responseBlock.remove();
+}
+
+/**
+ * Removes the response currently shown in the individual view.
+ */
+function resetShownResponse() {
+  const existing = individualPanel.querySelector('article.response');
+
+  if (existing != null) {
+    existing.setAttribute('data-index', existing.getAttribute('data-index') - 1);
+    existing.remove();
   }
 }
 
@@ -433,7 +451,12 @@ async function removeResponse(id) {
     loadResponses();
 
     const newIndex = shownResponse.value > 1 ? shownResponse.value - 1 : 1;
-    displayResponse(newIndex - 1);
+
+    if (newIndex === 1 && responses.length === 1) {
+      resetShownResponse();
+    } else {
+      displayResponse(newIndex - 1);
+    }
 
     const msg = `The response of ID '${id}' was deleted successfully.`;
     status = 'success';
@@ -494,8 +517,6 @@ async function loadResponses() {
   } else {
     displayStatus(data.error, 'error', title);
   }
-
-  console.log(responses);
 
   // Poll for new responses every 5 seconds
   setTimeout(loadResponses, 5000);
