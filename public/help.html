@@ -14,10 +14,51 @@
 <main>
   <header>
     <h1>Help</h1>
+
+    <p>Jump to:</p>
+
+    <ul>
+      <li>
+        <a href="#questionnaires">Questionnaires</a>
+
+        <ul>
+          <li>
+            <a href="#details">Details</a>
+          </li>
+          <li>
+            <a href="#questions">Questions</a>
+          </li>
+          <li>
+            <a href="#adding-questionnaires">Adding Questionnaires</a>
+          </li>
+          <li>
+            <a href="#sharing-questionnaires">Sharing Questionnaires</a>
+          </li>
+          <li>
+            <a href="#deleting-questionnaires">Deleting Questionnaires</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#responses">Responses</a>
+
+        <ul>
+          <li>
+            <a href="#viewing-responses">Viewing Responses</a>
+          </li>
+          <li>
+            <a href="#downloading-responses">Downloading Responses</a>
+          </li>
+          <li>
+            <a href="#deleting-responses">Deleting Responses</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
   </header>
 
   <section id="questionnaires-help">
-    <h2>Questionnaires</h2>
+    <h2 id="questionnaires">Questionnaires</h2>
 
     <p>The application uses JSON files to define the details and structures of questionnaires. This section details how
       you can write your own questionnaire files for participants to take.</p>
@@ -61,7 +102,7 @@
     <p>There are also additional properties and values that are not kept in the files themselves, but instead
       automatically generated for you.</p>
 
-    <h3>Details</h3>
+    <h3 id="details">Details</h3>
 
     <p>The application currently supports the following details:</p>
 
@@ -106,7 +147,7 @@
 
     <p>If the <code>questions</code> array is omitted or left empty, the questionnaire cannot be taken.</p>
 
-    <h3>Questions</h3>
+    <h3 id="questions">Questions</h3>
 
     <p>The application currently supports the following question types:</p>
 
@@ -355,7 +396,7 @@
       </pre>
     </figure>
 
-    <h3>Adding Questionnaires</h3>
+    <h3 id="adding-questionnaires">Adding Questionnaires</h3>
 
     <p>To add a questionnaire, click the <i>Add Questionnaire</i> button on the <a href="/">home page</a>. This will
       open an upload dialog. You can then upload your questionnaire file(s) by either:</p>
@@ -365,18 +406,7 @@
       <li>selecting the file(s) on your device, using the file input and upload button</li>
     </ul>
 
-    <h3>Deleting Questionnaires</h3>
-
-    <p>You can delete your questionnaires by clicking their respective <i>Delete</i> button shown on the <a
-        href="/">home
-        page</a>.</p>
-
-    <p class="warning">
-      Please note that questionnaires cannot be recovered once they have been deleted. It is recommended that you
-      back up your questionnaire files in case you need to revert back to them.
-    </p>
-
-    <h3>Sharing Questionnaires</h3>
+    <h3 id="sharing-questionnaires">Sharing Questionnaires</h3>
 
     <p>You can share links to your questionnaires to recruit participants and gather responses. To share a
       questionnaire, simply click its respective <i>Share</i> button on the <a href="/">home
@@ -394,10 +424,21 @@
 
     <p>Participants can also share your questionnaires after taking them, making it even easier to gather more
       responses.</p>
+
+    <h3 id="deleting-questionnaires">Deleting Questionnaires</h3>
+
+    <p>You can delete your questionnaires by clicking their respective <i>Delete</i> button shown on the <a
+        href="/">home
+        page</a>.</p>
+
+    <p class="warning">
+      Please note that questionnaires cannot be recovered once they have been deleted. It is recommended that you
+      back up your questionnaire files in case you need to revert back to them.
+    </p>
   </section>
 
   <section id="responses-help">
-    <h2>Responses</h2>
+    <h2 id="responses">Responses</h2>
 
     <p>When a participant takes one of your questionnaires, their answers are collated to form a response for that
       questionnaire. This response is stored, and you can then view the response.</p>
@@ -408,7 +449,7 @@
     <p>Alternatively, you can click on the <i>Review</i> link of your questionnaires on the <a href="/">home page</a>
     </p>
 
-    <h3>Viewing Responses</h3>
+    <h3 id="viewing-responses">Viewing Responses</h3>
 
     <p>When on the review page, you will be able to view the responses recorded for your questionnaire via two tab
       pabels:</p>
@@ -418,7 +459,7 @@
       <li>The <i>Individual</i> view, showing responses one-by-one</li>
     </ul>
 
-    <h3>Downloading Responses</h3>
+    <h3 id="downloading-responses">Downloading Responses</h3>
 
     <p>When on the review page, you will be able to download responses by clicking the <i>Download Responses</i> button.
       At present, the following structured file formats are available:</p>
@@ -432,7 +473,7 @@
     <p>The default file format is JSON. To change the file format, simply expand the <i>Download Options</i> dropdown
       and click your desired option.</p>
 
-    <h3>Deleting Responses</h3>
+    <h3 id="deleting-responses">Deleting Responses</h3>
 
     <p>When on the review page, you can delete responses for your questionnaire that you do not wish to keep. You can
       delete all responses at once by clicking the <i>Delete Responses</i> button, or individually by clicking their
