@@ -24,33 +24,6 @@
     <p id="loading">Loading questionnaires &hellip;</p>
   </section>
 
-  <dialog id="upload" class="card" aria-labelledby="upload-title" aria-describedby="upload-text">
-    <header>
-      <h4 id="upload-title">Add Questionnaires</h4>
-      <button id="upload-close" class="close">Close</button>
-    </header>
-
-    <p id="upload-text">Upload one or more questionnaire files, either by dragging and dropping into this area or
-      using the file selector below.</p>
-
-    <input type="file" accept="application/json, .json" multiple name="upload-file" id="upload-file" required>
-    <input type="submit" name="upload-submit" id="upload-submit" value="Upload">
-  </dialog>
-
-  <dialog id="share" class="card" aria-labelledby="share-title" aria-describedby="share-text">
-    <header>
-      <h4 id="share-title">Share</h4>
-      <button id="share-close" class="close">Close</button>
-    </header>
-
-    <p id="share-text">Share questionnaire text</p>
-
-    <textarea id="share-link" rows="1" readonly aria-labelledby="share-text">URL</textarea>
-    <button id="share-copy" class="primary">Copy Link</button>
-
-    <output id="share-output" aria-live="polite"></output>
-  </dialog>
-
   <a href="/help">Help</a>
 </main>
 
@@ -68,6 +41,49 @@
     </footer>
   </article>
 </template>
+
+<!-- Upload dialog -->
+<dialog id="upload" class="card" aria-labelledby="upload-title" aria-describedby="upload-text">
+  <header>
+    <h4 id="upload-title">Add Questionnaires</h4>
+    <button id="upload-close" class="close">Close</button>
+  </header>
+
+  <p id="upload-text">Upload one or more questionnaire files, either by dragging and dropping into this area or
+    using the file selector below.</p>
+
+  <input type="file" accept="application/json, .json" multiple name="upload-file" id="upload-file" required>
+  <input type="submit" name="upload-submit" id="upload-submit" value="Upload">
+</dialog>
+
+<!-- Share dialog -->
+<dialog id="share" class="card" aria-labelledby="share-title" aria-describedby="share-text">
+  <header>
+    <h4 id="share-title">Share</h4>
+    <button id="share-close" class="close">Close</button>
+  </header>
+
+  <p id="share-text">Share questionnaire text</p>
+
+  <textarea id="share-link" rows="1" readonly aria-labelledby="share-text">URL</textarea>
+  <button id="share-copy" class="primary">Copy Link</button>
+
+  <output id="share-output" aria-live="polite"></output>
+</dialog>
+
+<!-- Delete dialog -->
+<dialog id="delete-qnr" class="card" aria-labelledby="delete-title" aria-describedby="delete-qnr-text">
+  <header>
+    <h4 id="delete-qnr-title">Delete Questionnaire</h4>
+    <button id="delete-qnr-close" class="close">Close</button>
+  </header>
+
+  <p id="delete-qnr-text">This will delete the questionnaire. Once this questionnaire has been deleted, it cannot be
+    recovered. Are you sure?</p>
+
+  <button id="delete-qnr-cancel">Cancel Deletion</button>
+  <input type="submit" name="delete-qnr-confirm" id="delete-qnr-confirm" class="delete" value="Confirm Deletion">
+</dialog>
 
 <!-- Status messages -->
 <template id="error-message">

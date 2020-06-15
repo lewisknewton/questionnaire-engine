@@ -11,12 +11,22 @@ const header = document.querySelector('header');
 const questionnaireList = document.querySelector('#questionnaire-list');
 const questionnaireSummary = document.querySelector('#questionnaire-summary');
 
+// Deletion elements
+const deleteDialog = document.querySelector('#delete-qnr');
+const deleteCloseBtn = document.querySelector('#delete-qnr-close');
+const deleteCancelBtn = document.querySelector('#delete-qnr-cancel');
+const deleteConfirmBtn = document.querySelector('#delete-qnr-confirm');
+
+let toDelete;
+
+// Upload elements
 const uploadBtn = document.querySelector('#add');
 const uploadCloseBtn = document.querySelector('#upload-close');
 const uploadArea = document.querySelector('#upload');
 const uploadInput = document.querySelector('#upload-file');
 const uploadSubmitBtn = document.querySelector('#upload-submit');
 
+// Share elements
 const share = document.querySelector('#share');
 const shareCloseBtn = document.querySelector('#share-close');
 const shareCopyBtn = document.querySelector('#share-copy');
@@ -64,9 +74,12 @@ function displayQuestionnaires(qnrs) {
       count.textContent = `Questions: ${qnr.questions ? qnr.questions.length : 0}`;
 
       reviewLink.setAttribute('href', `review/${qnr.id}`);
-
-      deleteBtn.addEventListener('click', () => removeQuestionnaire(qnr.id));
       shareBtn.addEventListener('click', () => shareQuestionnaire(qnr, share, shareLink, shareOutput));
+
+      deleteBtn.addEventListener('click', () => {
+        toDelete = qnr.id;
+        openDialog(deleteDialog);
+      });
 
       questionnaireList.append(summary);
     }
@@ -79,6 +92,8 @@ function displayQuestionnaires(qnrs) {
 async function removeQuestionnaire(id) {
   const opts = { method: 'DELETE' };
   const res = await fetch(`/api/questionnaires/${id}`, opts);
+
+  closeDialog(deleteDialog);
 
   let status;
 
@@ -98,6 +113,20 @@ async function removeQuestionnaire(id) {
   }
 
   setTimeout(() => hideElement(document.querySelector(`.${status}`), true), 5000);
+}
+
+/**
+ * Prepares the delete dialog and its related elements for
+ * handling questionnaire deletions.
+ */
+function initialiseDeletionElements() {
+  handleDialogSupport(deleteDialog);
+
+  for (const el of [deleteCloseBtn, deleteCancelBtn]) {
+    el.addEventListener('click', () => closeDialog(deleteDialog));
+  }
+
+  deleteConfirmBtn.addEventListener('click', () => removeQuestionnaire(toDelete));
 }
 
 /**
@@ -226,6 +255,8 @@ function init() {
 
   initialiseShareElements(share, shareLink, shareOutput, shareCopyBtn, shareCloseBtn);
   initialiseUploadElements();
+
+  initialiseDeletionElements();
 }
 
 window.addEventListener('load', init);

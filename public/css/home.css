@@ -73,6 +73,34 @@ Home and Summary Styles
   grid-area: upload-submit;
 }
 
+/* Delete dialog styles */
+#delete-qnr[open],
+#delete-qnr[aria-hidden="false"],
+#delete-qnr.fallback {
+  grid-template-areas:
+    "header header"
+    "text text"
+    "cancel confirm";
+}
+
+#delete-qnr-text {
+  grid-area: text;
+}
+
+#delete-qnr-cancel {
+  grid-area: cancel;
+}
+
+#delete-qnr-confirm {
+  grid-area: confirm;
+  justify-self: end;
+}
+
+#delete-qnr-cancel,
+#delete-qnr-confirm {
+  width: max-content;
+}
+
 @media only screen and (min-width: 700px) {
   #questionnaire-list {
     grid-template-columns: auto max-content;
