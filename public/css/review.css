@@ -25,12 +25,12 @@ Review Page Styles
   margin-bottom: var(--space-xs);
 }
 
-#actions > #delete-all {
+#actions > #delete-all-btn {
   grid-area: delete;
 }
 
 #actions > #download,
-#actions > #delete-all {
+#actions > #delete-all-btn {
   width: max-content;
   justify-self: center;
 }
@@ -155,6 +155,41 @@ section[role="tabpanel"] {
 
 .question > .answer {
   margin-bottom: var(--space-xs);
+}
+
+#delete-all[open],
+#delete-all[aria-hidden="false"],
+#delete-all.fallback,
+#delete-single[open],
+#delete-single[aria-hidden="false"],
+#delete-single.fallback {
+  grid-template-areas:
+    "header header"
+    "text text"
+    "cancel confirm";
+}
+
+#delete-all-text,
+#delete-single-text {
+  grid-area: text;
+}
+
+#delete-all-cancel,
+#delete-single-cancel {
+  grid-area: cancel;
+}
+
+#delete-all-confirm,
+#delete-single-confirm {
+  grid-area: confirm;
+  justify-self: end;
+}
+
+#delete-all-cancel,
+#delete-single-cancel,
+#delete-all-confirm,
+#delete-single-confirm {
+  width: max-content;
 }
 
 @media only screen and (min-width: 700px) {
