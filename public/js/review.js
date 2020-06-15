@@ -255,7 +255,8 @@ function displayAggregated() {
         countEl = document.createElement('span');
         setAttributes(countEl, ['aria-label', 'title'], `Answered by ${answerCount} participants`);
 
-        if (answerCount > 1) qnAnswer.append(countEl);
+      if (qn.answer) {
+        qnAnswer.classList.add(answer === String(qn.answer) ? 'correct' : 'incorrect');
       }
 
       countEl.textContent = answerCount;
