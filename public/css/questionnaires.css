@@ -7,6 +7,7 @@ Questionnaire Styles
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
+  flex-direction: column;
 }
 
 .likert-question > h3,
@@ -17,12 +18,14 @@ Questionnaire Styles
 .likert-question label {
   display: flex;
   text-align: center;
-  align-items: center;
-  flex-direction: column;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  align-items: baseline;
 }
 
 .likert-question input {
   margin-top: var(--space-xs);
+  margin-right: var(--space-s);
 }
 
 .multi-select-question,
@@ -81,4 +84,20 @@ Questionnaire Styles
 .required > :nth-child(1)::before {
   content: "* ";
   content: "* " / "Required question";
+}
+
+/* Desktop and tablet styles */
+@media only screen and (min-width: 700px) {
+  .likert-question {
+    flex-direction: row;
+  }
+
+  .likert-question label {
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .likert-question input {
+    margin-right: 0;
+  }
 }
