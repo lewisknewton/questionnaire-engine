@@ -256,6 +256,10 @@ button.delete {
   color: var(--dark);
 }
 
+button.delete::before {
+  background-image: url("./img/minus-circle.svg");
+}
+
 button.delete:hover {
   background-color: var(--danger-alt);
 }
@@ -272,6 +276,31 @@ button:active {
 button:disabled {
   opacity: 50%;
   cursor: not-allowed;
+}
+
+#add::before {
+  background-image: url("./img/upload.svg");
+}
+
+#download::before {
+  background-image: url("./img/download.svg");
+}
+
+.share::before {
+  background-image: url("./img/share.svg");
+}
+
+button.delete::before,
+#add::before,
+#download::before,
+.share::before {
+  content: "";
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+  display: inline-block;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 textarea {
