@@ -116,6 +116,7 @@ async function saveResponse() {
       finishedSection.classList.remove('hidden');
 
       hideElement(mainHeading.nextElementSibling, true);
+      hideElement(requiredMsg, true);
       hideElement(submitBtn, true);
       hideElement(qnSection, true, 750);
 
