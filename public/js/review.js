@@ -22,7 +22,7 @@ const deleteSingleCancelBtn = document.querySelector('#delete-single-cancel');
 const deleteSingleConfirmBtn = document.querySelector('#delete-single-confirm');
 
 const deleteAllBtn = document.querySelector('#delete-all-btn');
-let _singleRemove;
+let _removeSingle;
 
 const responsesList = document.querySelector('#responses');
 const aggregatedPanel = document.querySelector('#aggregated-panel');
@@ -110,7 +110,7 @@ function displayResponse(index) {
   resetShownResponse();
 
   // Stop other responses being deleted when clicking the confirm button
-  deleteSingleConfirmBtn.removeEventListener('click', _singleRemove);
+  deleteSingleConfirmBtn.removeEventListener('click', _removeSingle);
 
   // Keep number input up-to-date
   shownResponse.value = index + 1;
@@ -120,31 +120,31 @@ function displayResponse(index) {
     const answers = response.answers;
     const submitted = getFormattedDate(new Date(response.submitted));
 
-    const responseEl = responseTemplate.content.cloneNode(true);
-    const responseContainer = responseEl.querySelector(':nth-child(1)');
-    const currentEl = individualPanel.querySelector('h3 > span#current-response');
-    const idEl = responseEl.querySelector('b ~ span');
-    const submittedEl = responseEl.querySelector('time');
-    const deleteBtn = responseEl.querySelector('.delete');
+    const responseBlock = responseTemplate.content.cloneNode(true);
+    const responseContainer = responseBlock.querySelector(':nth-child(1)');
+    const currentNum = individualPanel.querySelector('h3 > span#current-response');
+    const idField = responseBlock.querySelector('b ~ span');
+    const submittedField = responseBlock.querySelector('time');
+    const deleteBtn = responseBlock.querySelector('.delete');
 
     responseContainer.setAttribute('data-index', index);
     responseContainer.setAttribute('id', response.id);
-    currentEl.textContent = `Response ${index + 1}`;
-    idEl.textContent = `${response.id}`;
-    submittedEl.textContent = submitted;
-    submittedEl.setAttribute('datetime', submitted);
+    currentNum.textContent = `Response ${index + 1}`;
+    idField.textContent = `${response.id}`;
+    submittedField.textContent = submitted;
+    submittedField.setAttribute('datetime', submitted);
 
     // Set function for deleting the current response
-    _singleRemove = () => removeResponse(response.id);
+    _removeSingle = () => removeResponse(response.id);
 
     deleteBtn.addEventListener('click', () => openDialog(deleteSingleDialog));
-    deleteSingleConfirmBtn.addEventListener('click', _singleRemove);
+    deleteSingleConfirmBtn.addEventListener('click', _removeSingle);
 
     // Add answers
     for (const answer of answers) {
-      const answerEl = answerTemplate.content.cloneNode(true);
-      const answerTitleEl = answerEl.querySelector('h4');
-      const answerContentEl = answerEl.querySelector('span');
+      const answerBlock = answerTemplate.content.cloneNode(true);
+      const answerTitle = answerBlock.querySelector('h4');
+      const answerContent = answerBlock.querySelector('span');
 
       // Find the question to which the answer was given
       const related = qns.filter(qn => qn.id === answer.questionId)[0];
@@ -155,30 +155,30 @@ function displayResponse(index) {
         const points = related.points != null ? Number(related.points) : 1;
         const same = answer.content === correct;
 
-        const correctEl = document.createElement('b');
+        const correctLabel = document.createElement('b');
         const correctText = document.createElement('span');
-        const pointsEl = document.createElement('b');
+        const pointsLabel = document.createElement('b');
         const pointsText = document.createElement('span');
 
-        correctEl.textContent = 'Correct answer:';
+        correctLabel.textContent = 'Correct answer:';
         correctText.textContent = correct;
-        pointsEl.textContent = 'Points scored:';
+        pointsLabel.textContent = 'Points scored:';
         pointsText.textContent = `${same ? points : 0}/${points}`;
 
-        answerContentEl.setAttribute('title', same ? 'Correct answer' : 'Incorrect answer');
-        answerContentEl.classList.add(same ? 'correct' : 'incorrect');
+        answerContent.setAttribute('title', same ? 'Correct answer' : 'Incorrect answer');
+        answerContent.classList.add(same ? 'correct' : 'incorrect');
 
-        answerEl.append(correctEl, correctText, pointsEl, pointsText);
+        answerBlock.append(correctLabel, correctText, pointsLabel, pointsText);
       }
 
-      answerTitleEl.textContent = `${related.text} (${answer.questionId})`;
-      answerContentEl.textContent = Array.isArray(answer.content) ? answer.content.join(', ') : answer.content || '(Unanswered)';
-      answerContentEl.classList.add('answer');
+      answerTitle.textContent = `${related.text} (${answer.questionId})`;
+      answerContent.textContent = Array.isArray(answer.content) ? answer.content.join(', ') : answer.content || '(Unanswered)';
+      answerContent.classList.add('answer');
 
-      responseEl.querySelector('section.answers').append(answerEl);
+      responseBlock.querySelector('section.answers').append(answerBlock);
     }
 
-    individualPanel.append(responseEl);
+    individualPanel.append(responseBlock);
 
     handleUseOfNavigationControls(index);
   }
@@ -198,25 +198,25 @@ function displayAggregated() {
     const related = answers.filter(answer => answer.questionId === qn.id);
     const existing = {};
 
-    let qnEl = aggregatedPanel.querySelector(`article.question#${qn.id}`);
+    let qnBlock = aggregatedPanel.querySelector(`article.question#${qn.id}`);
     let qnAnswers;
     let qnAnswersContents = [];
 
     // Define and display question details
-    if (qnEl != null) {
-      qnAnswers = qnEl.querySelectorAll('.answer');
+    if (qnBlock != null) {
+      qnAnswers = qnBlock.querySelectorAll('.answer');
       qnAnswersContents = [...qnAnswers].map(el => getImmediateTextContent(el));
     } else {
-      qnEl = qnTemplate.content.cloneNode(true).querySelector(':nth-child(1)');
-      const qnHeading = qnEl.querySelector('h4');
+      qnBlock = qnTemplate.content.cloneNode(true).querySelector(':nth-child(1)');
+      const qnHeading = qnBlock.querySelector('h4');
 
-      qnEl.setAttribute('id', qn.id);
+      qnBlock.setAttribute('id', qn.id);
       qnHeading.textContent = `${qn.text} (${qn.id})`;
 
-      aggregatedPanel.append(qnEl);
+      aggregatedPanel.append(qnBlock);
     }
 
-    const qnCount = qnEl.querySelector('.count');
+    const qnCount = qnBlock.querySelector('.count');
 
     if (qnCount.textContent !== related.length) {
       qnCount.textContent = related.length;
@@ -234,12 +234,12 @@ function displayAggregated() {
       existing[answer.content] = (existing[answer.content] || 0) + 1;
     }
 
-    let correctCount = qnEl.querySelector('.correct-count');
+    let correctCount = qnBlock.querySelector('.correct-count');
 
     // Show percentage of correct answers for scored questions
     if (qn.answer) {
-      const correct = existing[qn.answer] || 0;
-      const percentage = (correct / related.length * 100).toFixed(2);
+      const numCorrect = existing[qn.answer] || 0;
+      const percentage = (numCorrect / related.length * 100).toFixed(2);
 
       if (correctCount == null) {
         const correctContainer = document.createElement('p');
@@ -250,39 +250,42 @@ function displayAggregated() {
         correctCount.classList.add('correct-count');
 
         correctContainer.append(correctLabel, correctCount);
-        qnEl.append(correctContainer);
+        qnBlock.append(correctContainer);
       }
 
-      correctCount.textContent = `${correct}/${related.length} (${percentage}%)`;
+      correctCount.textContent = `${numCorrect}/${related.length} (${percentage}%)`;
     }
 
     for (const answer in existing) {
-      const answerCount = existing[answer];
-      let countEl;
+      const numAnswers = existing[answer];
+      let answerCount;
       let qnAnswer;
 
       // Define and display answers (with the number of duplicate answers)
       if (qnAnswersContents.includes(answer)) {
         qnAnswer = qnAnswers[qnAnswersContents.indexOf(answer)];
-        countEl = qnAnswer.querySelector('span');
+        answerCount = qnAnswer.querySelector('span');
 
-        if (countEl != null && answerCount === 1) countEl.remove();
+        if (answerCount != null && numAnswers === 1) answerCount.remove();
       } else {
         qnAnswer = document.createElement('p');
         qnAnswer.classList.add('answer');
         qnAnswer.textContent = answer;
       }
 
-      if (!qnAnswersContents.includes(answer) || countEl == null) {
-        countEl = document.createElement('span');
-        setAttributes(countEl, ['aria-label', 'title'], `Answered by ${answerCount} participants`);
+      if (!qnAnswersContents.includes(answer) || answerCount == null) {
+        answerCount = document.createElement('span');
+        setAttributes(answerCount, ['aria-label', 'title'], `Answered by ${numAnswers} participants`);
+
+        if (numAnswers > 1) qnAnswer.append(answerCount);
+      }
 
       if (qn.answer) {
         qnAnswer.classList.add(answer === String(qn.answer) ? 'correct' : 'incorrect');
       }
 
-      countEl.textContent = answerCount;
-      qnEl.append(qnAnswer);
+      answerCount.textContent = numAnswers;
+      qnBlock.append(qnAnswer);
     }
 
     // Remove answers from deleted responses
