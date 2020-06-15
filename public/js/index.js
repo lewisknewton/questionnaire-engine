@@ -138,6 +138,8 @@ async function addQuestionnaire(file) {
   const data = await res.json();
 
   if (res.ok) {
+    loadQuestionnaires();
+
     displayStatus(data.success, 'success', header);
     setTimeout(() => hideElement(document.querySelector('.success'), true), 5000);
   } else {
