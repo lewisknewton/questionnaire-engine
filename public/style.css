@@ -378,9 +378,40 @@ details {
   margin-left: auto;
 }
 
-.summary > span,
-#download {
+.summary > span {
   margin-bottom: var(--space-l);
+}
+
+#actions {
+  display: grid;
+  grid-template-areas:
+    "heading heading"
+    "options options"
+    "download download"
+    "delete delete";
+}
+
+#actions > h3 {
+  grid-area: heading;
+}
+
+#actions > details {
+  grid-area: options;
+}
+
+#actions > #download {
+  grid-area: download;
+  margin-bottom: var(--space-xs);
+}
+
+#actions > #delete-all {
+  grid-area: delete;
+}
+
+#actions > #download,
+#actions > #delete-all {
+  width: max-content;
+  justify-self: center;
 }
 
 /* Dialog styles */
@@ -623,6 +654,10 @@ details {
 }
 
 /* Tab styles */
+[role="tablist"] {
+  margin-top: var(--space-l);
+}
+
 button[role="tab"] {
   border: var(--border);
   background-color: var(--card);
@@ -785,6 +820,18 @@ section[role="tabpanel"] {
   #questionnaire-list > h2,
   #add {
     grid-column: auto;
+  }
+
+  #actions {
+    grid-template-areas:
+      "heading heading"
+      "options options"
+      "download delete";
+    justify-content: space-between;
+  }
+
+  #actions > #download {
+    margin-bottom: 0;
   }
 
   #individual-nav {
