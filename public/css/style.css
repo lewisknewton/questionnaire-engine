@@ -197,6 +197,11 @@ button:disabled {
   background-image: url("../img/download.svg");
 }
 
+#add::before,
+#download::before {
+  filter: invert(1);
+}
+
 .share::before {
   background-image: url("../img/share.svg");
 }
@@ -327,6 +332,11 @@ dialog header h4 {
     --link-visited: #e5d1f5;
     --secondary: #fff;
     --secondary-alt: #c2c2c2;
+  }
+
+  #add::before,
+  #download::before {
+    filter: none;
   }
 }
 
