@@ -294,7 +294,7 @@ function convertToSeparatedValues(sep) {
   const originalOrder = qns.map(qn => qn.id);
 
   const newLine = '\r\n';
-  let data = [responseProps, originalOrder.join(sep)].join(sep) + newLine;
+  let data = [responseProps.join(sep), originalOrder.join(sep)].join(sep) + newLine;
 
   for (const response of responses) {
     let row = '';
