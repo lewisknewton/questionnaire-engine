@@ -74,7 +74,7 @@ export function hideElement(el, remove = false, duration = 500) {
  * Restricts elements the user can focus on within a given element.
  */
 export function trapFocus(el) {
-  const focusable = el.querySelectorAll('a, button, textarea');
+  const focusable = el.querySelectorAll('a, button, input, textarea');
 
   // Define first and last focusable elements
   const first = focusable[0];
