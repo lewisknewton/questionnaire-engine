@@ -268,10 +268,6 @@ dialog.fallback {
   box-shadow: 0 0 3rem var(--dark);
 }
 
-dialog.fallback {
-  display: block;
-}
-
 dialog header {
   display: flex;
   justify-content: space-between;
